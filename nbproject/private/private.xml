@@ -3,9 +3,47 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NetBeans/footer.php</file>
-            <file>file:/D:/NetBeans/header.php</file>
-            <file>file:/D:/NetBeans/index.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/BaseMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Config.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/template/header.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/template/footer.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/OtdelMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/secure.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/index.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Special.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/StudentMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/ClassroomMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Schedule.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/User.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/SpecialMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Student.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/list-student.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Teacher.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/list-teacher.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Classroom.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Otdel.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/GruppaMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/autoload.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/save-user.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/TeacherMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/profile-teacher.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Helper.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/ScheduleMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Table.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/add-student.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/_profile.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Subject.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/LessonPlan.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/add-teacher.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/template/menu.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/auth.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/UserMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/profile-student.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/template/login.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/_formUser.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/SubjectMap.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/Gruppa.php</file>
+            <file>file:/D:/php/OpenServer/domains/schedule/classes/LessonPlanMap.php</file>
         </group>
     </open-files>
 </project-private>

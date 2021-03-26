@@ -1,6 +1,5 @@
 <?php
-
-class Schedule extends Table{
+class Schedule extends Table {
     public $schedule_id = 0;
     public $lesson_plan_id = 0;
     public $day_id = 0;
@@ -10,4 +9,3 @@ class Schedule extends Table{
         return false;
     }
 }
-

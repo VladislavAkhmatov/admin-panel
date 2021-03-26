@@ -1,5 +1,5 @@
 <?php
-require_once 'classes/autoload.php';
+require_once 'autoload.php';
 session_start();
 $message = 'Войдите для просмотра расписания занятий';
 if (isset($_SESSION['role'])) {
