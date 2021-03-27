@@ -4,6 +4,9 @@ class Classroom extends Table {
     public $name = '';
     public $acive = 1;
     function validate() {
+        if (!empty($this->name)) {
+        return true;
+        }
         return false;
     }
 }

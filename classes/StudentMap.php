@@ -26,7 +26,7 @@ class StudentMap extends BaseMap{
     
     private function insert($student = Student) {
         if ($this->db->exec("INSERT INTO student(user_id,
-        gruppa_id) VALUES($student->user_id, $student->gruppa_id)")== 1) {
+        gruppa_id, num_zach) VALUES($student->user_id, $student->gruppa_id, $student->num_zach)")== 1) {
         return true;
         }
     return false;
