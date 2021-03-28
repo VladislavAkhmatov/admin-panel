@@ -3,7 +3,7 @@ require_once 'secure.php';
 if (isset($_GET['id'])) {
 $id = Helper::clearInt($_GET['id']);
 $subject = (new SubjectMap())->findViewById($id);
-$header = 'Просмотр группы';
+$header = 'Просмотр предметов';
 require_once 'template/header.php';
 ?>
 <div class="row">
@@ -16,7 +16,7 @@ require_once 'template/header.php';
 fa-dashboard"></i> Главная</a></li>
 
 <li><a href="list-
-subject.php">Группы</a></li>
+subject.php">Предметы</a></li>
 
 <li class="active"><?=$header;?></li>
 </ol>

@@ -32,9 +32,30 @@ class ClassroomMap extends BaseMap {
     
     private function update($classroom = Classroom){
         $name = $this->db->quote($classroom->name);
-        if ( $this->db->exec("UPDATE gruppa SET name = $name WHERE classroom_id = ".$classroom->classroom_id) == 1) {
+        if ( $this->db->exec("UPDATE classroom SET name = $name WHERE classroom_id = ".$classroom->classroom_id) == 1) {
         return true;
         }
         return false;
+    }
+    
+    public function findAll($ofset = 0, $limit = 30) {
+        $res = $this->db->query("SELECT classroom.classroom_id,
+        classroom.name"
+        . " FROM classroom LIMIT $ofset,
+        $limit");
+        return $res->fetchAll(PDO::FETCH_OBJ);
+    }
+    
+    public function count() {
+    $res = $this->db->query("SELECT COUNT(*) AS cnt FROM classroom");
+    return $res->fetch(PDO::FETCH_OBJ)->cnt;
+    }
+    
+    public function findViewById($id = null) {
+        if ($id) {
+        $res = $this->db->query("SELECT classroom.classroom_id, classroom.name FROM classroom WHERE classroom_id = $id");
+        return $res->fetch(PDO::FETCH_OBJ);
+        }
+    return false;
     }
 }

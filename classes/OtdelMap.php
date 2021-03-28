@@ -9,8 +9,7 @@ class OtdelMap extends BaseMap{
     
     public function findById($id = null) {
         if ($id) {
-            $res = $this->db->query("SELECT otdel_id, name"
-            . "FROM otdel WHERE otdel_id = $id");
+            $res = $this->db->query("SELECT otdel_id, name FROM otdel WHERE otdel_id = $id");
             return $res->fetchObject("Otdel");
         }
         return new Otdel();
@@ -39,7 +38,7 @@ class OtdelMap extends BaseMap{
     
     public function update($otdel = Otdel) {
         $name = $this->db->quote($otdel->name);
-        if ( $this->db->exec("UPDATE otdel SET name = $name") == 1) {
+        if ( $this->db->exec("UPDATE otdel SET name = $name WHERE otdel_id = ".$otdel->otdel_id) == 1) {
         return true;
         }
     return false;

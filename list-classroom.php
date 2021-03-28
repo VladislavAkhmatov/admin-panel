@@ -6,10 +6,10 @@ $page = Helper::clearInt($_GET['page']);
 } else {
 $page = 1;
 }
-$subjectMap = new SubjectMap();
-$count = $subjectMap->count();
-$subjects = $subjectMap->findAll($page*$size-$size, $size);
-$header = 'Список предметов';
+$classroomMap = new ClassroomMap();
+$count = $classroomMap->count();
+$arrClassrooms = $classroomMap->findAll($page*$size-$size, $size);
+$header = 'Список аудиторий';
 require_once 'template/header.php';
 ?>
 <div class="row">
@@ -18,49 +18,35 @@ require_once 'template/header.php';
 <section class="content-header">
 <h1><?=$header;?></h1>
 <ol class="breadcrumb">
-<li><a href="/index.php"><i class="fa
-fa-dashboard"></i> Главная</a></li>
+<li><a href="/index.php"><i class="fafa-dashboard"></i> Главная</a></li>
 <li class="active"><?=$header;?></li>
 </ol>
 </section>
 <div class="box-body">
-
-<a class="btn btn-success" href="add-subject.php">Добавить предмет</a>
-
+<a class="btn btn-success" href="add-classroom.php">Добавить аудиторию</a>
 </div>
 <div class="box-body">
 <?php
-if ($subjects) {
+if ($arrClassrooms) {
 ?>
-
 <table id="example2" class="table table-bordered table-hover">
-
 <thead>
 <tr>
 <th>Название</th>
-<th>Предмет</th>
-<th>Часы</th>
-
-
 </tr>
 </thead>
 <tbody>
 <?php
-foreach ($subjects as $subject) {
+foreach ($arrClassrooms as $classroom) {
 echo '<tr>';
-
-echo '<td><a href="view-subject.php?id='.$subject->subject_id.'">'.$subject->name.'</a> '
-
-. '<a href="add-subject.php?id='.$subject->subject_id.'"><i class="fa fa-pencil"></i></a></td>';
-echo '<td>'.$subject->otdel.'</td>';
-echo '<td>'.$subject->hours.'</td>';
-
+echo '<td><a href="view-classroom.php?id='.$classroom->classroom_id.'">'.$classroom->name.'</a> '
+. '<a href="add-classroom.php?id='.$classroom->classroom_id.'"><i class="fa fa-pencil"></i></a></td>';
 }
 ?>
 </tbody>
 </table>
 <?php } else {
-echo 'Ни одного предмета не найдено';
+echo 'Ни одной аудитории не найдено';
 } ?>
 </div>
 <div class="box-body">
@@ -73,7 +59,4 @@ $size); ?>
 <?php
 require_once 'template/footer.php';
 ?>
-
-
-
 

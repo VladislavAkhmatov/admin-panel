@@ -37,6 +37,10 @@
 
 <a href="list-subject.php"><i class="fa fa-users"></i><span>Предметы</span></a>
 
+<li <?=($_SERVER['PHP_SELF']=='/list-classroom.php')?'class="active"':'';?>>
+
+<a href="list-classroom.php"><i class="fa fa-users"></i><span>Аудитории</span></a>
+
 </li>
 
 </ul>

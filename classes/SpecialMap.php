@@ -37,7 +37,7 @@ class SpecialMap extends BaseMap{
         private function update($special = Special){
         $name = $this->db->quote($special->name);
         if ( $this->db->exec("UPDATE special SET name = $name,
-        otdel_id = $special->otdel_id, WHERE special_id = ".$special->special_id) == 1) {
+        otdel_id = $special->otdel_id WHERE special_id = ".$special->special_id) == 1) {
         return true;
         }
         return false;
