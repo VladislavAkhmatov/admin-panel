@@ -58,4 +58,10 @@ class ClassroomMap extends BaseMap {
         }
     return false;
     }
+    public function arrClassrooms(){
+        $res = $this->db->query("SELECT classroom_id AS id, name
+        AS value FROM classroom WHERE active=1");
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }

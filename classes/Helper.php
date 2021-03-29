@@ -24,8 +24,22 @@ class Helper{
     } else {
         echo ' <li class="paginate_button"><a href="'.$href.$i.'" data-dt-idx="'.$i.'" tabindex="0">'.$i.'</a></li>';
     }
-}
-echo '</ul>';
+    }
+    echo '</ul>';
+    }
+    public static function setFlash($message = ''){
+        $_SESSION['flash'] = $message;
+    }
+    public static function getFlash(){
+        $msg = $_SESSION['flash'];
+        $_SESSION['flash'] = '';
+        return $msg;
+    }
+    public static function hasFlash(){
+        return (!empty($_SESSION['flash'])) ? true : false;
+    }
+    public static function can($role){
+        return ($role === $_SESSION['role'])? true : false;
     }
 }
 

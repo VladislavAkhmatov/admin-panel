@@ -1,6 +1,5 @@
 <?php
 class TeacherMap  extends BaseMap {
-    
     public function findById($id = null){
         if ($id) {
         $res = $this->db->query("SELECT user_id, otdel_id
