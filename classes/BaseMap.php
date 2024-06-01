@@ -1,19 +1,23 @@
 <?php
-abstract class BaseMap extends Config {
+abstract class BaseMap extends Config
+{
     protected $db;
     function __construct()
     {
-    try
-    {
-        $this->db = new
-    PDO('mysql:host='.self::HOST.';dbname='.self::DB_NAME
-    , self::DB_USER, self::DB_PASSWORD);
-    $this->db->setAttribute(PDO::ATTR_ERRMODE,
-    PDO::ERRMODE_EXCEPTION);
-    $this->db->exec("set names utf8");
+        try {
+            $this->db = new
+                PDO(
+                'mysql:host=' . self::HOST . ';dbname=' . self::DB_NAME,
+                self::DB_USER,
+                self::DB_PASSWORD
+            );
+            $this->db->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+            $this->db->exec("set names utf8mb4");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
-    catch(PDOException $e) {
-    echo $e->getMessage();
-    }
-}
 }

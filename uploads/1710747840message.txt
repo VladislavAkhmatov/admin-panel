@@ -1,0 +1,72 @@
+else if ($item->branch_id == 2 && $item2->branch_id == 2) {
+                        $query = "INSERT INTO notice(text, subject_id, user_id, child_id, subject_count, subject_price, link, date) 
+                            VALUES(:text, :subject_id, :user_id, :child_id, :subject_count, :subject_price, :link, :date)";
+                        $res = $this->db->prepare($query);
+
+                        $subject_count = 0;
+                        $subject_price = 0;
+
+                        switch (strtolower($item2->name)) {
+                            case 'мад':
+                                $subject_count = 20;
+                                $subject_price = 30000;
+                                break;
+                            case 'математика':
+                                $subject_count = 8;
+                                $subject_price = 15000;
+                                break;
+                            case 'ағылшын':
+                                $subject_count = 12;
+                                $subject_price = 15000;
+                                break;
+                            case 'изо':
+                                $subject_count = 8;
+                                $subject_price = 12000;
+                                break;
+                            case 'хореография':
+                                $subject_count = 12;
+                                $subject_price = 12000;
+                                break;
+                            case 'домбыра':
+                                $subject_count = 8;
+                                $subject_price = 12000;
+                                break;
+                            case 'фортепиано':
+                                $subject_count = 8;
+                                $subject_price = 15000;
+                                break;
+                            case 'вокал':
+                                $subject_count = 8;
+                                $subject_price = 15000;
+                                break;
+                            case 'шахмат':
+                                $subject_count = 12;
+                                $subject_price = 12000;
+                                break;
+                            case 'тхэквандо':
+                                $subject_count = 12;
+                                $subject_price = 12000;
+                                break;
+                            case 'дзюдо':
+                                $subject_count = 12;
+                                $subject_price = 12000;
+                                break;
+                            case 'еркін күрес':
+                                $subject_count = 12;
+                                $subject_price = 12000;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        $res->execute([
+                            'text' => 'Оплатите сумму указанную в приложении',
+                            'subject_id' => $item2->subject_id,
+                            'user_id' => $item->user_id,
+                            'child_id' => $item->child_id,
+                            'subject_count' => $subject_count,
+                            'subject_price' => $subject_price,
+                            'link' => 'https://example.com',
+                            'date' => $next_month_first_day
+                        ]);
+                    }

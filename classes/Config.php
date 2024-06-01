@@ -1,7 +1,8 @@
 <?php
-abstract class Config {
-    const HOST = 'localhost';
-    const DB_NAME = 'schedule';
+abstract class Config
+{
+    const HOST = '127.0.0.1';
+    const DB_NAME = 'atc';
     const DB_USER = 'root';
-    const DB_PASSWORD = 'root';
+    const DB_PASSWORD = '';
 }

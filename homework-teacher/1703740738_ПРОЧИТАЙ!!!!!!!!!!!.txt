@@ -1,0 +1,4 @@
+ЛОКАЛЬНЫЙ СЕРВЕР: OPEN SERVER 5.3.8
+ВЕРСИЯ PHP: 7.1
+ВЕРСИЯ MYSQL: 8.0 MARIADB
+
