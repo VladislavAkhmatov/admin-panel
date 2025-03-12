@@ -17,7 +17,7 @@ $notices = $procreatorMap->notice();
   <link rel="stylesheet" href="/template/css/bootstrap.min.css">
   <link rel="stylesheet" href="/template/css/font-awesome.min.css">
   <link rel="stylesheet" href="/template/css/ionicons.min.css">
-  <link rel="stylesheet" href="/template/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/template/css/adminLTE.min.css">
   <link rel="stylesheet" href="/template/css/skins/skin-blue.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

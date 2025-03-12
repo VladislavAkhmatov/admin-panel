@@ -4,7 +4,7 @@ class UserMap extends BaseMap
     const USER = 'user';
     const TEACHER = 'teacher';
     const STUDENT = 'student';
-    const ADMIN = 'admin';
+    const owner = 'owner';
     const PARENT = 'procreator';
     function auth($login, $password)
     {
@@ -38,20 +38,6 @@ class UserMap extends BaseMap
     {
         $res = $this->db->query("SELECT gender_id AS id, name AS
         value FROM gender");
-        return $res->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function arrRoles()
-    {
-        if ($_SESSION['branch'] != 999) {
-            $res = $this->db->query("SELECT role_id AS id, name AS value FROM role
-        WHERE role.sys_name != 'manager' and role.sys_name != 'admin'");
-        }
-        if ($_SESSION['branch'] == 999) {
-            $res = $this->db->query("SELECT role_id AS id, name AS value FROM role
-        WHERE role.sys_name != 'manager'");
-        }
-
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -92,14 +78,14 @@ class UserMap extends BaseMap
 
     private function insert($user = User)
     {
-        $admin = new Admin();
+        $owner = new owner();
         $lastname = $this->db->quote($user->lastname);
         $firstname = $this->db->quote($user->firstname);
         $patronymic = $this->db->quote($user->patronymic);
         $login = $this->db->quote($user->login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
-        if ($_SESSION['branch'] != 999) {
+        if ($_SESSION['branch'] != 999 && $this->existsLogin()) {
             if (
                 $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
@@ -227,8 +213,8 @@ class UserMap extends BaseMap
         if ((new TeacherMap())->findById($id)->validate()) {
             return self::TEACHER;
         }
-        if ((new AdminMap())->findById($id)->validate()) {
-            return self::ADMIN;
+        if ((new ownerMap())->findById($id)->validate()) {
+            return self::owner;
         }
         if ((new StudentMap())->findById($id)->validate()) {
             return self::STUDENT;

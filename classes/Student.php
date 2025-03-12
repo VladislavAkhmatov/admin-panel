@@ -11,7 +11,7 @@ class Student extends Table
     public $count = 0;
     public $price = 0;
     public $grade_id = 0;
-    public $date = date;
+    public $date;
     public $tab = '';
     public $grade = NULL;
     public $subject_price = 0;
@@ -28,5 +28,9 @@ class Student extends Table
             return true;
         }
         return false;
+    }
+
+    public function __construct(){
+        $this->date = date('Y-m-d');
     }
 }

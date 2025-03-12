@@ -8,7 +8,7 @@
                 <a href="../index"><i class="fa fa-calendar"></i><span>Главная</span></a>
 
             </li>
-            <?php if (Helper::can('manager')) { ?>
+            <?php if (Helper::can('admin')) { ?>
                 <li class="header">Пользователи</li>
 
                 <li <?= ($_SERVER['PHP_SELF'] == '/list/list-student.php') ? 'class="active"' : ''; ?>>
@@ -89,12 +89,12 @@
 
                 <?php } ?>
 
-                <?php if (Helper::can('admin')) { ?>
+                <?php if (Helper::can('owner')) { ?>
             <li class="header">Пользователи</li>
 
-            <li <?= ($_SERVER['PHP_SELF'] == '/list/list-manager.php') ? 'class="active"' : ''; ?>>
+            <li <?= ($_SERVER['PHP_SELF'] == '/list/list-admin.php') ? 'class="active"' : ''; ?>>
 
-                <a href="../list/list-manager"><i class="fa fa-users"></i><span>Администраторы</span></a>
+                <a href="../list/list-admin"><i class="fa fa-users"></i><span>Администраторы</span></a>
 
 
             <li <?= ($_SERVER['PHP_SELF'] == '/list/list-student.php') ? 'class="active"' : ''; ?>>

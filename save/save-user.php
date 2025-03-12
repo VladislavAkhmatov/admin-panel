@@ -32,10 +32,10 @@ if (isset($_POST['saveAvatarStudent'])) {
         }
     }
 
-    if ($_SESSION['role'] == 'admin') {
+    if ($_SESSION['role'] == 'owner') {
         if ((new UserMap())->updatePhoto($user)) {
             $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-manager?id=' . $user->user_id);
+            header('Location: ../profile/profile-admin?id=' . $user->user_id);
             exit;
         }
     }
@@ -48,11 +48,11 @@ if (isset($_POST['saveAvatarStudent'])) {
         }
     }
 
-    if ($_SESSION['role'] == 'manager') {
+    if ($_SESSION['role'] == 'admin') {
 
         if ((new UserMap())->updatePhoto($user)) {
             $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-manager?id=' . $user->user_id);
+            header('Location: ../profile/profile-admin?id=' . $user->user_id);
             exit;
         }
     }
@@ -145,13 +145,33 @@ if (isset($_POST['user_id'])) {
         exit();
     }
 
-    if (isset($_POST['saveAdmin'])) {
-        $admin = new Admin();
-        $admin->branch_id = Helper::clearInt($_POST['branch_id']);
-        $admin->user_id = $user->user_id;
+    if (isset($_POST['saveowner'])) {
+        $owner = new owner();
+        $owner->branch_id = Helper::clearInt($_POST['branch_id']);
+        $owner->user_id = $user->user_id;
         $user->role_id = Helper::clearInt(2);
-        if ((new AdminMap())->save($user, $admin)) {
+        if ((new ownerMap())->save($user, $owner)) {
 
+            header('Location: ../profile/profile-owner?id=' . $owner->user_id);
+
+        } else {
+            if ($owner->user_id) {
+
+                header('Location: ../profile/profile-owner?id=' . $owner->user_id);
+
+            } else {
+                header('Location: ../profile/profile-owner');
+            }
+        }
+        exit();
+    }
+
+    if (isset($_POST['saveadmin'])) {
+        $admin = new admin();
+        $admin->branch_id = Helper::clearInt($_SESSION['branch']);
+        $admin->user_id = $user->user_id;
+        $user->role_id = Helper::clearInt(3);
+        if ((new AdminMap())->save($user, $admin)) {
             header('Location: ../profile/profile-admin?id=' . $admin->user_id);
 
         } else {
@@ -161,26 +181,6 @@ if (isset($_POST['user_id'])) {
 
             } else {
                 header('Location: ../profile/profile-admin');
-            }
-        }
-        exit();
-    }
-
-    if (isset($_POST['saveManager'])) {
-        $manager = new Manager();
-        $manager->branch_id = Helper::clearInt($_SESSION['branch']);
-        $manager->user_id = $user->user_id;
-        $user->role_id = Helper::clearInt(3);
-        if ((new ManagerMap())->save($user, $manager)) {
-            header('Location: ../profile/profile-manager?id=' . $manager->user_id);
-
-        } else {
-            if ($manager->user_id) {
-
-                header('Location: ../profile/profile-manager?id=' . $manager->user_id);
-
-            } else {
-                header('Location: ../profile/profile-manager');
             }
         }
         exit();

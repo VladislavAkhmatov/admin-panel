@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
@@ -26,7 +26,7 @@ require_once '../template/header.php';
                     <li class="active">Профиль</li>
                 </ol>
             </section>
-            <?php if (Helper::can('admin')) { ?>
+            <?php if (Helper::can('owner')) { ?>
                 <div class="box-body">
                     <a class="btn btn-success" href="../add/add-parent?id=<?= $id; ?>">Изменить</a>
                 </div>

@@ -35,7 +35,7 @@ if (isset($_POST['branch'])) {
     $branch_id = $res[0];
     $branch_name = $res[1];
 
-    if (Helper::can('admin')) {
+    if (Helper::can('owner')) {
         $_SESSION['branch'] = $branch_id;
         $_SESSION['branch_name'] = $branch_name;
         header("Location: index");

@@ -1,7 +1,7 @@
 <?php
 require_once '../secure.php';
 
-if (!Helper::can('admin') && !Helper::can('manager') && !Helper::can('teacher')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
     header('Location: 404');
     exit();
 }
@@ -32,7 +32,7 @@ require_once '../template/header.php';
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('admin') || Helper::can('manager')) { ?>
+                <?php if (Helper::can('owner') || Helper::can('admin')) { ?>
                     <a class="btn btn-success" href="../add/add-student">Добавить студента</a>
 
                 <?php } ?>
@@ -58,7 +58,7 @@ require_once '../template/header.php';
                                     <tr>
                                         <td>
                                             <?php
-                                            if (Helper::can('manager') || Helper::can('teacher')) {
+                                            if (Helper::can('admin') || Helper::can('teacher')) {
                                                 echo '<p>' . $student->fio . '</p> ' . '<a href="../add/add-student.php?id=' . $student->user_id . '"></a>';
                                             }
                                             ?>

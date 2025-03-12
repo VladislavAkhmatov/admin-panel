@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager') && !Helper::can('teacher')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
     header('Location: 404');
     exit();
 }
@@ -50,7 +50,7 @@ fa-dashboard"></i> Главная</a></li>
                                 <th>Название</th>
                                 <th>Дата образования</th>
                                 <th>Дата окончания</th>
-                                <?php if (Helper::can('manager')) { ?>
+                                <?php if (Helper::can('admin')) { ?>
                                     <th>Филиал</th>
                                 <?php } ?>
                             </tr>
@@ -72,7 +72,7 @@ fa-dashboard"></i> Главная</a></li>
                                     "d.m.Y",
                                     strtotime($gruppa->date_end)
                                 ) . '</td>';
-                                if (Helper::can('manager')) {
+                                if (Helper::can('admin')) {
                                     echo '<td>' . $gruppa->branch . '</td>';
                                     echo '</tr>';
                                 }

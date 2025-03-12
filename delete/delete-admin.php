@@ -1,7 +1,7 @@
 <?php
 require_once('../secure.php');
 ob_start();
-if (!Helper::can('manager')) {
+if (!Helper::can('owner')) {
     header('Location: 404');
     exit;
 }
@@ -16,7 +16,7 @@ require_once('../template/header.php');
 <section class="content-header">
     <h3><b>Удаление пользователя</b></h3>
     <ol class="breadcrumb">
-        <li><a href="../list/list-admin"><i class="fa
+        <li><a href="../list/list-owner"><i class="fa
 fa-dashboard"></i> Список</a></li>
         <li>Удаление пользователя</li>
     </ol>
@@ -28,17 +28,18 @@ fa-dashboard"></i> Список</a></li>
         <b style="font-size: 18px;">
             <?= $admin->fio; ?>
         </b><br><br>
-        <input class="btn btn-primary" name="deleteAdmin" type="submit" value="Удалить">
+        <input class="btn btn-primary" name="deleteowner" type="submit" value="Удалить">
     </form>
 </div>
 <?php
 
-if (isset($_POST['deleteAdmin'])) {
+if (isset($_POST['deleteowner'])) {
     $admin = new AdminMap();
-    $admin->deleteAdminById($id);
+    $admin->deleteadminById($id);
     header('Location: ../list/list-admin?message=ok');
     exit();
 }
 ob_end_flush();
+
 require_once('../template/footer.php');
 ?>

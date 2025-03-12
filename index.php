@@ -36,8 +36,8 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
     <!-- Ionicons -->
     <link rel="stylesheet" href="dashboards/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+    <link rel="stylesheet" href="dist/css/ownerLTE.min.css">
+    <!-- ownerLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <!-- Morris chart -->
@@ -56,7 +56,7 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
 
 
 <body>
-    <?php if (Helper::can('manager')) {
+    <?php if (Helper::can('admin')) {
         $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;
         ?>
 
@@ -119,7 +119,7 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
 
 
 
-    <?php if (Helper::can('admin')) {
+    <?php if (Helper::can('owner')) {
         $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;
         ?>
 

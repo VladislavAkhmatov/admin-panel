@@ -1,13 +1,11 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
 if (isset($_GET['id'])) {
     $id = Helper::clearInt($_GET['id']);
-} else {
-    header('Location: 404');
 }
 $header = 'Профиль администратора';
 $admin = (new AdminMap())->findProfileById($id);
@@ -22,13 +20,13 @@ require_once '../template/header.php';
                     <li><a href="../index"><i class="fa
 fa-dashboard"></i> Главная</a></li>
 
-                    <li><a href="../list/list-admin">Администраторы</a></li>
+                    <li><a href="../list/list-admin">администратора</a></li>
 
                     <li class="active">Профиль</li>
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('manager')) { ?>
+                <?php if (Helper::can('admin')) { ?>
                     <a class="btn btn-success" href="../add/add-admin?id=<?= $id; ?>">Изменить</a>
                 <?php } ?>
 
@@ -41,16 +39,15 @@ hover">
                     <?php require_once '../_profile.php'; ?>
 
                     <tr>
-
                         <th>Филиал</th>
-
                         <td>
                             <?= $admin->branch ?>
                         </td>
-
                     </tr>
-
                 </table>
+            </div>
+            <div class="box-body">
+                <a href="../add/add-avatar?id=<?= $id ?>" class="btn btn-primary">Изменить фото</a>
             </div>
         </div>
     </div>

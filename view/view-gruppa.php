@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
@@ -32,7 +32,7 @@ gruppa">Группы</a></li>
                     </ol>
                 </section>
                 <div class="box-body">
-                    <?php if (Helper::can('admin')) { ?>
+                    <?php if (Helper::can('owner')) { ?>
                         <a class="btn btn-success" href="../add/add-gruppa?id=<?= $id; ?>">Изменить</a>
                     <?php }
                     ; ?>
@@ -64,7 +64,7 @@ hover">
                                 <?= date("d.m.Y", strtotime($gruppa->date_end)); ?>
                             </td>
                         </tr>
-                        <?php if (Helper::can('manager')) { ?>
+                        <?php if (Helper::can('admin')) { ?>
                             <tr>
 
                                 <th>Филиал</th>

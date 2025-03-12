@@ -19,4 +19,8 @@ class Grade extends Table
         }
         return false;
     }
+
+    public function __construct(){
+        $this->date = date('Y-m-d');
+    }
 }

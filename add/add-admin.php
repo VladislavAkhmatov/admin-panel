@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('manager')) {
+if (!Helper::can('owner')) {
     header('Location: 404');
     exit();
 }
@@ -34,14 +34,7 @@ require_once '../template/header.php';
     <form action="../save/save-user" method="POST">
         <?php require_once '../_formUser.php'; ?>
         <div class="form-group">
-            <label>Филиал</label>
-            <select class="form-control" name="branch_id">
-                <?= Helper::printSelectOptions($user->branch_id, $userMap->arrBranchs()); ?>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" name="saveAdmin" class="btn btn-primary">Сохранить</button>
+            <button type="submit" name="saveadmin" class="btn btn-primary">Сохранить</button>
         </div>
     </form>
 </div>

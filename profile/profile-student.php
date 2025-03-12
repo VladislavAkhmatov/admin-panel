@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager') && !Helper::can('procreator')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('procreator')) {
     header('Location: 404');
     exit();
 }
@@ -32,7 +32,7 @@ fa-dashboard"></i> Главная</a></li>
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('admin')) { ?>
+                <?php if (Helper::can('owner')) { ?>
                     <a class="btn btn-success" href="../add/add-student?id=<?= $id; ?>">Изменить</a>
                 <?php } ?>
 
@@ -69,7 +69,7 @@ fa-dashboard"></i> Главная</a></li>
 
                     </tr>
 
-                    <?php if (Helper::can('manager')) { ?>
+                    <?php if (Helper::can('admin')) { ?>
                         <tr>
                             <th>Филиал</th>
 

@@ -29,7 +29,7 @@ require_once 'template/header.php';
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('admin')) { ?>
+                <?php if (Helper::can('owner')) { ?>
                     <a class="btn btn-success" href="add-otdel">Добавить отдел</a>
                 <?php }
                 ; ?>

@@ -20,7 +20,7 @@ $branch = (new UserMap())->arrBranchs();
     <!-- Ionicons -->
     <link rel="stylesheet" href="css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/AdminLTE.min.css">
+    <link rel="stylesheet" href="css/adminLTE.min.css">
 
 
 

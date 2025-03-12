@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
@@ -49,10 +49,10 @@ if (!isset ($_GET['date'])) {
 } else if (isset ($_GET['date']) && !isset ($_GET['branch'])) {
     $date = $_GET['date'];
     $branch = $_SESSION['branch'];
-    if (Helper::can('admin')) {
-        $payment = (new AdminMap())->findPaymentByDate($date);
+    if (Helper::can('owner')) {
+        $payment = (new ownerMap())->findPaymentByDate($date);
     } else {
-        $payment = (new AdminMap())->findPaymentByDateAndBranch($date, $branch);
+        $payment = (new ownerMap())->findPaymentByDateAndBranch($date, $branch);
     }
 
     $header = 'Список оплаты';
@@ -71,7 +71,7 @@ if (!isset ($_GET['date'])) {
                     <div class="box-body">
                         <?php
                         if ($payment) {
-                            if (Helper::can('admin')) {
+                            if (Helper::can('owner')) {
                                 ?>
 
                                 <form method="GET" action="view-payment">
@@ -130,7 +130,7 @@ if (!isset ($_GET['date'])) {
 } else if (isset ($_GET['date']) && isset ($_GET['branch'])) {
     $date = $_GET['date'];
     $branch = $_GET['branch'];
-    $payment = (new AdminMap())->findPaymentByDateAndBranch($date, $branch);
+    $payment = (new ownerMap())->findPaymentByDateAndBranch($date, $branch);
 
     $header = 'Список оплаты';
     ?>

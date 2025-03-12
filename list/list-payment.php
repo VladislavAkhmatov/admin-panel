@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
@@ -10,7 +10,7 @@ if (isset ($_GET['date'])) {
     $date = $_GET['date'];
 }
 
-$payment = (new AdminMap())->findPaymentByDate($date);
+$payment = (new ownerMap())->findPaymentByDate($date);
 
 $header = 'Список оплаты';
 require_once '../template/header.php';

@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('manager') && !Helper::can('teacher')) {
+if (!Helper::can('admin') && !Helper::can('teacher')) {
     header('Location: 404');
     exit();
 }
@@ -49,7 +49,7 @@ require_once '../template/header.php';
                             <?php
                             foreach ($gruppas as $gruppa) {
                                 echo '<tr>';
-                                if (Helper::can('teacher') || Helper::can('manager'))
+                                if (Helper::can('teacher') || Helper::can('admin'))
                                     echo '<td><p href="../view/view-grades?id=' . $gruppa->gruppa_id . '">' . $gruppa->name . '</p> ' . '<p href="../add/add-gruppa?id=' . $gruppa->gruppa_id . '"></p></td>';
                                 echo '<td><a class="btn btn-primary" href="../add/add-grades?id=' . $gruppa->gruppa_id . '">Выставить оценки</a> ' . '<p href="../add/add-gruppa?id=' . $gruppa->gruppa_id . '"></p></td>';
                             }

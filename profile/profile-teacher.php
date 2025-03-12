@@ -28,7 +28,7 @@ fa-dashboard"></i> Главная</a></li>
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('admin')) { ?>
+                <?php if (Helper::can('owner')) { ?>
                     <a class="btn btn-success" href="../add/add-teacher?id=<?= $id; ?>">Изменить</a>
                 <?php } ?>
 
@@ -40,7 +40,7 @@ hover">
 
                     <?php require_once '../_profile.php'; ?>
 
-                    <?php if (Helper::can('manager')) { ?>
+                    <?php if (Helper::can('admin')) { ?>
                         <tr>
 
                             <th>Филиал</th>

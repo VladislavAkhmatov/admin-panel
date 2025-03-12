@@ -1,15 +1,9 @@
 <?php
-class Admin extends Table
+class admin extends Table
 {
     public $user_id = 0;
-    public $child_id = 0;
     public $branch_id = 0;
-    public $text = '';
-    public $subject_id = 0;
-    public $role_id = 0;
-    public $date = "";
-    public $subject_price = 0;
-    public $link = "";
+    public $deleted = 0;
 
     function validate()
     {
@@ -17,6 +11,5 @@ class Admin extends Table
             return true;
         }
         return false;
-      }
-
+    }
 }

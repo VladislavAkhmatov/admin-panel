@@ -2,15 +2,15 @@
 
 require_once "../secure.php";
 
-if (!Helper::can('admin')) {
+if (!Helper::can('owner')) {
     header("Location: 404");
     exit;
 }
 
 if (isset ($_POST["saveBranch"])) {
-    $admin = new Admin();
-    $admin->text = $_POST['branch'];
-    if ((new AdminMap())->saveBranch($admin)) {
+    $owner = new owner();
+    $owner->text = $_POST['branch'];
+    if ((new ownerMap())->saveBranch($owner)) {
         header("Location: ../list/list-branch?message=ok");
         exit();
     } else {

@@ -1,11 +1,11 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager') && !Helper::can('teacher')) {
+if (!Helper::can('owner')) {
     header('Location: 404');
     exit();
 }
 $size = 10;
-if (isset ($_GET['page'])) {
+if (isset($_GET['page'])) {
     $page = Helper::clearInt($_GET['page']);
 
 } else {
@@ -22,7 +22,7 @@ require_once '../template/header.php';
         <div class="box">
             <section class="content-header">
                 <h3><b>
-                        <?= $header = isset ($_GET['message']) ? Helper::getQuery($_GET['message']) : 'Список администраторов' ?>
+                        <?= $header = isset($_GET['message']) ? Helper::getQuery($_GET['message']) : $header ?>
                     </b></h3>
                 <ol class="breadcrumb">
                     <li><a href="../index"><i class="fa
@@ -32,9 +32,7 @@ fa-dashboard"></i> Главная</a></li>
                 </ol>
             </section>
             <div class="box-body">
-                <?php if (Helper::can('admin') || Helper::can('manager')) { ?>
-                    <a class="btn btn-success" href="../add/add-admin">Добавить администратора</a>
-                <?php } ?>
+                <a class="btn btn-success" href="../add/add-admin">Добавить администратора</a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -47,22 +45,16 @@ fa-dashboard"></i> Главная</a></li>
                                 <th>Ф.И.О</th>
                                 <th>Пол</th>
                                 <th>Дата рождения</th>
-                                <?php if (Helper::can('manager')) { ?>
-                                    <th>Филиал</th>
-                                <?php } ?>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             foreach ($admins as $admin) {
                                 echo '<tr>';
-                                if (Helper::can('manager') || Helper::can('admin'))
-                                    echo '<td><a href="../profile/profile-admin?id=' . $admin->user_id . '">' . $admin->fio . '</a> ' . '<a href="../add/add-admin?id=' . $admin->user_id . '"><i class="fa fa-pencil"></i></a> <a href="../delete/delete-admin?id=' . $admin->user_id . '"><i class="fa fa-times"></i></a></td>';
-                                else
-                                    echo '<td><p>' . $admin->fio . '</p> ' . '<a href="../add/add-admin?id=' . $admin->user_id . '"></a></td>';
+                                echo '<td><a href="../profile/profile-admin?id=' . $admin->user_id . '">' . $admin->fio . '</a> ' . '<a href="../add/add-admin?id=' . $admin->user_id . '"><i class="fa fa-pencil"></i></a> <a href="../delete/delete-admin?id=' . $admin->user_id . '"><i class="fa fa-times"></i></a></td>';
                                 echo '<td>' . $admin->gender . '</td>';
                                 echo '<td>' . $admin->birthday . '</td>';
-                                if (Helper::can('manager'))
+                                if (Helper::can('admin'))
                                     echo '<td>' . $admin->branch_name . '</td>';
                                 echo '</tr>';
                             }

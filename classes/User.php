@@ -7,7 +7,7 @@ class User extends Table
     public $patronymic = '';
     public $login = '';
     public $pass = '';
-    public $birthday = date;
+    public $birthday;
     public $role_id = 0;
     public $branch_id = 0;
     public $branch_name = '';
@@ -26,5 +26,8 @@ class User extends Table
             return true;
         }
         return false;
+    }
+    public function __construct(){
+        $this->birthday = date('Y-m-d');
     }
 }

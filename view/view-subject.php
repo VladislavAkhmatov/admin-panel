@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('admin') && !Helper::can('manager')) {
+if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
@@ -32,7 +32,7 @@ subject">Предметы</a></li>
                     </ol>
                 </section>
                 <div class="box-body">
-                    <?php if (Helper::can('admin')) { ?>
+                    <?php if (Helper::can('owner')) { ?>
                         <a class="btn btn-success" href="../add/add-subject?id=<?= $id; ?>">Изменить</a>
                     <?php }
                     ; ?>

@@ -2,7 +2,7 @@
 
 require_once "../secure.php";
 
-if (!Helper::can("admin")) {
+if (!Helper::can("owner")) {
     header('Location: 404');
     exit;
 }

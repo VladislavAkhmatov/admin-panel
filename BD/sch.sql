@@ -1,6 +1,6 @@
--- phpMyAdmin SQL Dump
+-- phpMyowner SQL Dump
 -- version 5.2.0
--- https://www.phpmyadmin.net/
+-- https://www.phpmyowner.net/
 --
 -- Хост: 127.0.0.1:3306
 -- Время создания: Мар 11 2025 г., 14:49
@@ -24,20 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `admin`
+-- Структура таблицы `owner`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE `owner` (
   `user_id` bigint NOT NULL,
   `branch_id` int DEFAULT NULL,
   `deleted` tinyint DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `admin`
+-- Дамп данных таблицы `owner`
 --
 
-INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
+INSERT INTO `owner` (`user_id`, `branch_id`, `deleted`) VALUES
 (2, 1, 0),
 (15, 1, 0),
 (16, 3, 0),
@@ -116,7 +116,7 @@ INSERT INTO `branch` (`id`, `branch`, `date_founding`, `deleted`) VALUES
 (4, 'Дарабоз', '2024-03-01', 0),
 (5, 'Саина', '2024-03-01', 0),
 (6, 'АЛМА СИТИ', '2024-03-01', 0),
-(999, 'Для менеджера', '2024-02-04', 0),
+(999, 'Для администратора', '2024-02-04', 0),
 (1001, 'test', '2024-03-17', 0);
 
 -- --------------------------------------------------------
@@ -316,20 +316,20 @@ INSERT INTO `lesson_plan` (`lesson_plan_id`, `gruppa_id`, `subject_id`, `user_id
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `manager`
+-- Структура таблицы `admin`
 --
 
-CREATE TABLE `manager` (
+CREATE TABLE `admin` (
   `user_id` bigint NOT NULL,
   `branch_id` int NOT NULL,
   `deleted` tinyint NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Дамп данных таблицы `manager`
+-- Дамп данных таблицы `admin`
 --
 
-INSERT INTO `manager` (`user_id`, `branch_id`, `deleted`) VALUES
+INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (19, 1, 1),
 (93, 3, 1),
 (94, 3, 1),
@@ -581,8 +581,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`role_id`, `sys_name`, `name`, `active`) VALUES
-(2, 'admin', 'Администратор', 1),
-(3, 'manager', 'Менеджер', 1),
+(2, 'owner', 'Администратор', 1),
+(3, 'admin', 'Менеджер', 1),
 (4, 'teacher', 'Преподаватель', 1),
 (5, 'student', 'Студент', 1),
 (6, 'procreator', 'Родитель', 1);
@@ -849,7 +849,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `pass`, `gender_id`, `birthday`, `role_id`, `branch_id`, `active`) VALUES
-(2, 'Смит', 'Джон', 'Тимофеевич', 'admin', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
+(2, 'Смит', 'Джон', 'Тимофеевич', 'owner', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
 (6, 'Ершов', 'Максимилиан', 'Иосифович', 'ershov@local.lz', '$2y$10$.gk1vkRh9pZCK76B7bDPjutN1dDjaqEZ.8Czha/kKan1QAJJvHwBG', 1, '2000-03-12', 4, 1, 0),
 (7, 'Носов', 'Клим', 'Алексеевич', 'klim@local.lz', '$2y$10$MHIEPbXef3BvPy8aD4EoCuSzV2jn1Ah4W6nMRe0aDT15j.m4RJX/q', 1, '2007-05-25', 5, 1, 0),
 (8, 'Шаров', 'Корней', 'Ростиславович', 'sharov', '$2y$10$hosMfj/tIw48P0tYCaQ1IuBwj6UYV9klgDsaVh/t5SxDcgPjAb7WS', 1, '2023-10-01', 5, 1, 1),
@@ -858,11 +858,11 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (11, 'Карпов', 'Антон', 'Онисимович', 'karpov', '$2y$10$yOW62BB4F8KYnC/Zs95xGeI7HnlX2Rxpdu9qkVInJDRV0igjzbZpq', 1, '1980-11-12', 6, 1, 1),
 (12, 'Гришин', 'Мечеслав', 'Христофорович', 'grishin', '$2y$10$HiUHq9eyUODAWKKvKb072eJFP2mmX993WlE2yvSHlx0X6JqMftKEe', 1, '2002-12-20', 4, 2, 1),
 (14, 'Макаров', 'Михаил', 'Робертович', 'makarov', '$2y$10$Bq7MUyKFpI7sW1SfJvFMBOyXj286ZPVsxenSHLHI.omqV5x1QzZe.', 1, '1977-06-05', 4, 1, 1),
-(15, 'Андреев ', 'Венедикт ', 'Святославович', 'admin2', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1975-08-03', 2, 2, 1),
-(16, 'Лебедев', 'Альфред ', 'Викторович', 'admin3', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1997-07-12', 2, 3, 1),
+(15, 'Андреев ', 'Венедикт ', 'Святославович', 'owner2', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1975-08-03', 2, 2, 1),
+(16, 'Лебедев', 'Альфред ', 'Викторович', 'owner3', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1997-07-12', 2, 3, 1),
 (17, 'Соловьёв', 'Бронислав', 'Федотович', 'soloviev', '$2y$10$hwoeqR.h7cOSrs8mPHnbm.bmDXUd/2i4Xg968skfMTFQ.gQystHdC', 1, '1999-05-14', 4, 2, 1),
 (18, 'Кошелев', 'Эрнест', 'Лаврентьевич', 'koshelev', '$2y$10$mlU3F7DiiEWPXzdfjPiHseYtchL0YITkhg9XOGz72xF.klefiTgnO', 1, '2005-12-15', 5, 1, 1),
-(19, 'Дроздов', 'Арсений', 'Михайлович', 'manager@local.kz', '$2y$10$/7oNN.YXdskRMpeRJAPqZuRHJqsrsUV.XHVnJia9/JzthZqhYL4Sq', 1, '1997-07-12', 3, 1, 0),
+(19, 'Дроздов', 'Арсений', 'Михайлович', 'admin@local.kz', '$2y$10$/7oNN.YXdskRMpeRJAPqZuRHJqsrsUV.XHVnJia9/JzthZqhYL4Sq', 1, '1997-07-12', 3, 1, 0),
 (22, 'Гурьев', 'Артур', 'Протасьевич', 'gurevvv', '$2y$10$n8AMg5CxgaCH2ujt2WII1e5UNDR3p4ocRRXiYiu/A6UwmBuvgTD.O', 1, '2023-10-01', 4, 1, 1),
 (25, 'Буров', 'Георгий', 'Матвеевич', 'burov', '$2y$10$xKG6mPSXSLVK/6/wWNtbfuE1WA4RLCUe80syL0eTja5J09EMaHh1.', 1, '1999-05-15', 4, 1, 1),
 (38, 'Соловьёва', 'Лея', 'Георгьевна', 'solovieva', '$2y$10$iH5wNehSfohUxfUTwKSNB.F01vhtYuddPbxUNZADQqgf5weDX7is2', 2, '2000-05-18', 6, 1, 1),
@@ -875,21 +875,21 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (84, 'testPage2', 'testPage2', 'testPage2', 'testPage2', '$2y$10$skY0FxghP6Mc6cTmFrDOPeF44ezYeRYx/ZqfAODmf8JgeObsXMYRG', 1, '2024-03-01', 5, 1, 1),
 (85, 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', '$2y$10$MuGlpXEloMN9nDBfHTS9qeYQrFjxt/yREHxvWa9utCsSq24o5uV3O', 1, '2024-03-11', 6, 2, 1),
 (86, 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', '$2y$10$0hsI3ae3OI/4AN01oPLnXuF3Qx8HgWVtaGiGpC1.6PZOXQlmYPmE.', 1, '2024-03-01', 5, 2, 1),
-(87, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$pVe5MlrjJMVoOzwj53pCjeUnrVen51.eV10YQhHM5j/.TH90CNfCi', 1, '2024-03-13', 2, 2, 1),
-(88, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$Dblc3.ukFjNTiXEJmJllLelJLz/ITCSOEbpF6UkB7kLteLJDVQPJu', 1, '2024-03-13', 2, 2, 1),
-(89, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$6nVpUA0Wn.TVr9e1KGOhguTcLn/B.BdKwGg8sP3xzULEUKe2/pa6i', 1, '2024-03-13', 2, 2, 1),
-(90, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$Ck2AmHtSXWMgYBWf.36gMeu4Xdix19939LR9jR5KYtO/29biEd/by', 1, '2024-03-13', 2, 2, 1),
-(91, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$Vo8jGIlFKDlgl8BaWSU2beCIR5ZDutDcdVnqWbsDP8Nezh8T3szBK', 1, '2024-03-13', 3, 4, 1),
-(92, 'testManager', 'testManager', 'testManager', 'testManager', '$2y$10$ImOJ7xUrI3Rf83OHt39WNumLxsZUWZTI.28bCq7hzw3hu/ETAN/dO', 1, '2024-03-13', 3, 2, 1),
+(87, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$pVe5MlrjJMVoOzwj53pCjeUnrVen51.eV10YQhHM5j/.TH90CNfCi', 1, '2024-03-13', 2, 2, 1),
+(88, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Dblc3.ukFjNTiXEJmJllLelJLz/ITCSOEbpF6UkB7kLteLJDVQPJu', 1, '2024-03-13', 2, 2, 1),
+(89, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$6nVpUA0Wn.TVr9e1KGOhguTcLn/B.BdKwGg8sP3xzULEUKe2/pa6i', 1, '2024-03-13', 2, 2, 1),
+(90, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Ck2AmHtSXWMgYBWf.36gMeu4Xdix19939LR9jR5KYtO/29biEd/by', 1, '2024-03-13', 2, 2, 1),
+(91, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Vo8jGIlFKDlgl8BaWSU2beCIR5ZDutDcdVnqWbsDP8Nezh8T3szBK', 1, '2024-03-13', 3, 4, 1),
+(92, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$ImOJ7xUrI3Rf83OHt39WNumLxsZUWZTI.28bCq7hzw3hu/ETAN/dO', 1, '2024-03-13', 3, 2, 1),
 (93, 'test5', 'test5', 'test5', 'test5', '$2y$10$hOLufC3QkTe/8uoIQGId6uEX4iA9/5I2uAGV4IIEp5/wApd3PnEhq', 1, '2024-03-13', 3, 2, 1),
-(94, 'manager2', 'manager2', 'manager2', 'manager2', '$2y$10$9SOKQ9pYXJB0HBNOdG.n8uTpF9ysi/qUFxiUoHauJUrxGcr1C9Ade', 1, '2024-03-14', 3, 6, 1),
-(95, 'manager3', 'manager3', 'manager3', 'manager3', '$2y$10$PrdGxvEKAeNsUTilWv/gHOcbwO37X.tlZvw0AR591jY.s2VJMfSqy', 1, '2024-03-14', 3, 1, 1),
-(96, 'manager4', 'manager4', 'manager4', 'manager4', '$2y$10$nj8RCuRcLpir8ce4yMV1g.esDBVZ6C4e/eo7isXy5dSOhD2Cx3wRu', 1, '2024-03-14', 3, 1, 1),
-(97, 'manager4', 'manager4', 'manager4', 'manager4', '$2y$10$kiTdMnElxyshOc9hzD69GOs3cgonYhT04eQpgEI464wOAHamEkx7a', 1, '2024-03-14', 3, 1, 1),
-(98, 'manager5', 'manager5', 'manager5', 'manager5', '$2y$10$C.EzbynIs3UcrwMBvFNFTuSJ3t.XMLeGfH/nRKold2e.sB7nNouAu', 1, '2024-03-14', 3, 1, 1),
-(99, 'manager6', 'manager6', 'manager6', 'manager6', '$2y$10$4a8oRnU6SMCkZzidKT7r6OuEftc9Mmxc0Q3RWs/48wpMXXo27GN5K', 1, '2024-03-14', 3, 6, 1),
+(94, 'admin2', 'admin2', 'admin2', 'admin2', '$2y$10$9SOKQ9pYXJB0HBNOdG.n8uTpF9ysi/qUFxiUoHauJUrxGcr1C9Ade', 1, '2024-03-14', 3, 6, 1),
+(95, 'admin3', 'admin3', 'admin3', 'admin3', '$2y$10$PrdGxvEKAeNsUTilWv/gHOcbwO37X.tlZvw0AR591jY.s2VJMfSqy', 1, '2024-03-14', 3, 1, 1),
+(96, 'admin4', 'admin4', 'admin4', 'admin4', '$2y$10$nj8RCuRcLpir8ce4yMV1g.esDBVZ6C4e/eo7isXy5dSOhD2Cx3wRu', 1, '2024-03-14', 3, 1, 1),
+(97, 'admin4', 'admin4', 'admin4', 'admin4', '$2y$10$kiTdMnElxyshOc9hzD69GOs3cgonYhT04eQpgEI464wOAHamEkx7a', 1, '2024-03-14', 3, 1, 1),
+(98, 'admin5', 'admin5', 'admin5', 'admin5', '$2y$10$C.EzbynIs3UcrwMBvFNFTuSJ3t.XMLeGfH/nRKold2e.sB7nNouAu', 1, '2024-03-14', 3, 1, 1),
+(99, 'admin6', 'admin6', 'admin6', 'admin6', '$2y$10$4a8oRnU6SMCkZzidKT7r6OuEftc9Mmxc0Q3RWs/48wpMXXo27GN5K', 1, '2024-03-14', 3, 6, 1),
 (100, 'prepodAlma', 'prepodAlma', 'prepodAlma', 'prepodAlma', '$2y$10$owiL9AnguFWdQBsHPqWr..bo2yCtst4q.PNQyO/6663n.VhfPZfaq', 1, '2024-03-14', 4, 6, 1),
-(101, 'manager7', 'manager7', 'manager7', 'manager7', '$2y$10$0RsV9Zz6s/3WWFJxb1ZEu.fGRHbfk5LIHk4nuJ5RUW0aToZDrrkXO', 1, '2024-03-14', 3, 2, 1),
+(101, 'admin7', 'admin7', 'admin7', 'admin7', '$2y$10$0RsV9Zz6s/3WWFJxb1ZEu.fGRHbfk5LIHk4nuJ5RUW0aToZDrrkXO', 1, '2024-03-14', 3, 2, 1),
 (102, 'testTeacher2', 'testTeacher2', 'testTeacher2', 'testTeacher2', '$2y$10$FGx5IGBtsUmWHKYubJPJyOVG5D3RYIPvxy1X1jBpvLBmZlfseLh4G', 1, '2024-03-14', 4, 2, 1),
 (103, 'testBranch2', 'testBranch2', 'testBranch2', 'testBranch2', '$2y$10$RslJe6gGJMog..z/1JrauOi5Z4LE0Lcoc3J3IIatMJ1f.fLopmzWG', 1, '2024-03-10', 5, 2, 1),
 (104, 'testTest', 'testTest', 'testTest', 'testTest', '$2y$10$HgWytxz7hqd.Sf5q0Fq25e8T3jfYU7icOHLUkvDivmaVkClfS6wLW', 1, '2024-03-17', 4, 1001, 1),
@@ -902,19 +902,19 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (113, 'uchitel', 'uchitel', 'uchitel', 'uchitel', '$2y$10$OQ28T5QSPNGV8XLVfgu/o.Cq/g27GI07Tc8wIlO/dqjDNCHOB1PyC', 1, '2024-04-19', 4, 1, 0),
 (114, 'roditel', 'roditel', 'roditel', 'roditel@local.kz', '$2y$10$KxGRrohmIa8g96AuImC97.aA0Q6eMt080oTDyqxZ/cB7mn9Q0Wcpy', 1, '2024-04-18', 6, 1, 0),
 (115, 'sadaljshdnas', 'fkgjdegklfdngh', 'lkjdfgklfdng', 'test@mail.ru', '$2y$10$q.uzAAxtTZQBrDJ.v5gWveGgpXJXMDgiAtvh39Ih.UFHmSZhaR.4O', 1, '2024-04-01', 6, 1, 0),
-(116, 'manager12345', 'manager12345', 'manager12345', 'manager12345@mail.ru', '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
+(116, 'admin12345', 'admin12345', 'admin12345', 'admin12345@mail.ru', '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
 (117, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.ru', '$2y$10$LOsSTvoRhCg3Z35wOEHdEu0gAGE5ITKWGo3uoMW1I3aoauGbL504m', 1, '2024-05-01', 4, 1, 0),
 (118, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.kz', '$2y$10$UqIBrXGgSAWK5rbILrzGyO2pRyXqV4.OOa/ZIZmI9eqPEJ.09jvwG', 1, '2024-04-01', 4, 1, 0),
-(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', 'manager25@local.lo', '$2y$10$wqMZfbzQWSMMIR6oU9awLe/Q1w8yQtbfW.Nfm72MIyIWxRDgBuNWe', 1, '2025-03-03', 3, 1, 0);
+(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', 'admin25@local.lo', '$2y$10$wqMZfbzQWSMMIR6oU9awLe/Q1w8yQtbfW.Nfm72MIyIWxRDgBuNWe', 1, '2025-03-03', 3, 1, 0);
 
 --
 -- Индексы сохранённых таблиц
 --
 
 --
--- Индексы таблицы `admin`
+-- Индексы таблицы `owner`
 --
-ALTER TABLE `admin`
+ALTER TABLE `owner`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -990,9 +990,9 @@ ALTER TABLE `lesson_plan`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Индексы таблицы `manager`
+-- Индексы таблицы `admin`
 --
-ALTER TABLE `manager`
+ALTER TABLE `admin`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `branch_id` (`branch_id`);
 
@@ -1241,10 +1241,10 @@ ALTER TABLE `user`
 --
 
 --
--- Ограничения внешнего ключа таблицы `admin`
+-- Ограничения внешнего ключа таблицы `owner`
 --
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `owner`
+  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `awards`
@@ -1283,11 +1283,11 @@ ALTER TABLE `lesson_plan`
   ADD CONSTRAINT `lesson_plan_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `special` (`special_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `manager`
+-- Ограничения внешнего ключа таблицы `admin`
 --
-ALTER TABLE `manager`
-  ADD CONSTRAINT `manager_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `manager_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `admin_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `notice`

@@ -3,8 +3,8 @@ class Gruppa extends Table
 {
     public $gruppa_id = 0;
     public $name = '';
-    public $date_begin = date;
-    public $date_end = date;
+    public $date_begin;
+    public $date_end;
     function validate()
     {
         if (
@@ -15,5 +15,9 @@ class Gruppa extends Table
             return true;
         }
         return false;
+    }
+    public function __construct(){
+        $this->date_begin = date('Y-m-d');
+        $this->date_end = date('Y-m-d');
     }
 }
