@@ -22,7 +22,7 @@ if (isset($_POST['branch_id'])) {
     $branch_id = $_POST['branch_id'];
 }
 
-$gradeInfo = (new ProcreatorMap())->findPerformanceByGradeInfo($user_id, $subject_id, $branch_id);
+$gradesInfo = (new ProcreatorMap())->findPerformanceBygradesInfo($user_id, $subject_id, $branch_id);
 $header = 'Студент';
 require_once '../template/header.php';
 
@@ -42,7 +42,7 @@ require_once '../template/header.php';
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <?php if ($gradeInfo) { ?>
+                <?php if ($gradesInfo) { ?>
                     <form method="POST">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
@@ -50,7 +50,7 @@ require_once '../template/header.php';
                                     <th></th>
                                     <?php
                                     // Генерация заголовков по датам
-                                    foreach ($gradeInfo as $item) {
+                                    foreach ($gradesInfo as $item) {
                                         echo '<th>' . $item->date . '</th>';
                                     }
                                     ?>
@@ -65,7 +65,7 @@ require_once '../template/header.php';
                                     echo "<td><b>$category</b></td>";
 
                                     // Генерация ячеек для каждой даты
-                                    foreach ($gradeInfo as $item) {
+                                    foreach ($gradesInfo as $item) {
                                         // В зависимости от категории выводим соответствующее значение
                                         switch ($category) {
                                             case "Присутствовал":
@@ -84,8 +84,8 @@ require_once '../template/header.php';
                                                 }
                                                 break;
                                             case "Активность":
-                                                if ($item->grade != 0) {
-                                                    echo "<td>$item->grade</td>";
+                                                if ($item->grades != 0) {
+                                                    echo "<td>$item->grades</td>";
                                                 } else {
                                                     echo "<td>-</td>";
                                                 }

@@ -268,13 +268,13 @@ class ProcreatorMap extends BaseMap
     }
 
 
-    public function findPerformanceByGradeInfo($user_id, $subject_id, $branch_id)
+    public function findPerformanceBygradesInfo($user_id, $subject_id, $branch_id)
     {
-        $query = "SELECT grade_accept.user_id as user_id, subject.name as subject, grade_accept.subject_id, 
-        grade_accept.grade as grade, grade_accept.date as date, grade_accept.attend, grade_accept.branch_id, 
-        grade_accept.comment, grade_accept.homework FROM grade_accept
-        INNER JOIN subject ON subject.subject_id = grade_accept.subject_id
-        WHERE grade_accept.user_id = :user_id and grade_accept.subject_id = :subject_id and grade_accept.branch_id = :branch_id";
+        $query = "SELECT grades.user_id as user_id, subject.name as subject, grades.subject_id, 
+        grades.grade as grades, grades.date as date, grades.attend, grades.branch_id, 
+        grades.comment, grades.homework FROM grades
+        INNER JOIN subject ON subject.subject_id = grades.subject_id
+        WHERE grades.user_id = :user_id and grades.subject_id = :subject_id and grades.branch_id = :branch_id";
         $res = $this->db->prepare($query);
         $res->execute([
             'user_id' => $user_id,

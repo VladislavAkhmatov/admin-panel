@@ -172,15 +172,15 @@ class TeacherMap extends BaseMap
         return $res->fetch(PDO::FETCH_OBJ);
     }
 
-    public function insertGradeFromHomework(Teacher $teacher)
+    public function insertgradesFromHomework(Teacher $teacher)
     {
-        $query1 = "INSERT INTO grades (user_id, subject_id, grade, date, comment, homework) VALUES (:user_id, :subject_id, :grade, NOW(), :comment, :homework)";
+        $query1 = "INSERT INTO gradess (user_id, subject_id, grades, date, comment, homework) VALUES (:user_id, :subject_id, :grades, NOW(), :comment, :homework)";
         $res1 = $this->db->prepare($query1);
         if (
             $res1->execute([
                 'user_id' => $teacher->user_id,
                 'subject_id' => $teacher->subject_id,
-                'grade' => $teacher->grade,
+                'grades' => $teacher->grades,
                 'comment' => $teacher->comment,
                 'homework' => $teacher->file
             ])

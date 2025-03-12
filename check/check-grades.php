@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
 
 $studentMap = new StudentMap();
 $count = $studentMap->count();
-$students = $studentMap->checkGrades();
+$students = $studentMap->checkgrades();
 $header = 'Список студентов';
 require_once '../template/header.php';
 
@@ -81,8 +81,8 @@ require_once '../template/header.php';
                                                         <input type="hidden" name="attend" value="' . $student->attend_id . '">
                                                         <input type="hidden" name="comment" value="' . $student->comment . '">
                                                         <input type="hidden" name="homework" value="' . $student->homework . '">
-                                                        <input class="btn btn-success" type="submit" name="gradeSubmit" value="Подтвердить">
-                                                        <input class="btn btn-danger" type="submit" name="gradeDelete" value="Отклонить">
+                                                        <input class="btn btn-success" type="submit" name="gradesSubmit" value="Подтвердить">
+                                                        <input class="btn btn-danger" type="submit" name="gradesDelete" value="Отклонить">
                                                         </form>' . "</td>";
 
                                 echo "</tr>";

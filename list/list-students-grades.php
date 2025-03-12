@@ -20,8 +20,8 @@ if (isset($_GET['subject_id'])) {
     $gruppa_id = $_GET['gruppa_id'];
 }
 
-$gradeMap = new GradeMap();
-$grade = $gradeMap->findBySubjectId($date, $subject_id, $gruppa_id);
+$gradesMap = new gradesMap();
+$grades = $gradesMap->findBySubjectId($date, $subject_id, $gruppa_id);
 
 $header = 'Список студентов';
 $attend = '';
@@ -40,7 +40,7 @@ require_once '../template/header.php';
             </section>
             <div class="box-body">
                 <?php
-                if ($grade) {
+                if ($grades) {
                     ?>
                     <form method="POST">
                         <table id="example2" class="table table-bordered table-hover">
@@ -54,7 +54,7 @@ require_once '../template/header.php';
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($grade as $grade) {
+                                foreach ($grades as $grade) {
                                     if ($grade->attend == 0) {
                                         $attend = 'Н';
                                     } else {
@@ -93,11 +93,11 @@ require_once '../template/header.php';
 <?php
 if (isset($_POST['saveReason'])) {
     $count = 0;
-    foreach ($_POST['reason'] as $item => $grade->id) {
-        $grade = new Grade();
-        $grade->reason = $_POST['reason'][$item];
+    foreach ($_POST['reason'] as $item => $grades->id) {
+        $grades = new grades();
+        $grades->reason = $_POST['reason'][$item];
         $id = $item;
-        if ((new GradeMap)->insertReason($grade, $id)) {
+        if ((new gradesMap)->insertReason($grades, $id)) {
             $count += 1;
         }
     }

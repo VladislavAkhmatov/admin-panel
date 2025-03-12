@@ -25,7 +25,7 @@ if (isset($_POST['saveNotice'])) {
 if (isset($_POST['saveNoticeForParent'])) {
     $student = new Student();
     $studentMap = new StudentMap();
-    $paymentArchives = $studentMap->selectGrades();
+    $paymentArchives = $studentMap->selectgrades();
     $student->parent_id = Helper::clearInt($_POST['user_id']);
     $student->user_id = Helper::clearInt($_POST['child_id']);
     $student->subject_id = Helper::clearInt($_POST['subject_id']);

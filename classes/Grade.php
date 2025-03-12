@@ -1,10 +1,10 @@
 <?php
-class Grade extends Table
+class grades extends Table
 {
-    public $grade_id = 0;
+    public $grades_id = 0;
     public $user_id = 0;
     public $subject_id = 0;
-    public $grade = 0;
+    public $grades = 0;
     public $date = date;
     public $reason = 0;
     function validate()
@@ -12,7 +12,7 @@ class Grade extends Table
         if (
             !empty($this->user_id) &&
             !empty($this->subject_id) &&
-            !empty($this->grade) &&
+            !empty($this->grades) &&
             !empty($this->date)
         ) {
             return true;

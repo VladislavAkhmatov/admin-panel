@@ -190,14 +190,14 @@ INSERT INTO `gender` (`gender_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `grades`
+-- Структура таблицы `gradess`
 --
 
-CREATE TABLE `grades` (
-  `grade_id` int NOT NULL,
+CREATE TABLE `gradess` (
+  `grades_id` int NOT NULL,
   `user_id` bigint NOT NULL,
   `subject_id` int NOT NULL,
-  `grade` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grades` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` date DEFAULT NULL,
   `attend` tinyint DEFAULT '0',
   `branch_id` int DEFAULT NULL,
@@ -206,10 +206,10 @@ CREATE TABLE `grades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `grades`
+-- Дамп данных таблицы `gradess`
 --
 
-INSERT INTO `grades` (`grade_id`, `user_id`, `subject_id`, `grade`, `date`, `attend`, `branch_id`, `comment`, `homework`) VALUES
+INSERT INTO `gradess` (`grades_id`, `user_id`, `subject_id`, `grades`, `date`, `attend`, `branch_id`, `comment`, `homework`) VALUES
 (362, 105, 17, '567', '2024-04-04', 1, 1, '7', NULL),
 (366, 7, 16, '70', '2024-04-04', 1, NULL, '6', NULL),
 (370, 7, 16, '', '2024-04-04', 0, NULL, '', NULL),
@@ -958,10 +958,10 @@ ALTER TABLE `gender`
   ADD PRIMARY KEY (`gender_id`);
 
 --
--- Индексы таблицы `grades`
+-- Индексы таблицы `gradess`
 --
-ALTER TABLE `grades`
-  ADD PRIMARY KEY (`grade_id`),
+ALTER TABLE `gradess`
+  ADD PRIMARY KEY (`grades_id`),
   ADD KEY `student_id` (`user_id`),
   ADD KEY `subject_id` (`subject_id`),
   ADD KEY `attend` (`attend`),
@@ -1141,10 +1141,10 @@ ALTER TABLE `gender`
   MODIFY `gender_id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `grades`
+-- AUTO_INCREMENT для таблицы `gradess`
 --
-ALTER TABLE `grades`
-  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
+ALTER TABLE `gradess`
+  MODIFY `grades_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
 
 --
 -- AUTO_INCREMENT для таблицы `gruppa`
@@ -1260,13 +1260,13 @@ ALTER TABLE `classroom`
   ADD CONSTRAINT `classroom_ibfk_1` FOREIGN KEY (`branch`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `grades`
+-- Ограничения внешнего ключа таблицы `gradess`
 --
-ALTER TABLE `grades`
-  ADD CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_3` FOREIGN KEY (`attend`) REFERENCES `attend` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `gradess`
+  ADD CONSTRAINT `gradess_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `gradess_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `gradess_ibfk_3` FOREIGN KEY (`attend`) REFERENCES `attend` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `gradess_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `gruppa`

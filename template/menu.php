@@ -83,10 +83,6 @@
 
                 <a href="../list/list-gruppa"><i class="fa fa-object-group"></i><span>Группы</span></a>
 
-            <li <?= ($_SERVER['PHP_SELF'] == '/check/check-homework.php') ? 'class="active"' : ''; ?>>
-
-                <a href="../check/check-homework"><i class="fa fa-home"></i><span>Домашнее задание</span></a>
-
                 <?php } ?>
 
                 <?php if (Helper::can('owner')) { ?>
@@ -168,10 +164,6 @@
             <li <?= ($_SERVER['PHP_SELF'] == '/check/check-control.php') ? 'class="active"' : ''; ?>>
 
                 <a href="../check/check-control"><i class="fa fa-usd"></i><span>Контроль оплаты</span></a>
-
-            <li <?= ($_SERVER['PHP_SELF'] == '/list/list-homework.php') ? 'class="active"' : ''; ?>>
-
-                <a href="../list/list-homework"><i class="fa fa-home"></i><span>Домашнее задание</span></a>
 
                 <?php } ?>
         </ul>

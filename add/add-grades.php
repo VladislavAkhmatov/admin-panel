@@ -75,7 +75,7 @@ require_once '../template/header.php';
                                                 <?php echo ($student->attend == 1) ? 'checked' : ''; ?>>
                                         </td>
                                         <td>
-                                            <input type="text" name="grade_id[<?php echo $student->user_id; ?>]">
+                                            <input type="text" name="grades_id[<?php echo $student->user_id; ?>]">
                                         </td>
                                         <td>
                                             <input type="text" name="comment[<?php echo $student->user_id; ?>]">
@@ -107,7 +107,7 @@ require_once '../template/header.php';
 <script>
     // Функция для обработки изменения состояния чекбокса
     function toggleElements(studentId, isChecked) {
-        var inputElements = document.getElementsByName('grade_id[' + studentId + ']');
+        var inputElements = document.getElementsByName('grades_id[' + studentId + ']');
         var textInput = inputElements[0];
         var commentInput = document.getElementsByName('comment[' + studentId + ']')[0];
 

@@ -17,7 +17,7 @@ if (isset($_GET['id'])) {
     $id = 1;
 }
 $studentMap = new StudentMap();
-$students = $studentMap->viewGrades();
+$students = $studentMap->viewgrades();
 $header = 'Студент';
 $userMap = new UserMap();
 $user = $userMap->auth($login, $password);

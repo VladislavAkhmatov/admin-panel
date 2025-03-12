@@ -13,7 +13,7 @@ class Student extends Table
     public $grade_id = 0;
     public $date;
     public $tab = '';
-    public $grade = NULL;
+    public $grades = NULL;
     public $subject_price = 0;
     public $attend = 0;
     public $num_zach = 0;

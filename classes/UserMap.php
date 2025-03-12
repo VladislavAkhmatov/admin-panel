@@ -1,4 +1,5 @@
 <?php
+
 class UserMap extends BaseMap
 {
     const USER = 'user';
@@ -6,6 +7,7 @@ class UserMap extends BaseMap
     const STUDENT = 'student';
     const owner = 'owner';
     const PARENT = 'procreator';
+
     function auth($login, $password)
     {
         $login = $this->db->quote($login);
@@ -85,32 +87,34 @@ class UserMap extends BaseMap
         $login = $this->db->quote($user->login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
-        if ($_SESSION['branch'] != 999 && $this->existsLogin()) {
-            if (
-                $this->db->exec("INSERT INTO user(lastname,
+        if ($this->existsLogin($login)) {
+            if ($_SESSION['branch'] != 999) {
+                if (
+                    $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
             role_id, branch_id, active) VALUES($lastname, $firstname, $patronymic, $login,
             $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, 
             $user->active)") == 1
-            ) {
-                $user->user_id = $this->db->lastInsertId();
-                return true;
-            }
-            return false;
-        } else {
-            if (
-                $this->db->exec("INSERT INTO user(lastname,
+                ) {
+                    $user->user_id = $this->db->lastInsertId();
+                    return true;
+                }
+                return false;
+            } else {
+                if (
+                    $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
             role_id, branch_id, active) VALUES($lastname, $firstname, $patronymic, $login,
             $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, 
             1)") == 1
-            ) {
-                $user->user_id = $this->db->lastInsertId();
-                return true;
+                ) {
+                    $user->user_id = $this->db->lastInsertId();
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
-
+        return false;
     }
 
     public function arrParents()
@@ -152,6 +156,7 @@ class UserMap extends BaseMap
         }
         return false;
     }
+
     public function findProfileById($id = null)
     {
         if ($id) {
@@ -227,7 +232,6 @@ class UserMap extends BaseMap
         }
         return null;
     }
-
 
 
     public function autoNotifications()
