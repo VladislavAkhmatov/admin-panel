@@ -12,12 +12,6 @@ class StudentMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function arrAttends()
-    {
-        $res = $this->db->query("SELECT attend.id as id, attend.attend as value FROM attend");
-        return $res->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function arrSubjectFromBranch()
     {
         $res = $this->db->query("SELECT subject.subject_id as id, 
@@ -41,7 +35,7 @@ class StudentMap extends BaseMap
     }
     public function save($user = User, $student = Student)
     {
-        if ($user->validate() && $student->validate() && (new UserMap())->save($user)) {
+        if ((new UserMap())->save($user)) {
             if ($student->user_id == 0) {
                 $student->user_id = $user->user_id;
                 return $this->insert($student);
@@ -61,11 +55,6 @@ class StudentMap extends BaseMap
             return true;
         }
         return false;
-    }
-
-    private function insertPayment($student = Student)
-    {
-
     }
 
     public function deleteNoticeById($id)
@@ -450,21 +439,6 @@ class StudentMap extends BaseMap
             'id' => $id
         ]);
         return $res->fetchColumn();
-    }
-
-    public function saveSubjectForStudent(Student $student)
-    {
-        $query = "INSERT INTO student_subjects(user_id, subject_id) VALUES(:user_id, :subject_id)";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'user_id' => $student->user_id,
-                'subject_id' => $student->subject_id,
-            ])
-        ) {
-            return true;
-        }
-        return false;
     }
 
     public function findStudentSubjectsByUserId($id)

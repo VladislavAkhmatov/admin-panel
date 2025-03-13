@@ -35,17 +35,6 @@ require_once '../template/header.php';
             <input type="text" class="form-control" name="name" required="required" value="<?= $otdel->name; ?>">
         </div>
         <div class="form-group">
-            <label>Заблокировать</label>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="active" value="1" <?= ($user->active) ? 'checked' : ''; ?>> Нет
-                </label> &nbsp;
-                <label>
-                    <input type="radio" name="active" value="0" <?= (!$user->active) ? 'checked' : ''; ?>> Да
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
             <button type="submit" name="saveOtdel" class="btn btn-primary">Сохранить</button>
         </div>
         <input type="hidden" name="otdel_id" value="<?= $id; ?>" />

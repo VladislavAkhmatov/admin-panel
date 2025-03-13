@@ -1,63 +1,6 @@
 <?php
 require_once '../secure.php';
 
-if (isset($_POST['saveAvatarStudent'])) {
-    $user = new User();
-    $user->user_id = Helper::clearInt($_POST['saveAvatarStudent']);
-
-    $types = array(
-        '.jpg',
-        '.JPG',
-        '.jpeg',
-        '.gif',
-        '.bmp',
-        '.png'
-    );
-
-    $user->photo = time() . '_' . $_FILES["photo"]["name"];
-    $fileTmpName = $_FILES["photo"]["tmp_name"];
-
-    $ext = strtolower(substr($_FILES["photo"]["name"], strrpos($_FILES["photo"]["name"], '.')));
-    if (!in_array($ext, $types)) {
-        header('Location: ../index?message=Err');
-        exit;
-    }
-    move_uploaded_file($fileTmpName, "../avatars/" . $user->photo);
-
-    if ($_SESSION['role'] == 'procreator') {
-        if ((new UserMap())->updatePhoto($user)) {
-            $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-student?id=' . $user->user_id);
-            exit;
-        }
-    }
-
-    if ($_SESSION['role'] == 'owner') {
-        if ((new UserMap())->updatePhoto($user)) {
-            $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-admin?id=' . $user->user_id);
-            exit;
-        }
-    }
-
-    if ($_SESSION['role'] == 'teacher') {
-        if ((new UserMap())->updatePhoto($user)) {
-            $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-teacher?id=' . $user->user_id);
-            exit;
-        }
-    }
-
-    if ($_SESSION['role'] == 'admin') {
-
-        if ((new UserMap())->updatePhoto($user)) {
-            $_SESSION['photo'] = $user->photo;
-            header('Location: ../profile/profile-admin?id=' . $user->user_id);
-            exit;
-        }
-    }
-}
-
 if (isset($_POST['user_id'])) {
     $user = new User();
     $user->lastname = Helper::clearString($_POST['lastname']);
@@ -72,7 +15,6 @@ if (isset($_POST['user_id'])) {
     );
     $user->gender_id = Helper::clearInt($_POST['gender_id']);
     $user->branch_id = $_SESSION['branch'];
-    $user->active = Helper::clearInt($_POST['active']);
 
 
 
@@ -139,7 +81,7 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-student?id=' . $student->user_id);
 
             } else {
-                header('Location: ../profile/profile-student');
+                header('Location: ../add/add-student');
             }
         }
         exit();

@@ -1,5 +1,5 @@
 <?php
-class grades extends Table
+class Grade extends Table
 {
     public $grades_id = 0;
     public $user_id = 0;

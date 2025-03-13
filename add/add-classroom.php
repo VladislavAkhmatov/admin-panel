@@ -36,14 +36,7 @@ require_once '../template/header.php';
         </div>
         <div class="form-group">
             <label>Заблокировать</label>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="active" value="1" <?= ($user->active) ? 'checked' : ''; ?>> Нет
-                </label> &nbsp;
-                <label>
-                    <input type="radio" name="active" value="0" <?= (!$user->active) ? 'checked' : ''; ?>> Да
-                </label>
-            </div>
+
             <div class="form-group">
                 <button type="submit" name="saveClassroom" class="btn btn-primary">Сохранить</button>
             </div>

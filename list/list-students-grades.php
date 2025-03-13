@@ -20,7 +20,7 @@ if (isset($_GET['subject_id'])) {
     $gruppa_id = $_GET['gruppa_id'];
 }
 
-$gradesMap = new gradesMap();
+$gradesMap = new GradeMap();
 $grades = $gradesMap->findBySubjectId($date, $subject_id, $gruppa_id);
 
 $header = 'Список студентов';
@@ -94,10 +94,10 @@ require_once '../template/header.php';
 if (isset($_POST['saveReason'])) {
     $count = 0;
     foreach ($_POST['reason'] as $item => $grades->id) {
-        $grades = new grades();
+        $grades = new Grade();
         $grades->reason = $_POST['reason'][$item];
         $id = $item;
-        if ((new gradesMap)->insertReason($grades, $id)) {
+        if ((new GradeMap)->insertReason($grades, $id)) {
             $count += 1;
         }
     }

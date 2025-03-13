@@ -47,7 +47,6 @@ fa-dashboard"></i> Главная</a></li>
                         <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Отдел</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +55,6 @@ fa-dashboard"></i> Главная</a></li>
                                 echo '<tr>';
                                 echo '<td><a href="../view/view-subject?id=' . $subject->subject_id . '">' . $subject->name . '</a> '
                                     . '<a href="../add/add-subject?id=' . $subject->subject_id . '"><i class="fa fa-pencil"></i></a>  <a href="../delete/delete-subject?id=' . $subject->subject_id . '"><i class="fa fa-times"></i></a></td>';
-                                echo '<td>' . $subject->otdel . '</td>';
                                 echo '</tr>';
                             }
                             ?>

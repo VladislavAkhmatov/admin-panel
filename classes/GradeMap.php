@@ -1,5 +1,5 @@
 <?php
-class gradesMap extends BaseMap
+class GradeMap extends BaseMap
 {
     public function findById($id = null)
     {
@@ -9,14 +9,14 @@ class gradesMap extends BaseMap
                 . "FROM gradess WHERE grades_id = $id");
             return $res->fetchObject("grades");
         }
-        return new grades();
+        return new Grade();
     }
 
     public function findBySubjectId($date, $subject_id, $gruppa_id)
     {
-        $query = "SELECT grades.id, user.user_id, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
+        $query = "SELECT grades.grade_id, user.user_id, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
         subject.name as subject, 
-        grades.grades as grades, 
+        grades.grade as grade, 
         grades.date as date, grades.branch_id, gruppa.name, 
         CASE grades.attend
             WHEN 1 THEN 'Б'
@@ -40,7 +40,7 @@ class gradesMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function insertReason(grades $grades, $id)
+    public function insertReason(Grade $grades, $id)
     {
         $query = "UPDATE grades SET reason = :reason WHERE id = :id";
         $res = $this->db->prepare($query);

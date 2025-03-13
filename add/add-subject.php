@@ -36,16 +36,10 @@ require_once '../template/header.php';
             <label>Название</label>
             <input type="text" class="form-control" name="name" required="required" value="<?= $subject->name; ?>">
         </div>
-        <div class="form-group">
-            <label>Отдел</label>
-            <select class="form-control" name="otdel_id">
-                <?= Helper::printSelectOptions($subject->otdel_id, (new OtdelMap())->arrOtdels()); ?>
-            </select>
-        </div>
+        <input type="hidden" name="subject_id" value="<?= $id; ?>" />
         <div class="form-group">
             <button type="submit" name="saveSubject" class="btn btn-primary">Сохранить</button>
         </div>
-        <input type="hidden" name="subject_id" value="<?= $id; ?>" />
     </form>
 </div>
 <?php

@@ -36,7 +36,7 @@ if (isset($_GET['date']) && $_GET['date'] != '') {
     exit();
 }
 
-$gradesMap = new gradesMap();
+$gradesMap = new GradeMap();
 $grades = $gradesMap->findBySubjectId($date, $subject_id, $gruppa_id);
 
 if ($grades) {

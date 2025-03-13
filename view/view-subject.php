@@ -34,32 +34,19 @@ subject">Предметы</a></li>
                 <div class="box-body">
                     <?php if (Helper::can('owner')) { ?>
                         <a class="btn btn-success" href="../add/add-subject?id=<?= $id; ?>">Изменить</a>
-                    <?php }
-                    ; ?>
+                    <?php }; ?>
                 </div>
                 <div class="box-body">
 
                     <table class="table table-bordered table-
 hover">
-
                         <tr>
-                            <th>Название</th>
+                            <th>Предмет</th>
 
                             <td>
                                 <?= $subject->name; ?>
                             </td>
-
                         </tr>
-                        <tr>
-
-                            <th>Предмет</th>
-
-                            <td>
-                                <?= $subject->otdel; ?>
-                            </td>
-
-                        </tr>
-
                     </table>
                 </div>
             </div>

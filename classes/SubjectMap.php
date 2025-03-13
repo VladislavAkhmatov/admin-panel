@@ -6,8 +6,7 @@ class SubjectMap extends BaseMap
     {
 
         $res = $this->db->query("SELECT subject.subject_id AS id, 
-        subject.name AS value, otdel.name as otdel_name FROM subject
-        INNER JOIN otdel ON otdel.otdel_id = subject.otdel_id
+        subject.name AS value FROM subject
         WHERE subject.deleted = 0 AND subject.branch = {$_SESSION['branch']}
         ");
         return $res->fetchAll(PDO::FETCH_ASSOC);
@@ -17,8 +16,7 @@ class SubjectMap extends BaseMap
     {
 
         $res = $this->db->query("SELECT subject.subject_id AS id, 
-        subject.name AS value, otdel.name as otdel_name FROM subject
-        INNER JOIN otdel ON otdel.otdel_id = subject.otdel_id
+        subject.name AS value FROM subject
         WHERE subject.deleted = 0 AND subject.branch = {$_SESSION['branch']}
         ");
         return $res->fetchAll(PDO::FETCH_ASSOC);
@@ -27,8 +25,7 @@ class SubjectMap extends BaseMap
     public function findById($id = null)
     {
         if ($id) {
-            $res = $this->db->query("SELECT subject_id, name,
-        otdel_id "
+            $res = $this->db->query("SELECT subject_id, name "
                 . "FROM subject WHERE subject_id = $id");
             return $res->fetchObject("Subject");
         }
@@ -47,11 +44,9 @@ class SubjectMap extends BaseMap
     }
     private function insert($subject = Subject)
     {
-        $sql = "INSERT INTO subject(name, otdel_id, branch) VALUES(:name, :otdel_id, :branch)";
+        $sql = "INSERT INTO subject(name, branch) VALUES(:name, :branch)";
         $stmt = $this->db->prepare($sql);
-
         $stmt->bindParam(':name', $subject->name);
-        $stmt->bindParam(':otdel_id', $subject->otdel_id);
         $stmt->bindParam(':branch', $_SESSION['branch']);
         if ($stmt->execute()) {
             $subject->subject_id = $this->db->lastInsertId();
@@ -64,8 +59,8 @@ class SubjectMap extends BaseMap
     {
         $name = $this->db->quote($subject->name);
         if (
-            $this->db->exec("UPDATE subject SET name = $name,
-        otdel_id = $subject->otdel_id WHERE subject_id = " . $subject->subject_id) == 1
+            $this->db->exec("UPDATE subject SET name = $name
+         WHERE subject_id = " . $subject->subject_id) == 1
         ) {
             return true;
         }
@@ -74,8 +69,7 @@ class SubjectMap extends BaseMap
     public function findAll($ofset = 0, $limit = 30)
     {
         $res = $this->db->query("SELECT subject.subject_id,
-        subject.name, subject.name AS special, otdel.name AS otdel FROM subject LEFT JOIN otdel ON
-        subject.otdel_id=otdel.otdel_id WHERE subject.deleted = 0 AND subject.branch = {$_SESSION['branch']} LIMIT $ofset,
+        subject.name, subject.name AS special FROM subject WHERE subject.deleted = 0 AND subject.branch = {$_SESSION['branch']} LIMIT $ofset,
         $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
@@ -89,8 +83,7 @@ class SubjectMap extends BaseMap
     {
         if ($id) {
             $res = $this->db->query("SELECT subject.subject_id,
-        subject.name, subject.name AS special, otdel.name AS otdel FROM subject INNER JOIN otdel ON
-        subject.otdel_id=subject.otdel_id WHERE subject_id =
+        subject.name, subject.name AS special FROM subject WHERE subject_id =
         $id");
             return $res->fetch(PDO::FETCH_OBJ);
         }

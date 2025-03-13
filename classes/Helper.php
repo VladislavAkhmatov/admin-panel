@@ -9,7 +9,9 @@ class Helper
     {
         return (int) $str;
     }
-
+    static function formattedData($date){
+       return date_format(date_create($date), 'd.m.Y');
+    }
     static function printSelectOptions($key = array(), $options = array())
     {
         if ($options) {

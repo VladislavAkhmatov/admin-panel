@@ -28,7 +28,7 @@ class UserMap extends BaseMap
     public function findById($id = null)
     {
         if ($id) {
-            $res = $this->db->query("SELECT user_id, lastname, firstname, patronymic, login, pass, gender_id, birthday, role_id, branch_id, active FROM user WHERE user_id = $id");
+            $res = $this->db->query("SELECT user_id, lastname, firstname, patronymic, login, pass, gender_id, birthday, role_id, branch_id FROM user WHERE user_id = $id");
             $user = $res->fetchObject("User");
             if ($user) {
                 return $user;
@@ -92,9 +92,9 @@ class UserMap extends BaseMap
                 if (
                     $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
-            role_id, branch_id, active) VALUES($lastname, $firstname, $patronymic, $login,
+            role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
             $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, 
-            $user->active)") == 1
+            )") == 1
                 ) {
                     $user->user_id = $this->db->lastInsertId();
                     return true;
@@ -104,9 +104,9 @@ class UserMap extends BaseMap
                 if (
                     $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
-            role_id, branch_id, active) VALUES($lastname, $firstname, $patronymic, $login,
-            $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, 
-            1)") == 1
+            role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
+            $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id 
+            )") == 1
                 ) {
                     $user->user_id = $this->db->lastInsertId();
                     return true;
@@ -139,8 +139,7 @@ class UserMap extends BaseMap
             $this->db->exec("UPDATE user SET lastname =
         $lastname, firstname = $firstname, patronymic =
         $patronymic, login = $login, pass = $pass, gender_id = $user->gender_id, 
-                birthday = $birthday, role_id = $user->role_id,
-                active = $user->active WHERE user_id = $user->user_id") == 1
+                birthday = $birthday, role_id = $user->role_id WHERE user_id = $user->user_id") == 1
         ) {
             return true;
         }
@@ -163,7 +162,7 @@ class UserMap extends BaseMap
             $res = $this->db->query("SELECT user.user_id,
             CONCAT(user.lastname,' ', user.firstname, ' ',user.patronymic) AS fio, 
             user.login, user.birthday, gender.name AS
-            gender, role.name AS role, user.active FROM user INNER JOIN gender ON
+            gender, role.name AS role FROM user INNER JOIN gender ON
             user.gender_id=gender.gender_id 
             INNER JOIN role ON
             user.role_id=role.role_id WHERE user.user_id = $id");
@@ -179,7 +178,7 @@ class UserMap extends BaseMap
             CONCAT(user.lastname,' ', user.firstname, ' ',
             user.patronymic) AS fio,"
                 . " user.login, user.birthday, gender.name AS
-            gender, role.name AS role, user.active FROM user "
+            gender, role.name AS role FROM user "
                 . "INNER JOIN gender ON
             user.gender_id=gender.gender_id INNER JOIN role ON
             user.role_id=role.role_id WHERE user.user_id = $id");

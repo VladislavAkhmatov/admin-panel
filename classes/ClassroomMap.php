@@ -24,10 +24,9 @@ class ClassroomMap extends BaseMap
     private function insert($classroom = Classroom)
     {
         $name = $this->db->quote($classroom->name);
-        $active = $this->db->quote($classroom->active);
         if (
-            $this->db->exec("INSERT INTO classroom(name, branch, active)"
-                . " VALUES($name, {$_SESSION['branch']} ,$active)") == 1
+            $this->db->exec("INSERT INTO classroom(name, branch)"
+                . " VALUES($name, {$_SESSION['branch']} )") == 1
         ) {
             $classroom->classroom_id = $this->db->lastInsertId();
             return true;
@@ -75,7 +74,7 @@ class ClassroomMap extends BaseMap
     public function arrClassrooms()
     {
         $res = $this->db->query("SELECT classroom_id AS id, name AS value, branch AS branch FROM classroom 
-        WHERE active=1 and branch = {$_SESSION['branch']} and deleted = 0");
+        WHERE branch = {$_SESSION['branch']} and deleted = 0");
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 

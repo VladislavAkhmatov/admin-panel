@@ -36,7 +36,6 @@ fa-dashboard"></i> Главная</a></li>
             <div class="box-body">
                 <?php if (!Helper::can('teacher')): ?>
                     <a class="btn btn-success" href="../add/add-student">Добавить ученика</a>
-                    <a class="btn btn-success" href="../add/add-subjectForStudent">Добавить предмет к ученику</a>
                 <?php endif; ?>
             </div>
             <!-- /.box-header -->
@@ -52,7 +51,6 @@ fa-dashboard"></i> Главная</a></li>
                                 <th>Ф.И.О</th>
                                 <th>Дата рождения</th>
                                 <th>Группа</th>
-                                <th>Предмет(ы)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,17 +62,8 @@ fa-dashboard"></i> Главная</a></li>
                                 else:
                                     echo '<td><p href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</p> ' . '</i></a></td>';
                                 endif;
-                                echo '<td>' . $student->birthday . '</td>';
+                                echo '<td>' . Helper::formattedData($student->birthday) . '</td>';
                                 echo '<td>' . $student->gruppa . '</td>';
-                                echo '<td>';
-                                $subjects = (new StudentMap())->findStudentSubjectsByUserId($student->user_id);
-                                $subject_names = array();
-                                foreach ($subjects as $item) {
-                                    $subject_names[] = trim($item->name);
-                                }
-                                $subject = implode(', ', $subject_names);
-                                echo $subject;
-                                echo '</td>';
                                 echo '</tr>';
                             }
                             ?>

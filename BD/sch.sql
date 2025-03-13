@@ -1,9 +1,9 @@
--- phpMyowner SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 5.2.0
--- https://www.phpmyowner.net/
+-- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 11 2025 г., 14:49
+-- Время создания: Мар 13 2025 г., 06:31
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -24,24 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `owner`
+-- Структура таблицы `admin`
 --
 
-CREATE TABLE `owner` (
+CREATE TABLE `admin` (
   `user_id` bigint NOT NULL,
-  `branch_id` int DEFAULT NULL,
-  `deleted` tinyint DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `branch_id` int NOT NULL,
+  `deleted` tinyint NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Дамп данных таблицы `owner`
+-- Дамп данных таблицы `admin`
 --
 
-INSERT INTO `owner` (`user_id`, `branch_id`, `deleted`) VALUES
-(2, 1, 0),
-(15, 1, 0),
-(16, 3, 0),
-(87, 2, 0);
+INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
+(19, 1, 1),
+(93, 3, 1),
+(94, 3, 1),
+(95, 3, 1),
+(97, 1, 1),
+(98, 1, 1),
+(99, 6, 1),
+(101, 2, 1),
+(116, 1, 1),
+(119, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -190,14 +196,14 @@ INSERT INTO `gender` (`gender_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `gradess`
+-- Структура таблицы `grades`
 --
 
-CREATE TABLE `gradess` (
-  `grades_id` int NOT NULL,
+CREATE TABLE `grades` (
+  `grade_id` int NOT NULL,
   `user_id` bigint NOT NULL,
   `subject_id` int NOT NULL,
-  `grades` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` date DEFAULT NULL,
   `attend` tinyint DEFAULT '0',
   `branch_id` int DEFAULT NULL,
@@ -206,11 +212,10 @@ CREATE TABLE `gradess` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `gradess`
+-- Дамп данных таблицы `grades`
 --
 
-INSERT INTO `gradess` (`grades_id`, `user_id`, `subject_id`, `grades`, `date`, `attend`, `branch_id`, `comment`, `homework`) VALUES
-(362, 105, 17, '567', '2024-04-04', 1, 1, '7', NULL),
+INSERT INTO `grades` (`grade_id`, `user_id`, `subject_id`, `grade`, `date`, `attend`, `branch_id`, `comment`, `homework`) VALUES
 (366, 7, 16, '70', '2024-04-04', 1, NULL, '6', NULL),
 (370, 7, 16, '', '2024-04-04', 0, NULL, '', NULL),
 (371, 8, 16, '', '2024-04-04', 0, NULL, '', NULL),
@@ -261,85 +266,6 @@ INSERT INTO `gruppa` (`gruppa_id`, `name`, `date_begin`, `date_end`, `branch`, `
 (7, 'deleted', '2024-03-01', '2024-03-31', 1, 1),
 (8, 'asd', '2024-04-10', '2024-04-17', 1, 1),
 (9, '7T', '2024-04-17', '2024-04-20', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `lesson_num`
---
-
-CREATE TABLE `lesson_num` (
-  `lesson_num_id` int NOT NULL,
-  `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time_lesson` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `lesson_num`
---
-
-INSERT INTO `lesson_num` (`lesson_num_id`, `name`, `time_lesson`) VALUES
-(1, '1 пара', '08:30:00'),
-(2, '2 пара', '10:10:00'),
-(3, '3 пара', '12:20:00'),
-(4, '4 пара', '14:00:00'),
-(5, '5 пара', '15:40:00');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `lesson_plan`
---
-
-CREATE TABLE `lesson_plan` (
-  `lesson_plan_id` int NOT NULL,
-  `gruppa_id` int NOT NULL,
-  `subject_id` int DEFAULT NULL,
-  `user_id` bigint NOT NULL,
-  `deleted` tinyint DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `lesson_plan`
---
-
-INSERT INTO `lesson_plan` (`lesson_plan_id`, `gruppa_id`, `subject_id`, `user_id`, `deleted`) VALUES
-(19, 2, 17, 6, 0),
-(20, 2, 16, 6, 0),
-(21, 3, 18, 6, 0),
-(22, 1, 18, 6, 0),
-(23, 2, 17, 14, 0),
-(24, 2, 17, 108, 0),
-(25, 3, 20, 108, 0),
-(26, 9, 17, 108, 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `admin`
---
-
-CREATE TABLE `admin` (
-  `user_id` bigint NOT NULL,
-  `branch_id` int NOT NULL,
-  `deleted` tinyint NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Дамп данных таблицы `admin`
---
-
-INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
-(19, 1, 1),
-(93, 3, 1),
-(94, 3, 1),
-(95, 3, 1),
-(97, 1, 1),
-(98, 1, 1),
-(99, 6, 1),
-(101, 2, 1),
-(116, 1, 1),
-(119, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -418,6 +344,28 @@ INSERT INTO `otdel` (`otdel_id`, `name`, `active`, `deleted`) VALUES
 (7, 'Творчество', 1, 0),
 (8, 'Спорт', 1, 0),
 (10, 'asd', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `owner`
+--
+
+CREATE TABLE `owner` (
+  `user_id` bigint NOT NULL,
+  `branch_id` int DEFAULT NULL,
+  `deleted` tinyint DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `owner`
+--
+
+INSERT INTO `owner` (`user_id`, `branch_id`, `deleted`) VALUES
+(2, 1, 0),
+(15, 1, 0),
+(16, 3, 0),
+(87, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -601,53 +549,6 @@ CREATE TABLE `schedule` (
   `allowed` tinyint DEFAULT '0',
   `deleted` tinyint DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `schedule`
---
-
-INSERT INTO `schedule` (`schedule_id`, `lesson_plan_id`, `date`, `classroom_id`, `allowed`, `deleted`) VALUES
-(38, 22, '2024-04-11', 5, 1, 1),
-(39, 19, '2024-04-11', 5, 1, 1),
-(40, 20, '2024-04-12', 1, 1, 1),
-(41, 21, '2024-04-18', 5, 1, 1),
-(42, 21, '2024-04-16', 5, 1, 1),
-(43, 19, '2024-04-25', 1, 1, 1),
-(44, 20, '2024-04-21', 5, 1, 1),
-(45, 20, '2024-04-11', 5, 1, 1),
-(46, 22, '2024-04-05', 5, 1, 1),
-(47, 19, '2024-04-10', 1, 1, 1),
-(48, 20, '2024-04-12', 5, 1, 1),
-(49, 23, '2024-04-18', 1, 0, 0),
-(50, 24, '2024-04-03', 5, 0, 0),
-(51, 25, '2024-04-24', 1, 1, 0),
-(52, 26, '2024-04-09', 5, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `special`
---
-
-CREATE TABLE `special` (
-  `special_id` int NOT NULL,
-  `subject_id` int DEFAULT NULL,
-  `time_begin` time DEFAULT NULL,
-  `time_end` time DEFAULT NULL,
-  `branch_id` int DEFAULT NULL,
-  `deleted` tinyint DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `special`
---
-
-INSERT INTO `special` (`special_id`, `subject_id`, `time_begin`, `time_end`, `branch_id`, `deleted`) VALUES
-(16, 3, '12:10:00', '13:10:00', 1, 0),
-(17, 22, '10:20:00', '11:20:00', 1, 0),
-(18, 20, '20:00:00', '21:00:00', 1, 0),
-(19, 33, '08:00:00', '09:00:00', 2, 0),
-(20, 17, '20:35:00', '21:38:00', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -849,7 +750,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `pass`, `gender_id`, `birthday`, `role_id`, `branch_id`, `active`) VALUES
-(2, 'Смит', 'Джон', 'Тимофеевич', 'owner', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
+(2, 'Смит', 'Джон', 'Тимофеевич', '777', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
 (6, 'Ершов', 'Максимилиан', 'Иосифович', 'ershov@local.lz', '$2y$10$.gk1vkRh9pZCK76B7bDPjutN1dDjaqEZ.8Czha/kKan1QAJJvHwBG', 1, '2000-03-12', 4, 1, 0),
 (7, 'Носов', 'Клим', 'Алексеевич', 'klim@local.lz', '$2y$10$MHIEPbXef3BvPy8aD4EoCuSzV2jn1Ah4W6nMRe0aDT15j.m4RJX/q', 1, '2007-05-25', 5, 1, 0),
 (8, 'Шаров', 'Корней', 'Ростиславович', 'sharov', '$2y$10$hosMfj/tIw48P0tYCaQ1IuBwj6UYV9klgDsaVh/t5SxDcgPjAb7WS', 1, '2023-10-01', 5, 1, 1),
@@ -905,18 +806,18 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (116, 'admin12345', 'admin12345', 'admin12345', 'admin12345@mail.ru', '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
 (117, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.ru', '$2y$10$LOsSTvoRhCg3Z35wOEHdEu0gAGE5ITKWGo3uoMW1I3aoauGbL504m', 1, '2024-05-01', 4, 1, 0),
 (118, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.kz', '$2y$10$UqIBrXGgSAWK5rbILrzGyO2pRyXqV4.OOa/ZIZmI9eqPEJ.09jvwG', 1, '2024-04-01', 4, 1, 0),
-(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', 'admin25@local.lo', '$2y$10$wqMZfbzQWSMMIR6oU9awLe/Q1w8yQtbfW.Nfm72MIyIWxRDgBuNWe', 1, '2025-03-03', 3, 1, 0);
+(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', '123', '$2y$10$6aj8Ht2vquaVW1rUjjxN8u3Ls7NIXId7wNA6vij7DGVHjIfvTNhuC', 1, '2025-03-13', 3, 1, 0);
 
 --
 -- Индексы сохранённых таблиц
 --
 
 --
--- Индексы таблицы `owner`
+-- Индексы таблицы `admin`
 --
-ALTER TABLE `owner`
+ALTER TABLE `admin`
   ADD PRIMARY KEY (`user_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Индексы таблицы `attend`
@@ -958,10 +859,10 @@ ALTER TABLE `gender`
   ADD PRIMARY KEY (`gender_id`);
 
 --
--- Индексы таблицы `gradess`
+-- Индексы таблицы `grades`
 --
-ALTER TABLE `gradess`
-  ADD PRIMARY KEY (`grades_id`),
+ALTER TABLE `grades`
+  ADD PRIMARY KEY (`grade_id`),
   ADD KEY `student_id` (`user_id`),
   ADD KEY `subject_id` (`subject_id`),
   ADD KEY `attend` (`attend`),
@@ -973,28 +874,6 @@ ALTER TABLE `gradess`
 ALTER TABLE `gruppa`
   ADD PRIMARY KEY (`gruppa_id`),
   ADD KEY `branch` (`branch`);
-
---
--- Индексы таблицы `lesson_num`
---
-ALTER TABLE `lesson_num`
-  ADD PRIMARY KEY (`lesson_num_id`);
-
---
--- Индексы таблицы `lesson_plan`
---
-ALTER TABLE `lesson_plan`
-  ADD PRIMARY KEY (`lesson_plan_id`),
-  ADD KEY `gruppa_id` (`gruppa_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Индексы таблицы `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Индексы таблицы `notice`
@@ -1010,6 +889,13 @@ ALTER TABLE `notice`
 --
 ALTER TABLE `otdel`
   ADD PRIMARY KEY (`otdel_id`);
+
+--
+-- Индексы таблицы `owner`
+--
+ALTER TABLE `owner`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Индексы таблицы `parent`
@@ -1059,14 +945,6 @@ ALTER TABLE `schedule`
   ADD KEY `classroom_id` (`classroom_id`),
   ADD KEY `day_id` (`date`),
   ADD KEY `lesson_plan_id` (`lesson_plan_id`);
-
---
--- Индексы таблицы `special`
---
-ALTER TABLE `special`
-  ADD PRIMARY KEY (`special_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `branch` (`branch_id`);
 
 --
 -- Индексы таблицы `student`
@@ -1141,28 +1019,16 @@ ALTER TABLE `gender`
   MODIFY `gender_id` tinyint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `gradess`
+-- AUTO_INCREMENT для таблицы `grades`
 --
-ALTER TABLE `gradess`
-  MODIFY `grades_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
+ALTER TABLE `grades`
+  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
 
 --
 -- AUTO_INCREMENT для таблицы `gruppa`
 --
 ALTER TABLE `gruppa`
   MODIFY `gruppa_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT для таблицы `lesson_num`
---
-ALTER TABLE `lesson_num`
-  MODIFY `lesson_num_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT для таблицы `lesson_plan`
---
-ALTER TABLE `lesson_plan`
-  MODIFY `lesson_plan_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT для таблицы `notice`
@@ -1213,12 +1079,6 @@ ALTER TABLE `schedule`
   MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT для таблицы `special`
---
-ALTER TABLE `special`
-  MODIFY `special_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
 -- AUTO_INCREMENT для таблицы `student_subjects`
 --
 ALTER TABLE `student_subjects`
@@ -1241,10 +1101,11 @@ ALTER TABLE `user`
 --
 
 --
--- Ограничения внешнего ключа таблицы `owner`
+-- Ограничения внешнего ключа таблицы `admin`
 --
-ALTER TABLE `owner`
-  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `admin_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `awards`
@@ -1260,13 +1121,13 @@ ALTER TABLE `classroom`
   ADD CONSTRAINT `classroom_ibfk_1` FOREIGN KEY (`branch`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `gradess`
+-- Ограничения внешнего ключа таблицы `grades`
 --
-ALTER TABLE `gradess`
-  ADD CONSTRAINT `gradess_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `gradess_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `gradess_ibfk_3` FOREIGN KEY (`attend`) REFERENCES `attend` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `gradess_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `grades`
+  ADD CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `grades_ibfk_3` FOREIGN KEY (`attend`) REFERENCES `attend` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `gruppa`
@@ -1275,27 +1136,18 @@ ALTER TABLE `gruppa`
   ADD CONSTRAINT `gruppa_ibfk_2` FOREIGN KEY (`branch`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `lesson_plan`
---
-ALTER TABLE `lesson_plan`
-  ADD CONSTRAINT `lesson_plan_ibfk_1` FOREIGN KEY (`gruppa_id`) REFERENCES `gruppa` (`gruppa_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `lesson_plan_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `teacher` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `lesson_plan_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `special` (`special_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `admin_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
 -- Ограничения внешнего ключа таблицы `notice`
 --
 ALTER TABLE `notice`
   ADD CONSTRAINT `notice_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `notice_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `notice_ibfk_3` FOREIGN KEY (`child_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `owner`
+--
+ALTER TABLE `owner`
+  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `parent`
@@ -1331,15 +1183,7 @@ ALTER TABLE `reference`
 -- Ограничения внешнего ключа таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `classroom` (`classroom_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `schedule_ibfk_3` FOREIGN KEY (`lesson_plan_id`) REFERENCES `lesson_plan` (`lesson_plan_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `special`
---
-ALTER TABLE `special`
-  ADD CONSTRAINT `special_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `special_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `classroom` (`classroom_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `student`
