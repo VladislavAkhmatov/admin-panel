@@ -303,11 +303,9 @@ class ProcreatorMap extends BaseMap
 
     public function listParentAndChild()
     {
-        $query = "SELECT user.user_id, parent.child_id, branch.id as branch_id, subject.subject_id, subject.name, subject.branch as branch_id FROM parent
+        $query = "SELECT user.user_id, parent.child_id, branch.id as branch_id FROM parent
         INNER JOIN user ON user.user_id = parent.user_id
         INNER JOIN branch ON user.branch_id = branch.id
-        INNER JOIN student_subjects ON student_subjects.user_id = parent.child_id
-        INNER JOIN subject ON student_subjects.subject_id = subject.subject_id
         WHERE parent.deleted = 0 AND parent.child_id IS NOT NULL";
         $res = $this->db->prepare($query);
         $res->execute();

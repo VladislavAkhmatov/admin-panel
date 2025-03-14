@@ -4,27 +4,34 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
-if (isset($_POST['lesson_plan_id'])) {
-    $schedule = new Schedule();
-    $schedule->lesson_plan_id = Helper::clearInt($_POST['lesson_plan_id']);
-    $schedule->date = $_POST['date'];
-    $schedule->classroom_id = Helper::clearInt($_POST['classroom_id']);
-    $userId = Helper::clearInt($_POST['user_id']);
-    $scheduleMap = new ScheduleMap();
-    if ($schedule->validate()) {
-        if ($scheduleMap->save($schedule)) {
-            header("Location: ../list/list-schedule?id=$userId&message=ok");
-        } else {
-            Helper::setFlash('Не удалось сохранить
-расписание.');
-            header("Location: ../add/add-schedule?idUser=$userId");
-        }
-    } else {
-        Helper::setFlash('Такое расписание для
-преподавателя или группы уже существует.');
-        header("Location: ../add/add-schedule?idUser=$userId");
-    }
-} else {
-    header('Location: 404');
-}
 
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'])) {
+        // Здесь можно добавить логику для получения данных календаря из базы данных
+        // и возвращения их в формате JSON
+
+        // Пример данных календаря
+        $events = [
+            [
+                'title' => 'Событие 1',
+                'start' => '2023-10-01T10:00:00',
+                'end' => '2023-10-01T12:00:00'
+            ],
+            [
+                'title' => 'Событие 2',
+                'start' => '2023-10-15T14:00:00',
+                'end' => '2023-10-15T16:00:00'
+            ]
+        ];
+        echo json_encode($events);
+    } elseif (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['day'], $input['time'])) {
+        // Здесь можно добавить логику для сохранения данных в базу данных
+
+        $success = true; // Пример успешного сохранения
+        echo json_encode(['success' => $success]);
+    }
+}
+?>

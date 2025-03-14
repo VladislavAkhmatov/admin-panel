@@ -6,83 +6,155 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     exit();
 }
 require_once '../template/header.php';
-$size = 5;
-if (isset($_GET['page'])) {
-    $page = Helper::clearInt($_GET['page']);
-} else {
-    $page = 1;
-}
-$count = (new TeacherMap())->count();
-$teachers = (new LessonPlanMap())->findTeachers($page * $size - $size, $size);
 ?>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <section class="content-header">
-                <h3>
-                    <b>
-                        <?= $header; ?>
-                    </b>
-                </h3>
-                <ol class="breadcrumb">
-                    <li><a href="../index"><i class="fafa-dashboard"></i> Главная</a></li>
-                    <li class="active">
-                        <?= $header; ?>
-                    </li>
-                </ol>
-            </section>
-            <?php if ($teachers): ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <section class="content-header">
+                    <h3><b><?= $header; ?></b></h3>
+                    <ol class="breadcrumb">
+                        <li><a href="../index"><i class="fa fa-dashboard"></i> Главная</a></li>
+                        <li class="active"><?= $header; ?></li>
+                    </ol>
+                </section>
                 <div class="box-body">
-
-                    <table class="table table-bordered table-hover">
-
-                        <thead>
-                            <tr>
-                                <th>Ф.И.О. преподавателя</th>
-                                <th>Предмет</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <?php foreach ($teachers as $teacher): ?>
-                                <tr>
-                                    <td>
-                                        <?= $teacher->fio; ?>
-                                    </td>
-
-                                    <td>
-                                        <?= $teacher->count_plan; ?>
-                                    </td>
-
-                                    <td>
-
-                                        <a href="list-plan?id=<?= $teacher->user_id; ?>" title="План
-
-преподавателя"><i class="fa fa-table"></i></a>&nbsp;
-
-                                        <a href="list-schedule?id=<?= $teacher->user_id; ?>" title="Расписание преподавателя"><i
-                                                class="fa fa-calendar-plus-o"></i></a>
-
-                                    </td>
-                                </tr>
-
-                            <?php endforeach; ?>
-
-                        </tbody>
-                    </table>
+                    <form id="filterForm">
+                        <div class="form-group">
+                            <label for="group">Группа</label>
+                            <select class="form-control" id="group" name="group">
+                                <?= Helper::printSelectOptions(0, (new GruppaMap())->arrGruppas()) ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Предмет</label>
+                            <select class="form-control" id="subject" name="subject">
+                                <?= Helper::printSelectOptions(0, (new SubjectMap())->arrSubjects()) ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher">Преподаватель</label>
+                            <select class="form-control" id="teacher" name="teacher">
+                                <?= Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="month">Месяц</label>
+                            <input class="form-control" type="month" id="month" name="month">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Показать календарь</button>
+                    </form>
                 </div>
                 <div class="box-body">
-                    <?php Helper::paginator($count, $page, $size); ?>
+                    <div id="calendar"></div>
                 </div>
-            <?php else: ?>
-                <div class="box-body">
-                    <p>Преподаватели не найдены</p>
-                </div>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        document.getElementById('filterForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const group = document.getElementById('group').value;
+            const subject = document.getElementById('subject').value;
+            const teacher = document.getElementById('teacher').value;
+            const month = document.getElementById('month').value; // Выбранный месяц (формат YYYY-MM)
+
+            fetch('../save/save-schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ group, subject, teacher, month })
+            })
+                .then(response => response.json())
+                .then(eventsData => {
+                    const calendarEl = document.getElementById('calendar');
+                    const calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        initialDate: month + '-01', // Устанавливаем начальную дату календаря
+                        events: eventsData,
+                        dateClick: function (info) {
+                            // Парсим дату и сравниваем с выбранным месяцем
+                            let clickedDate = new Date(info.dateStr);
+                            let selectedMonth = new Date(`${month}-01`); // Приводим месяц из формы к формату YYYY-MM-01
+
+                            if (
+                                clickedDate.getFullYear() !== selectedMonth.getFullYear() ||
+                                clickedDate.getMonth() !== selectedMonth.getMonth()
+                            ) {
+                                alert('Выбранная дата не соответствует указанному месяцу!');
+                                return;
+                            }
+
+                            // Удаляем старые input, если есть
+                            document.querySelectorAll('.time-input').forEach(el => el.remove());
+
+                            let cell = document.querySelector(`[data-date="${info.dateStr}"]`);
+                            if (!cell) return;
+
+                            let input = document.createElement('input');
+                            input.type = 'time';
+                            input.classList.add('time-input');
+                            input.style.position = 'absolute';
+                            input.style.zIndex = '1000';
+                            input.style.width = '80px';
+                            input.style.background = 'white';
+                            input.style.border = '1px solid #ccc';
+                            input.style.padding = '2px';
+                            input.style.marginTop = '5px';
+
+                            // Определяем позицию инпута внутри ячейки
+                            let rect = cell.getBoundingClientRect();
+                            input.style.left = `${rect.left + window.scrollX + 5}px`;
+                            input.style.top = `${rect.top + window.scrollY + 5}px`;
+
+                            document.body.appendChild(input);
+                            input.focus();
+
+                            input.addEventListener('change', function () {
+                                fetch('../save/save-schedule.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        group,
+                                        subject,
+                                        teacher,
+                                        month,
+                                        day: info.dateStr,
+                                        time: input.value
+                                    })
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert('Данные успешно сохранены!');
+                                            calendar.refetchEvents();
+                                        } else {
+                                            alert('Ошибка при сохранении данных!');
+                                        }
+                                    });
+
+                                input.remove();
+                            });
+
+                            // Закрываем input, если кликнули вне него
+                            document.addEventListener('click', function outsideClick(e) {
+                                if (!input.contains(e.target)) {
+                                    input.remove();
+                                    document.removeEventListener('click', outsideClick);
+                                }
+                            });
+                        }
+                    });
+
+                    calendar.render();
+                });
+        });
+    </script>
+
 <?php
 require_once '../template/footer.php';
 ?>
