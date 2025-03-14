@@ -10,7 +10,6 @@ if (isset($_POST['saveChildParent'])) {
     $parent->child_id = Helper::clearInt($_POST['child_id']);
     $parentMap = new ProcreatorMap();
     if ($parentMap->saveChild($parent)) {
-
         header('Location: ../list/list-parent');
     } else {
         header('Location: ../add/add-child-parent');

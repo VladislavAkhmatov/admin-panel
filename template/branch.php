@@ -44,13 +44,12 @@ $branch = (new UserMap())->arrBranchs();
                 <img src="../img/logo.png" alt="">
             </div>
             <div class="login-box-body">
-
                 <p class="login-box-msg">
                     <?= $message = isset ($_GET['message']) ? Helper::getQuery($_GET['message']) : 'Выберите филиал'; ?>
                 </p>
                 <form action="../auth" method="post">
                     <div class="form-group has-feedback">
-                        <div style="text-align: center; class=" input-group">
+                        <div style="text-align: center; class="input-group">
                             <select class="form-control" name="branch">
                                 <?= Helper::printSelectOptionsByIdAndValue($branch) ?>
                             </select>

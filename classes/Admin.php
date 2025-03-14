@@ -1,5 +1,5 @@
 <?php
-class admin extends Table
+class Admin extends Table
 {
     public $user_id = 0;
     public $branch_id = 0;
@@ -7,9 +7,6 @@ class admin extends Table
 
     function validate()
     {
-        if (!empty($this->branch_id)) {
-            return true;
-        }
-        return false;
+        return true;
     }
 }

@@ -15,20 +15,18 @@ class AdminMap extends BaseMap
 
     }
 
-    public function save($user = User, $admin = admin)
+    public function save($user = User, $admin = Admin)
     {
-        if ($user->validate() && (new UserMap())->save($user)) {
-            if ($admin->user_id == 0) {
-                $admin->user_id = $user->user_id;
-                return $this->insert($admin);
-            } else {
-                return $this->update($admin);
-            }
+        if ($admin->user_id == 0  && (new UserMap())->save($user)) {
+            $admin->user_id = $user->user_id;
+            return $this->insert($admin);
+        } else {
+            return $this->update($admin);
         }
         return false;
     }
 
-    private function insert($admin = admin)
+    private function insert($admin = Admin)
     {
         if (
             $this->db->exec("INSERT INTO admin(user_id, branch_id) 
@@ -38,6 +36,7 @@ class AdminMap extends BaseMap
         }
         return false;
     }
+
     public function insertNotice($admin = admin)
     {
 
@@ -59,6 +58,7 @@ class AdminMap extends BaseMap
             return true;
         return false;
     }
+
     private function update($admin = admin)
     {
         if (
@@ -71,6 +71,7 @@ class AdminMap extends BaseMap
         }
         return false;
     }
+
     public function findAll($ofset = 0, $limit = 30)
     {
         $res = $this->db->query("SELECT user.user_id,  CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, role.name AS role, branch.id AS branch, branch.branch AS branch_name FROM user 
@@ -82,6 +83,7 @@ class AdminMap extends BaseMap
             LIMIT $ofset, $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function count()
     {
         $res = $this->db->query("SELECT COUNT(*) AS cnt FROM admin 
@@ -89,6 +91,7 @@ class AdminMap extends BaseMap
         WHERE admin.branch_id = {$_SESSION['branch']} AND admin.deleted = 0");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function findProfileById($id = null)
     {
         if ($id) {

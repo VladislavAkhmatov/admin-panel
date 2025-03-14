@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 13 2025 г., 06:31
+-- Время создания: Мар 14 2025 г., 18:47
 -- Версия сервера: 8.0.30
--- Версия PHP: 7.2.34
+-- Версия PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,7 +47,9 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (99, 6, 1),
 (101, 2, 1),
 (116, 1, 1),
-(119, 1, 0);
+(119, 1, 0),
+(121, 1, 0),
+(123, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,8 @@ INSERT INTO `awards` (`id`, `user_id`, `subject_id`, `award`) VALUES
 (23, 111, 17, 'asdasd'),
 (24, 113, 3, 'asd'),
 (25, 117, 18, '123'),
-(26, 118, NULL, NULL);
+(26, 118, NULL, NULL),
+(27, 124, 17, '3');
 
 -- --------------------------------------------------------
 
@@ -123,7 +126,8 @@ INSERT INTO `branch` (`id`, `branch`, `date_founding`, `deleted`) VALUES
 (5, 'Саина', '2024-03-01', 0),
 (6, 'АЛМА СИТИ', '2024-03-01', 0),
 (999, 'Для администратора', '2024-02-04', 0),
-(1001, 'test', '2024-03-17', 0);
+(1001, 'test', '2024-03-17', 0),
+(1002, 'test2', '2025-03-14', 0);
 
 -- --------------------------------------------------------
 
@@ -401,7 +405,11 @@ INSERT INTO `parent` (`id`, `user_id`, `child_id`, `deleted`) VALUES
 (31, 106, 105, 0),
 (33, 114, NULL, 0),
 (35, 115, NULL, 1),
-(36, 114, 105, 0);
+(36, 114, 105, 0),
+(37, 125, NULL, 0),
+(38, 10, 126, 0),
+(39, 10, 126, 0),
+(40, 125, 126, 0);
 
 -- --------------------------------------------------------
 
@@ -529,8 +537,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`role_id`, `sys_name`, `name`, `active`) VALUES
-(2, 'owner', 'Администратор', 1),
-(3, 'admin', 'Менеджер', 1),
+(2, 'owner', 'Владелец', 1),
+(3, 'admin', 'Администратор', 1),
 (4, 'teacher', 'Преподаватель', 1),
 (5, 'student', 'Студент', 1),
 (6, 'procreator', 'Родитель', 1);
@@ -578,7 +586,9 @@ INSERT INTO `student` (`user_id`, `gruppa_id`, `reference`, `num_zach`, `deleted
 (84, 3, NULL, '0', 1),
 (86, 4, NULL, '0', 0),
 (103, 4, NULL, '0', 0),
-(105, 9, NULL, '0', 0);
+(105, 9, NULL, '0', 0),
+(122, 3, NULL, '0', 0),
+(126, 3, NULL, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -723,7 +733,8 @@ INSERT INTO `teacher` (`user_id`, `deleted`) VALUES
 (111, 1),
 (113, 1),
 (117, 0),
-(118, 0);
+(118, 0),
+(124, 0);
 
 -- --------------------------------------------------------
 
@@ -806,7 +817,14 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (116, 'admin12345', 'admin12345', 'admin12345', 'admin12345@mail.ru', '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
 (117, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.ru', '$2y$10$LOsSTvoRhCg3Z35wOEHdEu0gAGE5ITKWGo3uoMW1I3aoauGbL504m', 1, '2024-05-01', 4, 1, 0),
 (118, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.kz', '$2y$10$UqIBrXGgSAWK5rbILrzGyO2pRyXqV4.OOa/ZIZmI9eqPEJ.09jvwG', 1, '2024-04-01', 4, 1, 0),
-(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', '123', '$2y$10$6aj8Ht2vquaVW1rUjjxN8u3Ls7NIXId7wNA6vij7DGVHjIfvTNhuC', 1, '2025-03-13', 3, 1, 0);
+(119, 'odjfhgudfhgdf', 'kfjgdifigfdjg', 'dfl;gdklfjgdfkljg', '123', '$2y$10$D5o8X/5IBOlmdQ3SXFOzfuYFyHVBSLw12YzZQxr0UbOEor.gv4by2', 1, '2025-03-14', 3, 1, 0),
+(120, 'asdasd', 'asdasd', 'asdasd', '123123', '123', 1, '2222-02-11', 3, 1, 1),
+(121, 'asdsadasd', 'asdasdsadas', 'asdsadasdasd', '123123123', '$2y$10$DG.6WlIjCmhWzt2X0uIf3.SUDhp8G1q3yJPEcjRHW5vmZ7TphR5/2', 1, '2025-03-27', 3, 1, 1),
+(122, 'asdsadsad', 'asdasd', 'asdasdasd', '123123123', '$2y$10$3F/h3i6tU5BZQhq.liIc3uIVz5F2d/LV5i/7AR/TROpBZcnsT5rJG', 1, '2025-02-24', 5, 1, 1),
+(123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (АДМИН)', '999', '$2y$10$H0HVUFchqwC6LP2TDZSbme2xp.j83MGHertcvbMAAc.GADpe80cVu', 1, '2025-02-23', 3, 1, 1),
+(124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$4F5kynnCDVTOZUXootAISevq54RFPhLU7CxpZivc4sX4qWgC2FLzm', 1, '2025-03-02', 4, 1, 1),
+(125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
+(126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -992,13 +1010,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `awards`
 --
 ALTER TABLE `awards`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT для таблицы `branch`
 --
 ALTER TABLE `branch`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1002;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
 
 --
 -- AUTO_INCREMENT для таблицы `classroom`
@@ -1046,7 +1064,7 @@ ALTER TABLE `otdel`
 -- AUTO_INCREMENT для таблицы `parent`
 --
 ALTER TABLE `parent`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT для таблицы `payment`
@@ -1094,7 +1112,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

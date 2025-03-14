@@ -209,52 +209,6 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
 </body>
 
 <?php
-if (Helper::can('teacher')) {
-
-
-    $userIdentity = (new UserMap())->identity($_SESSION['id']);
-    $user = ((new TeacherMap())->findById($_SESSION['id']));
-    if ($userIdentity == UserMap::TEACHER) {
-        $schedules = (new ScheduleMap())->findByTeacherId($_SESSION['id']);
-    } elseif ($userIdentity == UserMap::STUDENT) {
-        $schedules = null;
-    }
-    require_once 'template/header.php';
-    ?>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <section class="content-header">
-                    <h3><b>
-                            Добро пожаловать:
-                            <?= $user->fio ?>
-                        </b></h3>
-                </section>
-
-
-                <section class="content-header">
-                    <h3><b>
-                            <a class="btn btn-primary" href="check/check-classes">Журнал</a>
-                        </b></h3>
-                </section>
-                <section class="content-header">
-                    <form action="/check/check-replacement">
-                        <h3><b>
-                                <a class="btn btn-primary" href="check/check-replacement">Замена</a>
-                            </b></h3>
-                    </form>
-                </section>
-                <section class="content-header">
-                    <h3><b>
-                            <?= $header ?>
-                        </b></h3>
-                </section>
-            </div>
-        </div>
-    </div>
-    <?php
-}
 if (Helper::can('procreator')) {
     require_once 'secure.php';
     if (!Helper::can('procreator')) {
@@ -296,8 +250,6 @@ if (Helper::can('procreator')) {
                                 <thead>
                                     <tr>
                                         <th>Ф.И.О</th>
-                                        <th></th>
-                                        <th>Действие</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -305,7 +257,6 @@ if (Helper::can('procreator')) {
                                     foreach ($student as $student) {
                                         echo '<tr>';
                                         echo '<td><a href="profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '</td>';
-                                        echo '<td><a class="btn btn-primary" href="add/add-reference?id=' . $student->user_id . '">Добавить справку</a> ' . '</td>';
                                         echo '</tr>';
                                     }
                                     ?>

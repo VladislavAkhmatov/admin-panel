@@ -16,8 +16,6 @@ if (isset($_POST['user_id'])) {
     $user->gender_id = Helper::clearInt($_POST['gender_id']);
     $user->branch_id = $_SESSION['branch'];
 
-
-
     if (isset($_POST['saveTeacher'])) {
         $teacher = new Teacher();
         $teacher->user_id = $user->user_id;
@@ -102,27 +100,25 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-owner?id=' . $owner->user_id);
 
             } else {
-                header('Location: ../profile/profile-owner');
+                header('Location: ../profile/profile-owner?q=err');
             }
         }
         exit();
     }
 
     if (isset($_POST['saveadmin'])) {
-        $admin = new admin();
+        $admin = new Admin();
         $admin->branch_id = Helper::clearInt($_SESSION['branch']);
         $admin->user_id = $user->user_id;
         $user->role_id = Helper::clearInt(3);
         if ((new AdminMap())->save($user, $admin)) {
             header('Location: ../profile/profile-admin?id=' . $admin->user_id);
-
         } else {
             if ($admin->user_id) {
-
                 header('Location: ../profile/profile-admin?id=' . $admin->user_id);
 
             } else {
-                header('Location: ../profile/profile-admin');
+                header('Location: ../profile/profile-admin?q=err');
             }
         }
         exit();

@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('owner') && !Helper::can('admin')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('procreator')) {
     header('Location: 404');
     exit();
 }
@@ -82,15 +82,6 @@ fa-dashboard"></i> Главная</a></li>
 
                 </table>
             </div>
-            <?php
-            if (Helper::can('procreator')) {
-                ?>
-                <div class="box-body">
-                    <a href="../add/add-avatar?id=<?= $id ?>" class="btn btn-primary">Изменить фото</a>
-                </div>
-                <?php
-            }
-            ?>
         </div>
     </div>
 </div>

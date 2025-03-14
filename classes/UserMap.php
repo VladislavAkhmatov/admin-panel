@@ -80,20 +80,18 @@ class UserMap extends BaseMap
 
     private function insert($user = User)
     {
-        $owner = new owner();
         $lastname = $this->db->quote($user->lastname);
         $firstname = $this->db->quote($user->firstname);
         $patronymic = $this->db->quote($user->patronymic);
         $login = $this->db->quote($user->login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
-        if ($this->existsLogin($login)) {
             if ($_SESSION['branch'] != 999) {
                 if (
                     $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
             role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
-            $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, 
+            $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id
             )") == 1
                 ) {
                     $user->user_id = $this->db->lastInsertId();
@@ -113,7 +111,6 @@ class UserMap extends BaseMap
                 }
                 return false;
             }
-        }
         return false;
     }
 
