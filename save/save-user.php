@@ -25,14 +25,10 @@ if (isset($_POST['user_id'])) {
         }
         $user->role_id = Helper::clearInt(4);
         if ((new TeacherMap())->save($user, $teacher)) {
-
             header('Location: ../profile/profile-teacher?id=' . $teacher->user_id);
-
         } else {
             if ($teacher->user_id) {
-
                 header('Location: ../profile/profile-teacher?id=' . $teacher->user_id);
-
             } else {
                 header('Location: ../profile/profile-teacher');
             }

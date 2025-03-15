@@ -1,4 +1,5 @@
 <?php
+
 class ScheduleMap extends BaseMap
 {
     public function existsScheduleByLessonPlanId($idPlan)
@@ -10,6 +11,7 @@ class ScheduleMap extends BaseMap
         }
         return false;
     }
+
     public function findDayById($id = null)
     {
         if ($id) {
@@ -40,11 +42,13 @@ class ScheduleMap extends BaseMap
         }
         return $result;
     }
+
     public function findDays()
     {
         $res = $this->db->query("SELECT day_id, name FROM day");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function existsScheduleTeacherAndGruppa($schedule = Schedule)
     {
         $plan = (new LessonPlanMap())->findById($schedule->lesson_plan_id);
@@ -59,16 +63,24 @@ class ScheduleMap extends BaseMap
         }
         return false;
     }
-    public function save($schedule = Schedule)
+
+    public function save($group_id, $subject_id, $teacher_id, $day, $time, $classroom)
     {
-        if (
-            $this->db->exec("INSERT INTO schedule(lesson_plan_id,
-        date,  classroom_id) VALUES($schedule->lesson_plan_id, '$schedule->date', 
-        $schedule->classroom_id)") == 1
-        ) {
+        $stmt = $this->db->prepare("INSERT INTO schedule (group_id, subject_id, teacher_id, date, time, classroom_id) 
+        VALUES (:group, :subject, :teacher, :date, :time, :classroom)");
+
+        $stmt->bindParam(':group', $group_id);
+        $stmt->bindParam(':subject', $subject_id);
+        $stmt->bindParam(':teacher', $teacher_id);
+        $stmt->bindParam(':date', $day);
+        $stmt->bindParam(':time', $time, PDO::PARAM_STR);
+        $stmt->bindParam(':classroom', $classroom);
+
+        if ($stmt->execute()) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
 
@@ -85,6 +97,7 @@ class ScheduleMap extends BaseMap
         ");
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function findGruppaByStudentId($id)
     {
         $res = $this->db->query("SELECT gruppa.gruppa_id, gruppa.name 
@@ -93,7 +106,6 @@ class ScheduleMap extends BaseMap
             WHERE student.user_id = $id ");
         return $res->fetch(PDO::FETCH_ASSOC);
     }
-
 
 
     public function findGruppasByDayTeacher($teacherId)
@@ -108,7 +120,6 @@ class ScheduleMap extends BaseMap
          ORDER BY gruppa.name");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
-
 
 
     public function findByGruppasDayTeacher($teacherId, $gruppaId)
@@ -139,7 +150,6 @@ class ScheduleMap extends BaseMap
         }
         return false;
     }
-
 
 
     public function findByTeacher($teacherId)
@@ -175,6 +185,7 @@ class ScheduleMap extends BaseMap
         );
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function studentCount($gruppa_id)
     {
         $query = "SELECT COUNT(student.user_id) as count FROM student
@@ -246,6 +257,7 @@ class ScheduleMap extends BaseMap
         ]);
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function findByDayTeacher($teacherId, $date)
     {
         $res = $this->db->query(
@@ -274,6 +286,7 @@ class ScheduleMap extends BaseMap
         );
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function updatePlan($schedule_id, $lesson_plan_id)
     {
         $query = "UPDATE schedule SET deleted = 1 WHERE schedule_id = :schedule_id";

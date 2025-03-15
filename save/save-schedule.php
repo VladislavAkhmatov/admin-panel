@@ -6,32 +6,34 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
 }
 
 header('Content-Type: application/json');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true);
-    if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'])) {
-        // Здесь можно добавить логику для получения данных календаря из базы данных
-        // и возвращения их в формате JSON
+    $rawData = file_get_contents('php://input');
+    $input = json_decode($rawData, true);
+    if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['classroom']) && !isset($input['day'], $input['time'])) {
+        // Это запрос на получение событий
 
-        // Пример данных календаря
-        $events = [
-            [
-                'title' => 'Событие 1',
-                'start' => '2023-10-01T10:00:00',
-                'end' => '2023-10-01T12:00:00'
-            ],
-            [
-                'title' => 'Событие 2',
-                'start' => '2023-10-15T14:00:00',
-                'end' => '2023-10-15T16:00:00'
-            ]
-        ];
+        $events = [];
         echo json_encode($events);
-    } elseif (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['day'], $input['time'])) {
-        // Здесь можно добавить логику для сохранения данных в базу данных
+    } elseif (!empty($input['group']) && !empty($input['subject']) && !empty($input['teacher']) && !empty($input['month'] && !empty($input['classroom'])) && !empty($input['day']) && !empty($input['time'])) {
+        // Это запрос на сохранение
+        $group_id = $input['group'];
+        $subject_id = $input['subject'];
+        $teacher_id = $input['teacher'];
+        $day = $input['day'];
+        $time = $input['time'];
+        $classroom = $input['classroom'];
 
-        $success = true; // Пример успешного сохранения
-        echo json_encode(['success' => $success]);
+
+        $schedule = new ScheduleMap();
+        if ($schedule->save($group_id, $subject_id, $teacher_id, $day, $time, $classroom)) {
+            echo json_encode(['success' => true, 'input' => $input]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Не удалось сохранить данные']);
+        }
     }
 }
 ?>

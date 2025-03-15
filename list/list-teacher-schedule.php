@@ -38,6 +38,12 @@ require_once '../template/header.php';
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="teacher">Аудитория</label>
+                            <select class="form-control" id="classroom" name="classroom">
+                                <?= Helper::printSelectOptions(0, (new ClassroomMap())->arrClassrooms()) ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="month">Месяц</label>
                             <input class="form-control" type="month" id="month" name="month">
                         </div>
@@ -58,22 +64,25 @@ require_once '../template/header.php';
             const group = document.getElementById('group').value;
             const subject = document.getElementById('subject').value;
             const teacher = document.getElementById('teacher').value;
-            const month = document.getElementById('month').value; // Выбранный месяц (формат YYYY-MM)
+            const month = document.getElementById('month').value;
+            const classroom = document.getElementById('classroom').value;
 
-            fetch('../save/save-schedule', {
+            fetch('../save/save-schedule.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ group, subject, teacher, month })
+                body: JSON.stringify({ group, subject, teacher, month, classroom })
             })
                 .then(response => response.json())
                 .then(eventsData => {
                     const calendarEl = document.getElementById('calendar');
                     const calendar = new FullCalendar.Calendar(calendarEl, {
+
                         initialView: 'dayGridMonth',
                         initialDate: month + '-01', // Устанавливаем начальную дату календаря
                         events: eventsData,
+
                         dateClick: function (info) {
                             // Парсим дату и сравниваем с выбранным месяцем
                             let clickedDate = new Date(info.dateStr);
@@ -113,6 +122,9 @@ require_once '../template/header.php';
                             input.focus();
 
                             input.addEventListener('change', function () {
+                                console.log("Отправка данных:", JSON.stringify({
+                                    group, subject, teacher, month, classroom, day: info.dateStr, time: input.value
+                                }));
                                 fetch('../save/save-schedule.php', {
                                     method: 'POST',
                                     headers: {
@@ -123,6 +135,7 @@ require_once '../template/header.php';
                                         subject,
                                         teacher,
                                         month,
+                                        classroom,
                                         day: info.dateStr,
                                         time: input.value
                                     })
@@ -133,6 +146,7 @@ require_once '../template/header.php';
                                             alert('Данные успешно сохранены!');
                                             calendar.refetchEvents();
                                         } else {
+                                            console.log(data)
                                             alert('Ошибка при сохранении данных!');
                                         }
                                     });
@@ -151,7 +165,7 @@ require_once '../template/header.php';
                     });
 
                     calendar.render();
-                });
+                }).catch(error => console.error("Ошибка при получении данных:", error));
         });
     </script>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 14 2025 г., 18:47
+-- Время создания: Мар 15 2025 г., 14:47
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -551,12 +551,25 @@ INSERT INTO `role` (`role_id`, `sys_name`, `name`, `active`) VALUES
 
 CREATE TABLE `schedule` (
   `schedule_id` int NOT NULL,
-  `lesson_plan_id` int NOT NULL,
-  `date` date DEFAULT NULL,
-  `classroom_id` int NOT NULL,
-  `allowed` tinyint DEFAULT '0',
+  `group_id` int NOT NULL,
+  `subject_id` int NOT NULL,
+  `teacher_id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `classroom_id` int DEFAULT NULL,
   `deleted` tinyint DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `schedule`
+--
+
+INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `date`, `time`, `classroom_id`, `deleted`) VALUES
+(55, 1, 3, 6, '2025-03-18', '15:48', 1, 0),
+(56, 1, 3, 6, '2025-03-04', '15:48', 1, 0),
+(57, 1, 3, 14, '2025-03-11', '15:49', 1, 0),
+(58, 1, 3, 6, '2025-03-11', '15:50', 1, 0),
+(59, 1, 3, 124, '2025-03-03', '15:50', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -821,7 +834,7 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (120, 'asdasd', 'asdasd', 'asdasd', '123123', '123', 1, '2222-02-11', 3, 1, 1),
 (121, 'asdsadasd', 'asdasdsadas', 'asdsadasdasd', '123123123', '$2y$10$DG.6WlIjCmhWzt2X0uIf3.SUDhp8G1q3yJPEcjRHW5vmZ7TphR5/2', 1, '2025-03-27', 3, 1, 1),
 (122, 'asdsadsad', 'asdasd', 'asdasdasd', '123123123', '$2y$10$3F/h3i6tU5BZQhq.liIc3uIVz5F2d/LV5i/7AR/TROpBZcnsT5rJG', 1, '2025-02-24', 5, 1, 1),
-(123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (АДМИН)', '999', '$2y$10$H0HVUFchqwC6LP2TDZSbme2xp.j83MGHertcvbMAAc.GADpe80cVu', 1, '2025-02-23', 3, 1, 1),
+(123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА', '999', '$2y$10$W0kthoseijxJABtHTf9rn.tRJsAlV7SJH1WRyeq5AiBO9srVroLse', 1, '2025-03-15', 3, 1, 1),
 (124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$4F5kynnCDVTOZUXootAISevq54RFPhLU7CxpZivc4sX4qWgC2FLzm', 1, '2025-03-02', 4, 1, 1),
 (125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
 (126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1);
@@ -962,7 +975,9 @@ ALTER TABLE `schedule`
   ADD PRIMARY KEY (`schedule_id`),
   ADD KEY `classroom_id` (`classroom_id`),
   ADD KEY `day_id` (`date`),
-  ADD KEY `lesson_plan_id` (`lesson_plan_id`);
+  ADD KEY `group_id` (`group_id`),
+  ADD KEY `subject_id` (`subject_id`),
+  ADD KEY `teacher_id` (`teacher_id`);
 
 --
 -- Индексы таблицы `student`
@@ -1094,7 +1109,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT для таблицы `student_subjects`
@@ -1201,7 +1216,10 @@ ALTER TABLE `reference`
 -- Ограничения внешнего ключа таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `classroom` (`classroom_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `classroom` (`classroom_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `schedule_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `gruppa` (`gruppa_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `schedule_ibfk_3` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `schedule_ibfk_4` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `student`
