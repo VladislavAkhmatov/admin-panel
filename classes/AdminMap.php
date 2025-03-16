@@ -31,8 +31,8 @@ class AdminMap extends BaseMap
     private function insert($admin = Admin)
     {
         if (
-            $this->db->exec("INSERT INTO admin(user_id) 
-            VALUES($admin->user_id)") == 1
+            $this->db->exec("INSERT INTO admin(user_id, branch_id) 
+            VALUES($admin->user_id, $admin->branch_id)") == 1
         ) {
             return true;
         }

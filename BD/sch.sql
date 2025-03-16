@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 15 2025 г., 14:47
+-- Время создания: Мар 16 2025 г., 05:36
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -49,7 +49,8 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (116, 1, 1),
 (119, 1, 0),
 (121, 1, 0),
-(123, 1, 0);
+(123, 1, 0),
+(129, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -601,7 +602,8 @@ INSERT INTO `student` (`user_id`, `gruppa_id`, `reference`, `num_zach`, `deleted
 (103, 4, NULL, '0', 0),
 (105, 9, NULL, '0', 0),
 (122, 3, NULL, '0', 0),
-(126, 3, NULL, '0', 0);
+(126, 3, NULL, '0', 0),
+(128, 2, NULL, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -837,7 +839,10 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА', '999', '$2y$10$W0kthoseijxJABtHTf9rn.tRJsAlV7SJH1WRyeq5AiBO9srVroLse', 1, '2025-03-15', 3, 1, 1),
 (124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$4F5kynnCDVTOZUXootAISevq54RFPhLU7CxpZivc4sX4qWgC2FLzm', 1, '2025-03-02', 4, 1, 1),
 (125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
-(126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1);
+(126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1),
+(127, '11111', '11111', '11111', '1111111', '$2y$10$SM2aqFCl73GcR7EewDiEeuzUZRU938dLVfyrvQHcOym6/Qc1DKwQm', 1, '2025-03-13', 3, 1, 1),
+(128, 'asdasd', 'asdasd', 'asdasd', '12312321', '$2y$10$XZOSbCM9YgF9ihvTtRIiKucvfad5MJ.clxz8dpX.HeiTyQyL/yRBy', 1, '2025-03-15', 5, 1, 1),
+(129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -1127,7 +1132,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
