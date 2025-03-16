@@ -69,34 +69,32 @@ require_once '../template/header.php';
 
             fetch('../save/save-schedule.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ group, subject, teacher, month, classroom })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({group, subject, teacher, month, classroom})
             })
                 .then(response => response.json())
                 .then(eventsData => {
+                    console.log(eventsData)
                     const calendarEl = document.getElementById('calendar');
-                    const calendar = new FullCalendar.Calendar(calendarEl, {
 
+                    // Очищаем предыдущий календарь перед созданием нового
+                    if (window.calendarInstance) {
+                        window.calendarInstance.destroy();
+                    }
+
+                    window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
                         initialView: 'dayGridMonth',
-                        initialDate: month + '-01', // Устанавливаем начальную дату календаря
+                        initialDate: month + '-01',
                         events: eventsData,
-
                         dateClick: function (info) {
-                            // Парсим дату и сравниваем с выбранным месяцем
                             let clickedDate = new Date(info.dateStr);
-                            let selectedMonth = new Date(`${month}-01`); // Приводим месяц из формы к формату YYYY-MM-01
+                            let selectedMonth = new Date(`${month}-01`);
 
-                            if (
-                                clickedDate.getFullYear() !== selectedMonth.getFullYear() ||
-                                clickedDate.getMonth() !== selectedMonth.getMonth()
-                            ) {
+                            if (clickedDate.getFullYear() !== selectedMonth.getFullYear() || clickedDate.getMonth() !== selectedMonth.getMonth()) {
                                 alert('Выбранная дата не соответствует указанному месяцу!');
                                 return;
                             }
 
-                            // Удаляем старые input, если есть
                             document.querySelectorAll('.time-input').forEach(el => el.remove());
 
                             let cell = document.querySelector(`[data-date="${info.dateStr}"]`);
@@ -113,7 +111,6 @@ require_once '../template/header.php';
                             input.style.padding = '2px';
                             input.style.marginTop = '5px';
 
-                            // Определяем позицию инпута внутри ячейки
                             let rect = cell.getBoundingClientRect();
                             input.style.left = `${rect.left + window.scrollX + 5}px`;
                             input.style.top = `${rect.top + window.scrollY + 5}px`;
@@ -122,31 +119,20 @@ require_once '../template/header.php';
                             input.focus();
 
                             input.addEventListener('change', function () {
-                                console.log("Отправка данных:", JSON.stringify({
-                                    group, subject, teacher, month, classroom, day: info.dateStr, time: input.value
-                                }));
                                 fetch('../save/save-schedule.php', {
                                     method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
+                                    headers: {'Content-Type': 'application/json'},
                                     body: JSON.stringify({
-                                        group,
-                                        subject,
-                                        teacher,
-                                        month,
-                                        classroom,
-                                        day: info.dateStr,
-                                        time: input.value
+                                        group, subject, teacher, month, classroom,
+                                        day: info.dateStr, time: input.value
                                     })
                                 })
                                     .then(response => response.json())
                                     .then(data => {
                                         if (data.success) {
                                             alert('Данные успешно сохранены!');
-                                            calendar.refetchEvents();
+                                            window.calendarInstance.refetchEvents();
                                         } else {
-                                            console.log(data)
                                             alert('Ошибка при сохранении данных!');
                                         }
                                     });
@@ -154,7 +140,6 @@ require_once '../template/header.php';
                                 input.remove();
                             });
 
-                            // Закрываем input, если кликнули вне него
                             document.addEventListener('click', function outsideClick(e) {
                                 if (!input.contains(e.target)) {
                                     input.remove();
@@ -164,9 +149,11 @@ require_once '../template/header.php';
                         }
                     });
 
-                    calendar.render();
-                }).catch(error => console.error("Ошибка при получении данных:", error));
+                    window.calendarInstance.render();
+                })
+                .catch(error => console.error("Ошибка при получении данных:", error));
         });
+
     </script>
 
 <?php

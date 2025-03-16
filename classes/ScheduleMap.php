@@ -2,6 +2,37 @@
 
 class ScheduleMap extends BaseMap
 {
+
+    public function getEvents($group_id, $subject_id, $teacher_id, $month, $classroom) {
+        $sql = "SELECT date, time, subject_id FROM schedule 
+            WHERE group_id = ? AND subject_id = ? AND teacher_id = ? AND classroom_id = ? 
+            AND DATE_FORMAT(date, '%Y-%m') = ?";
+
+        error_log("SQL: " . $sql);
+        error_log("Params: " . json_encode([$group_id, $subject_id, $teacher_id, $classroom, $month]));
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$group_id, $subject_id, $teacher_id, $classroom, $month]);
+
+        if (!$stmt) {
+            error_log("Ошибка SQL: " . implode(" ", $this->db->errorInfo()));
+        }
+
+        $events = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            error_log("Найдено событие: " . json_encode($row));
+            $events[] = [
+                'title' => "ID предмета: " . $row['subject_id'] . "\nВремя: " . $row['time'],
+                'start' => $row['date'] . "T" . $row['time'],
+                'allDay' => false
+            ];
+        }
+
+        error_log("Всего событий: " . count($events));
+        return $events;
+    }
+
+
     public function existsScheduleByLessonPlanId($idPlan)
     {
         $res = $this->db->query("SELECT schedule_id FROM schedule

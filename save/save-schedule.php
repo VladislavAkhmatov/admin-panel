@@ -13,13 +13,21 @@ error_reporting(E_ALL);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rawData = file_get_contents('php://input');
     $input = json_decode($rawData, true);
-    if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['classroom']) && !isset($input['day'], $input['time'])) {
-        // Это запрос на получение событий
 
-        $events = [];
+    if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['classroom']) && !isset($input['day'], $input['time'])) {
+        // --- Получение событий для календаря ---
+        $group_id = $input['group'];
+        $subject_id = $input['subject'];
+        $teacher_id = $input['teacher'];
+        $month = $input['month'];
+        $classroom = $input['classroom'];
+
+        $schedule = new ScheduleMap();
+        $events = $schedule->getEvents($group_id, $subject_id, $teacher_id, $month, $classroom);
+
         echo json_encode($events);
+
     } elseif (!empty($input['group']) && !empty($input['subject']) && !empty($input['teacher']) && !empty($input['month'] && !empty($input['classroom'])) && !empty($input['day']) && !empty($input['time'])) {
-        // Это запрос на сохранение
         $group_id = $input['group'];
         $subject_id = $input['subject'];
         $teacher_id = $input['teacher'];
@@ -27,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $time = $input['time'];
         $classroom = $input['classroom'];
 
-
         $schedule = new ScheduleMap();
         if ($schedule->save($group_id, $subject_id, $teacher_id, $day, $time, $classroom)) {
-            echo json_encode(['success' => true, 'input' => $input]);
+            echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'error' => 'Не удалось сохранить данные']);
         }
     }
 }
+
 ?>
