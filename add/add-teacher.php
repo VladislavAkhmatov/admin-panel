@@ -35,18 +35,7 @@ teacher">Преподаватели</a></li>
 <div class="box-body">
     <form action="../save/save-user" method="POST" enctype="multipart/form-data">
         <?php require_once '../_formUser.php'; ?>
-        <div class="form-group">
-            <label>Дисциплина</label>
-            <select class="form-control" name="subject_id">
-                <?= Helper::printSelectOptions($teacher->subject_id, (new SubjectMap())->arrSubjects()); ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Достижение</label>
-            <input type="text" class="form-control" name="award" value="<?= $teacher->award ?>">
-        </div>
-
-        <div class="form-group">
+         <div class="form-group">
             <button type="submit" name="saveTeacher" class="btn btn-primary">Сохранить</button>
         </div>
     </form>

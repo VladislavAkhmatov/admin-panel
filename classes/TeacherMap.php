@@ -39,14 +39,6 @@ class TeacherMap extends BaseMap
         if (
             $this->db->exec("INSERT INTO teacher(user_id) VALUES($teacher->user_id)") == 1
         ) {
-            $stmt = $this->db->prepare("INSERT INTO awards (user_id, subject_id, award) 
-            VALUES (:user_id, :subject_id, :award)");
-            $stmt->bindParam(':user_id', $teacher->user_id);
-            $stmt->bindParam(':subject_id', $teacher->award_subject_id);
-            $stmt->bindParam(':award', $teacher->award);
-            if ($stmt->execute()) {
-                return true;
-            }
             return true;
         }
         return false;
