@@ -35,9 +35,13 @@ class ScheduleMap extends BaseMap
 
     public function getEventsByDay($day, $teacher = null)
     {
-        $sql = "SELECT `schedule_id`, `group_id`, `subject_id`, `teacher_id`, `date`, `time`, `classroom_id` 
-            FROM `schedule`
-            WHERE date LIKE :date";
+        $sql = "SELECT `schedule_id`, gruppa.name as gruppa_name, subject.name as subject_name, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as teacher_fio, `date`, `time`, classroom.name as classroom_name
+                FROM `schedule`
+                JOIN gruppa ON schedule.group_id = gruppa.gruppa_id
+                JOIN subject ON schedule.subject_id = subject.subject_id
+                JOIN user ON schedule.teacher_id = user.user_id
+                JOIN classroom ON schedule.classroom_id = classroom.classroom_id
+                WHERE date LIKE :date";
 
         $params = [':date' => $day . "%"];
 
@@ -109,7 +113,7 @@ class ScheduleMap extends BaseMap
     {
         $plan = (new LessonPlanMap())->findById($schedule->lesson_plan_id);
         $res = $this->db->query("SELECT schedule.schedule_id FROM
-        lesson_plan INNER JOIN schedule "
+            lesson_plan INNER JOIN schedule "
             . "ON
         lesson_plan.lesson_plan_id=schedule.lesson_plan_id "
             . "WHERE (lesson_plan.gruppa_id=$plan->gruppa_id OR lesson_plan.user_id=$plan->user_id) AND "

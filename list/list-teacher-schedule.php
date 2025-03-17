@@ -209,7 +209,7 @@ require_once '../template/header.php';
 
                     data.forEach(event => {
                         let li = document.createElement('li');
-                        li.textContent = `${event.time} - ID предмета: ${event.subject_id}, Учитель ID: ${event.teacher_id}`;
+                        li.textContent = `${event.time} - Предмет: ${event.subject_name}, Учитель: ${event.teacher_fio}, Кабинет: ${event.classroom_name}, Группа: ${event.gruppa_name}`;
                         scheduleList.appendChild(li);
                     });
                 })
