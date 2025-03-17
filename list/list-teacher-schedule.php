@@ -113,7 +113,7 @@ require_once '../template/header.php';
                                 createdIcons[cellDate] = true;
                             }
 
-                            return { domNodes: [parentContainer] };
+                            return {domNodes: [parentContainer]};
                         },
 
                         dateClick: function (info) {
@@ -188,10 +188,13 @@ require_once '../template/header.php';
             let dateOnly = date.split("T")[0]; // Оставляем только "YYYY-MM-DD"
             document.getElementById('modalDate').textContent = dateOnly;
 
+            // Получаем значение teacher из формы
+            const teacher = document.getElementById('teacher').value;
+
             fetch(`../save/save-schedule.php`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({day: dateOnly})
+                body: JSON.stringify({day: dateOnly, teacher: teacher}) // Добавляем teacher в запрос
             })
                 .then(response => response.json())
                 .then(data => {
@@ -217,13 +220,6 @@ require_once '../template/header.php';
                 document.getElementById('scheduleModal').style.display = 'none';
             });
         }
-
-        window.addEventListener('click', function (event) {
-            let modal = document.getElementById('scheduleModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
 
     </script>
     <div id="scheduleModal" class="modal">

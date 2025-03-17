@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // --- Запрос расписания по месяцу ---
     if (isset($input['group'], $input['subject'], $input['teacher'], $input['month'], $input['classroom']) &&
         !isset($input['day'], $input['time'])) {
 
@@ -35,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // --- Запрос расписания для конкретного дня ---
-    if (!empty($input['day']) && empty($input['group']) && empty($input['subject']) && empty($input['teacher'])) {
+    if (!empty($input['day']) && empty($input['group']) && empty($input['subject']) && !empty($input['teacher'])) {
         $schedule = new ScheduleMap();
-        $events = $schedule->getEventsByDay($input['day']); // Должен быть новый метод
+        $events = $schedule->getEventsByDay($input['day'], $input['teacher']); // Должен быть новый метод
         echo json_encode($events ?: []);
         exit();
     }

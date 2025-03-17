@@ -33,27 +33,28 @@ class ScheduleMap extends BaseMap
         return $events;
     }
 
-    public function getEventsByDay($day)
+    public function getEventsByDay($day, $teacher = null)
     {
         $sql = "SELECT `schedule_id`, `group_id`, `subject_id`, `teacher_id`, `date`, `time`, `classroom_id` 
-            FROM `schedule` WHERE date LIKE :date";
+            FROM `schedule`
+            WHERE date LIKE :date";
 
-        error_log("SQL Query: " . $sql);
-        error_log("Parameter: " . $day);
+        $params = [':date' => $day . "%"];
 
-        $stmt = $this->db->prepare($sql);
-        $likeDate = $day . "%"; // Добавляем "%" для поиска по дате без учета времени
-        $stmt->bindParam(':date', $likeDate, PDO::PARAM_STR);
-        $stmt->execute();
-
-        if (!$stmt) {
-            error_log("Ошибка SQL: " . implode(" ", $this->db->errorInfo()));
+        if (!empty($teacher)) {
+            $sql .= " AND `teacher_id` = :teacher";
+            $params[':teacher'] = $teacher;
         }
 
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        error_log("Найденные записи: " . json_encode($result));
+        $stmt = $this->db->prepare($sql);
 
-        return $result;
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
