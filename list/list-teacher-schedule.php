@@ -66,6 +66,7 @@ require_once '../template/header.php';
             const teacher = document.getElementById('teacher').value;
             const month = document.getElementById('month').value;
             const classroom = document.getElementById('classroom').value;
+            const createdIcons = {};
 
             fetch('../save/save-schedule.php', {
                 method: 'POST',
@@ -87,28 +88,34 @@ require_once '../template/header.php';
                         events: eventsData,
                         eventContent: function (arg) {
                             let parentContainer = document.createElement('div');
-                            parentContainer.textContent = arg.event.title;
 
-                            let existingIcon = document.querySelector(`[data-date-icon="${arg.event.startStr}"]`);
-                            if (!existingIcon) {
+                            // Получаем дату ячейки, в которой отображается событие
+                            let cellDate = arg.event.startStr.split('T')[0]; // Убираем время, оставляем только дату
+
+                            // Проверяем, была ли уже создана иконка для этой даты
+                            if (!createdIcons[cellDate]) {
                                 let btn = document.createElement('button');
-                                btn.innerHTML = '📅';
+                                btn.innerHTML = '📅'; // Иконка календаря
                                 btn.style.border = 'none';
                                 btn.style.background = 'transparent';
                                 btn.style.cursor = 'pointer';
                                 btn.style.marginLeft = '5px';
-                                btn.setAttribute('data-date-icon', arg.event.startStr);
 
+                                // Обработчик клика по иконке
                                 btn.addEventListener('click', function (event) {
                                     event.stopPropagation();
-                                    openModal(arg.event.startStr);
+                                    openModal(cellDate); // Открываем модальное окно с расписанием
                                 });
 
                                 parentContainer.appendChild(btn);
+
+                                // Помечаем дату как обработанную
+                                createdIcons[cellDate] = true;
                             }
 
-                            return {domNodes: [parentContainer]};
+                            return { domNodes: [parentContainer] };
                         },
+
                         dateClick: function (info) {
                             let clickedDate = new Date(info.dateStr);
                             let selectedMonth = new Date(`${month}-01`);
@@ -206,8 +213,10 @@ require_once '../template/header.php';
                 .catch(error => console.error('Ошибка загрузки расписания:', error));
 
             document.getElementById('scheduleModal').style.display = 'block';
+            document.querySelector('.close').addEventListener('click', function () {
+                document.getElementById('scheduleModal').style.display = 'none';
+            });
         }
-
 
         window.addEventListener('click', function (event) {
             let modal = document.getElementById('scheduleModal');
@@ -215,7 +224,6 @@ require_once '../template/header.php';
                 modal.style.display = 'none';
             }
         });
-
 
     </script>
     <div id="scheduleModal" class="modal">
@@ -253,6 +261,21 @@ require_once '../template/header.php';
             right: 15px;
             font-size: 20px;
             cursor: pointer;
+        }
+
+        a.fc-daygrid-event {
+            outline: none !important; /* Убирает обводку */
+            border: none !important; /* Убирает границу */
+            box-shadow: none !important; /* Убирает тень */
+            background: transparent !important; /* Убирает фон */
+        }
+
+        a.fc-daygrid-event:hover,
+        a.fc-daygrid-event:focus {
+            outline: none !important; /* Убирает обводку при наведении и фокусе */
+            border: none !important; /* Убирает границу при наведении и фокусе */
+            box-shadow: none !important; /* Убирает тень при наведении и фокусе */
+            background: transparent !important; /* Убирает фон при наведении и фокусе */
         }
     </style>
 
