@@ -74,10 +74,9 @@ require_once '../template/header.php';
             })
                 .then(response => response.json())
                 .then(eventsData => {
-                    console.log(eventsData)
+                    console.log(eventsData);
                     const calendarEl = document.getElementById('calendar');
 
-                    // Очищаем предыдущий календарь перед созданием нового
                     if (window.calendarInstance) {
                         window.calendarInstance.destroy();
                     }
@@ -86,6 +85,30 @@ require_once '../template/header.php';
                         initialView: 'dayGridMonth',
                         initialDate: month + '-01',
                         events: eventsData,
+                        eventContent: function (arg) {
+                            let parentContainer = document.createElement('div');
+                            parentContainer.textContent = arg.event.title;
+
+                            let existingIcon = document.querySelector(`[data-date-icon="${arg.event.startStr}"]`);
+                            if (!existingIcon) {
+                                let btn = document.createElement('button');
+                                btn.innerHTML = '📅';
+                                btn.style.border = 'none';
+                                btn.style.background = 'transparent';
+                                btn.style.cursor = 'pointer';
+                                btn.style.marginLeft = '5px';
+                                btn.setAttribute('data-date-icon', arg.event.startStr);
+
+                                btn.addEventListener('click', function (event) {
+                                    event.stopPropagation();
+                                    openModal(arg.event.startStr);
+                                });
+
+                                parentContainer.appendChild(btn);
+                            }
+
+                            return {domNodes: [parentContainer]};
+                        },
                         dateClick: function (info) {
                             let clickedDate = new Date(info.dateStr);
                             let selectedMonth = new Date(`${month}-01`);
@@ -154,7 +177,84 @@ require_once '../template/header.php';
                 .catch(error => console.error("Ошибка при получении данных:", error));
         });
 
+        function openModal(date) {
+            let dateOnly = date.split("T")[0]; // Оставляем только "YYYY-MM-DD"
+            document.getElementById('modalDate').textContent = dateOnly;
+
+            fetch(`../save/save-schedule.php`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({day: dateOnly})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Полученные данные:", data);
+                    const scheduleList = document.getElementById('scheduleList');
+                    scheduleList.innerHTML = '';
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        scheduleList.innerHTML = '<li>Нет занятий</li>';
+                        return;
+                    }
+
+                    data.forEach(event => {
+                        let li = document.createElement('li');
+                        li.textContent = `${event.time} - ID предмета: ${event.subject_id}, Учитель ID: ${event.teacher_id}`;
+                        scheduleList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Ошибка загрузки расписания:', error));
+
+            document.getElementById('scheduleModal').style.display = 'block';
+        }
+
+
+        window.addEventListener('click', function (event) {
+            let modal = document.getElementById('scheduleModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+
     </script>
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Расписание на <span id="modalDate"></span></h2>
+            <ul id="scheduleList"></ul>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 50%;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
 
 <?php
 require_once '../template/footer.php';
