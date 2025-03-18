@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 16 2025 г., 05:36
+-- Время создания: Мар 18 2025 г., 11:46
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -55,25 +55,6 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `attend`
---
-
-CREATE TABLE `attend` (
-  `id` tinyint NOT NULL,
-  `attend` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `attend`
---
-
-INSERT INTO `attend` (`id`, `attend`) VALUES
-(0, 'Н'),
-(1, 'Б');
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `awards`
 --
 
@@ -100,7 +81,7 @@ INSERT INTO `awards` (`id`, `user_id`, `subject_id`, `award`) VALUES
 (24, 113, 3, 'asd'),
 (25, 117, 18, '123'),
 (26, 118, NULL, NULL),
-(27, 124, 17, '3');
+(27, 124, 22, '3');
 
 -- --------------------------------------------------------
 
@@ -207,41 +188,13 @@ INSERT INTO `gender` (`gender_id`, `name`) VALUES
 CREATE TABLE `grades` (
   `grade_id` int NOT NULL,
   `user_id` bigint NOT NULL,
-  `subject_id` int NOT NULL,
-  `grade` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `schedule_id` int NOT NULL,
+  `grade` tinyint DEFAULT NULL,
   `attend` tinyint DEFAULT '0',
-  `branch_id` int DEFAULT NULL,
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `homework` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `activity` tinyint DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `branch_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `grades`
---
-
-INSERT INTO `grades` (`grade_id`, `user_id`, `subject_id`, `grade`, `date`, `attend`, `branch_id`, `comment`, `homework`) VALUES
-(366, 7, 16, '70', '2024-04-04', 1, NULL, '6', NULL),
-(370, 7, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(371, 8, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(372, 7, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(373, 8, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(374, 7, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(375, 8, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(376, 9, 17, '80', '2024-04-04', 1, NULL, '123', NULL),
-(377, 18, 18, '77', '2024-04-04', 1, NULL, '6', NULL),
-(378, 105, 18, '56', '2024-04-04', 1, NULL, '4', NULL),
-(379, 7, 16, '55', '2024-04-04', 1, NULL, '', NULL),
-(380, 8, 16, '60', '2024-04-04', 1, NULL, '', NULL),
-(381, 7, 17, '70', '2024-04-04', 1, NULL, 'sad', NULL),
-(382, 7, 16, '70', '2024-04-04', 1, NULL, '', NULL),
-(383, 8, 16, '', '2024-04-04', 0, NULL, '', NULL),
-(384, 7, 17, '', '2024-04-04', 0, NULL, '', NULL),
-(385, 8, 17, '', '2024-04-04', 0, NULL, '', NULL),
-(390, 7, 17, '', '2024-04-05', 0, 1, '', NULL),
-(391, 8, 17, '', '2024-04-05', 0, 1, '', NULL),
-(394, 8, 5, '100', '2024-04-17', 0, NULL, '100', '1703641317_Оценки_1702869853.xlsx'),
-(395, 8, 5, '100', '2024-04-17', 0, NULL, 'adasd', '1703641356_Оценки_1702869853.xlsx');
 
 -- --------------------------------------------------------
 
@@ -268,7 +221,6 @@ INSERT INTO `gruppa` (`gruppa_id`, `name`, `date_begin`, `date_end`, `branch`, `
 (3, '8В', '2023-09-01', '2025-06-10', 1, 0),
 (4, '7А', '2020-01-31', '2026-10-24', 2, 0),
 (5, '9А', '2023-11-01', '2023-11-30', 2, 0),
-(7, 'deleted', '2024-03-01', '2024-03-31', 1, 1),
 (8, 'asd', '2024-04-10', '2024-04-17', 1, 1),
 (9, '7T', '2024-04-17', '2024-04-20', 1, 0);
 
@@ -566,11 +518,12 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `date`, `time`, `classroom_id`, `deleted`) VALUES
-(55, 1, 3, 6, '2025-03-18', '15:48', 1, 0),
-(56, 1, 3, 6, '2025-03-04', '15:48', 1, 0),
-(57, 1, 3, 14, '2025-03-11', '15:49', 1, 0),
-(58, 1, 3, 6, '2025-03-11', '15:50', 1, 0),
-(59, 1, 3, 124, '2025-03-03', '15:50', 1, 0);
+(72, 1, 3, 6, '2025-03-03', '11:30', 1, 0),
+(73, 1, 3, 6, '2025-03-03', '10:31', 1, 0),
+(74, 2, 3, 6, '2025-03-03', '10:37', 1, 0),
+(75, 1, 3, 6, '2025-03-04', '10:38', 1, 0),
+(76, 1, 3, 6, '2025-03-04', '11:40', 1, 0),
+(77, 1, 3, 14, '2025-03-03', '11:40', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -837,7 +790,7 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (121, 'asdsadasd', 'asdasdsadas', 'asdsadasdasd', '123123123', '$2y$10$DG.6WlIjCmhWzt2X0uIf3.SUDhp8G1q3yJPEcjRHW5vmZ7TphR5/2', 1, '2025-03-27', 3, 1, 1),
 (122, 'asdsadsad', 'asdasd', 'asdasdasd', '123123123', '$2y$10$3F/h3i6tU5BZQhq.liIc3uIVz5F2d/LV5i/7AR/TROpBZcnsT5rJG', 1, '2025-02-24', 5, 1, 1),
 (123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА', '999', '$2y$10$W0kthoseijxJABtHTf9rn.tRJsAlV7SJH1WRyeq5AiBO9srVroLse', 1, '2025-03-15', 3, 1, 1),
-(124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$4F5kynnCDVTOZUXootAISevq54RFPhLU7CxpZivc4sX4qWgC2FLzm', 1, '2025-03-02', 4, 1, 1),
+(124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$Ww2tGeD2LWLzsgAFYOsL6eiZXKuDizWHiRnZu7lh8QAxH2tffQTdC', 1, '2025-03-16', 4, 1, 1),
 (125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
 (126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1),
 (127, '11111', '11111', '11111', '1111111', '$2y$10$SM2aqFCl73GcR7EewDiEeuzUZRU938dLVfyrvQHcOym6/Qc1DKwQm', 1, '2025-03-13', 3, 1, 1),
@@ -854,12 +807,6 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `branch_id` (`branch_id`);
-
---
--- Индексы таблицы `attend`
---
-ALTER TABLE `attend`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `awards`
@@ -900,9 +847,9 @@ ALTER TABLE `gender`
 ALTER TABLE `grades`
   ADD PRIMARY KEY (`grade_id`),
   ADD KEY `student_id` (`user_id`),
-  ADD KEY `subject_id` (`subject_id`),
   ADD KEY `attend` (`attend`),
-  ADD KEY `branch_id` (`branch_id`);
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `schedule_id` (`schedule_id`);
 
 --
 -- Индексы таблицы `gruppa`
@@ -1114,7 +1061,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT для таблицы `student_subjects`
@@ -1163,9 +1110,8 @@ ALTER TABLE `classroom`
 --
 ALTER TABLE `grades`
   ADD CONSTRAINT `grades_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_3` FOREIGN KEY (`attend`) REFERENCES `attend` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `grades_ibfk_4` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `grades_ibfk_5` FOREIGN KEY (`schedule_id`) REFERENCES `schedule` (`schedule_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `gruppa`

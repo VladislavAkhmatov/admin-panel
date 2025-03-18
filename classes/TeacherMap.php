@@ -200,7 +200,7 @@ class TeacherMap extends BaseMap
         $query = "SELECT teacher.user_id as id, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as value 
         FROM `teacher`
         INNER JOIN user ON teacher.user_id = user.user_id WHERE user.branch_id = {$_SESSION['branch']}
-        AND user.user_id != {$_SESSION['id']}";
+        AND user.user_id != {$_SESSION['id']} AND teacher.deleted = 0";
         $res = $this->db->prepare($query);
         $res->execute();
         return $res->fetchAll(PDO::FETCH_ASSOC);
