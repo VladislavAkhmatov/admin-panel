@@ -74,11 +74,19 @@ require_once 'template/header.php';
             </form>
         </div>
     </div>
-<?php if ($allSchedule !== null): ?>
-    <div class="box-body">
+<?php if ($allSchedule != null): ?>
+    <div class="box-body" style="display: flex;">
         <?php foreach ($allSchedule as $item): ?>
-            <a href="set-grades/<?= $item->schedule_id ?>" class="btn btn-primary"><?= $item->time ?></a>
+            <form action="set-grades" method="get">
+                <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->time ?>">
+                <input type="hidden" name="schedule" value="<?= $item->schedule_id ?>">
+                <input type="hidden" name="group" value="<?= $item->group_id ?>">
+            </form>
         <?php endforeach; ?>
+    </div>
+<?php else: ?>
+    <div class="box-body">
+        Ни одной записи не найдено
     </div>
 <?php endif; ?>
 <?php

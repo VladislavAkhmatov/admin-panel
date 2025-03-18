@@ -2,9 +2,20 @@
 
 class ScheduleMap extends BaseMap
 {
-
+    public function findScheduleByID($id){
+        $sql = "SELECT `schedule_id`, gruppa.name as gruppa, subject.name as subject, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as user, `date`, `time`, classroom.name, schedule.deleted FROM `schedule`
+                INNER JOIN gruppa ON gruppa.gruppa_id = schedule.group_id
+                INNER JOIN subject ON subject.subject_id = schedule.subject_id
+                INNER JOIN user ON user.user_id = schedule.teacher_id
+                INNER JOIN classroom ON classroom.classroom_id = schedule.classroom_id
+                WHERE schedule_id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
     public function findByParams($date, $teacher_id, $subject_id, $group_id){
-        $sql = "SELECT schedule_id, time FROM schedule WHERE teacher_id = :teacher_id AND subject_id = :subject_id
+        $sql = "SELECT schedule_id, group_id, time FROM schedule WHERE teacher_id = :teacher_id AND subject_id = :subject_id
                                 AND group_id = :group_id AND date = :date";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':teacher_id', $teacher_id);
