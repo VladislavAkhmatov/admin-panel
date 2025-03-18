@@ -6,14 +6,17 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
 }
 $id = 0;
 $schedule = new ScheduleMap();
-$group = new GruppaMap();
+$student = new StudentMap();
 
 $foundSchedule = null;
-$foundGroup = null;
-if ($_GET['schedule']) {
-    $schedule_id = $_GET['schedule'];
-    $foundSchedule = $schedule->findScheduleByID($schedule_id);
+$allStudents = null;
 
+if ($_GET['schedule'] && $_GET['group']) {
+    $schedule_id = $_GET['schedule'];
+    $group_id = $_GET['group'];
+
+    $foundSchedule = $schedule->findScheduleByID($schedule_id);
+    $allStudents = $student->findByGruppaID($group_id);
 }
 
 require_once 'template/header.php';
@@ -50,34 +53,44 @@ require_once 'template/header.php';
         </div>
     </div>
     <div class="container mt-5">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">Имя</th>
-                <th scope="col">Присутствовал</th>
-                <th scope="col">Активность</th>
-                <th scope="col">Домашняя работа</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <p class="pt-3">asdaasd</p>
-                </td>
-                <td>
-                    <input class="form-check-input" type="checkbox" value="" id="checkbox2">
-                </td>
-                <td>
-                    <input type="number" class="form-control" id="input3" placeholder="Введите текст">
-                </td>
-                <td>
-                    <input type="number" class="form-control" id="input4" placeholder="Введите текст">
-                </td>
-
-            </tr>
-            </tbody>
-        </table>
+<?php if ($allStudents): ?>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Присутствовал</th>
+            <th scope="col">Активность</th>
+            <th scope="col">Домашняя работа</th>
+        </tr>
+        </thead>
+        <tbody>
+        <form action="save/save-grades" method="post">
+            <?php foreach ($allStudents as $item): ?>
+                <tr>
+                    <td>
+                        <p class="pt-3"><?= $item->user ?></p>
+                    </td>
+                    <td>
+                        <input class="form-check-input" type="checkbox" name="attends[]" value="1">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" name="activities[]" placeholder="Введите текст">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" name="homeworks[]" placeholder="Введите текст">
+                    </td>
+                    <input type="hidden" name="user_ids[]" value="<?= $item->user_id ?>">
+                </tr>
+            <?php endforeach; ?>
+            <input class="btn btn-primary" type="hidden" name="schedule_id" value="<?= $foundSchedule->schedule_id ?>">
+            <input class="btn btn-primary" type="submit" value="Сохранить">
+        </form>
+        </tbody>
+    </table>
     </div>
+<?php else: ?>
+    <p>Ни одной записи не найдено</p>
+<?php endif; ?>
 <?php
 require_once 'template/footer.php';
 ?>

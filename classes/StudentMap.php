@@ -33,6 +33,18 @@ class StudentMap extends BaseMap
         }
         return new Student();
     }
+
+    public function findByGruppaID($id = null)
+    {
+        $sql = "SELECT CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as user, 
+            student.user_id, gruppa_id FROM student 
+            INNER JOIN user ON student.user_id = user.user_id
+            WHERE student.gruppa_id = :group_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":group_id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
     public function save($user = User, $student = Student)
     {
         if ((new UserMap())->save($user)) {

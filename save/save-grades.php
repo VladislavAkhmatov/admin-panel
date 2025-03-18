@@ -4,41 +4,25 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
-if (isset($_POST['gradesSubmit'])) {
-    $student = new Student();
-    $studentMap = new StudentMap();
-    $paymentArchives = $studentMap->selectgrades();
-    $student->grade_id = Helper::clearInt($_POST['grade_id']);
-    $student->user_id = Helper::clearInt($_POST['user_id']);
-    $student->subject_id = Helper::clearInt($_POST['subject_id']);
-    $student->grades = Helper::clearInt($_POST['grades']);
-    $student->date = Helper::clearString($_POST['date']);
-    $student->attend = Helper::clearInt($_POST['attend']);
-    $student->comment = Helper::clearString($_POST['comment']);
-    $student->file = Helper::clearString($_POST['homework']);
 
-    foreach ($paymentArchives as $paymentArchive) {
-        if ((new StudentMap())->saveUpdategrades($student)) {
-            header('Location: ../check/check-grades?message=ok');
-            exit();
-        } else {
-            header('Location: ../check/check-grades?message=errgrades');
-            exit();
-        }
-    }
-}
+if (isset($_POST['user_ids'])) {
+    $grade = new GradeMap();
 
+    $user_ids = $_POST['user_ids'];
+    $schedule_id = $_POST['schedule_id'];
+    $attends = $_POST['attends'];
+    $activities = $_POST['activities'];
+    $homeworks = $_POST['homeworks'];
 
-if (isset($_POST['gradesDelete'])) {
-    $student = new Student();
-    $student->grade_id = Helper::clearInt($_POST['grade_id']);
-    if ((new StudentMap())->deletegrades($student)) {
-        header('Location: ../check/check-grades?message=errDel');
-    } else {
-        if ($student->user_id) {
-            header('Location: ../check/check-grades?message=okDel');
-        } else {
-            header('Location: ../check/check-grades?message=okDel');
+    for ($i = 0; $i < count($user_ids); $i++) {
+        $user_id = $user_ids[$i];
+        $activity = $activities[$i];
+        $attend = $attends[$i] ?? 0;
+        $homework = $homeworks[$i];
+        try {
+            $grade->save($user_id, $schedule_id, $activity, $attend, $homework);
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
         }
     }
 }

@@ -1,55 +1,21 @@
 <?php
+
 class GradeMap extends BaseMap
 {
-    public function findById($id = null)
+    public function save($user_id, $schedule_id, $activity, $attend, $homework)
     {
-        if ($id) {
-            $res = $this->db->query("SELECT grades_id, user_id,
-        subject_id, grades, date"
-                . "FROM gradess WHERE grades_id = $id");
-            return $res->fetchObject("grades");
-        }
-        return new Grade();
-    }
-
-    public function findBySubjectId($date, $subject_id, $gruppa_id)
-    {
-        $query = "SELECT grades.grade_id, user.user_id, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
-        subject.name as subject, 
-        grades.grade as grade, 
-        grades.date as date, grades.branch_id, gruppa.name, 
-        CASE grades.attend
-            WHEN 1 THEN 'Б'
-            WHEN 0 THEN 'Н'
-        END as attend
-        FROM grades
-        INNER JOIN user ON user.user_id = grades.user_id
-        INNER JOIN student ON student.user_id = user.user_id
-        INNER JOIN gruppa ON student.gruppa_id = gruppa.gruppa_id
-        INNER JOIN subject ON subject.subject_id = grades.subject_id
-        WHERE grades.subject_id = :subject_id 
-        AND grades.branch_id = {$_SESSION['branch']} 
-        AND date = :date 
-        AND gruppa.gruppa_id = :gruppa_id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'subject_id' => $subject_id,
-            'date' => $date,
-            'gruppa_id' => $gruppa_id
-        ]);
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function insertReason(Grade $grades, $id)
-    {
-        $query = "UPDATE grades SET reason = :reason WHERE id = :id";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'reason' => $grades->reason,
-                'id' => $id
-            ])
-        ) {
+        $sql = "INSERT INTO `grades`(`user_id`, `schedule_id`, `activity`, `attend`, `homework`, `date`, `branch_id`) 
+                VALUES (:user_id, :schedule_id, :activity, :attend, :homework, :date, :branch_id)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':schedule_id', $schedule_id);
+        $stmt->bindParam(':activity', $activity);
+        $stmt->bindParam(':attend', $attend);
+        $stmt->bindParam(':homework', $homework);
+        $date = date('Y-m-d');
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':branch_id', $_SESSION['branch']);
+        if ($stmt->execute()) {
             return true;
         }
         return false;
