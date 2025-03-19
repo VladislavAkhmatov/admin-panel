@@ -14,15 +14,29 @@ if (isset($_POST['user_ids'])) {
     $activities = $_POST['activities'];
     $homeworks = $_POST['homeworks'];
 
-    for ($i = 0; $i < count($user_ids); $i++) {
-        $user_id = $user_ids[$i];
-        $activity = $activities[$i];
-        $attend = $attends[$i] ?? 0;
-        $homework = $homeworks[$i];
-        try {
-            $grade->save($user_id, $schedule_id, $activity, $attend, $homework);
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
+    try {
+        $grade->db->beginTransaction();
+
+        for ($i = 0; $i < count($user_ids); $i++) {
+            $user_id = $user_ids[$i];
+            $activity = $activities[$i] == '' ? null : $activities[$i];
+            $attend = $attends[$user_id] ?? 0;
+            $homework = $homeworks[$i] == '' ? null : $homeworks[$i];
+            if ($grade->findGradeByUserAndSchedule($user_id, $schedule_id)) {
+                $grade->update($user_id, $schedule_id, $activity, $attend, $homework);
+            } else {
+                $grade->insert($user_id, $schedule_id, $activity, $attend, $homework);
+            }
         }
+
+        $grade->db->commit();
+    } catch (Exception $e) {
+        $grade->db->rollback();
+        var_dump($e->getMessage());
+        die();
+        header('Location: ../set-grades?q=err');
+        exit();
     }
+    header('Location: ../select-schedule?q=ok');
+    exit();
 }

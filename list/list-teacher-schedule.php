@@ -32,13 +32,13 @@ require_once '../template/header.php';
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="teacher">Преподаватель</label>
+                            <label for="teacher">Учитель</label>
                             <select class="form-control" id="teacher" name="teacher">
                                 <?= Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="teacher">Аудитория</label>
+                            <label for="teacher">Кабинет</label>
                             <select class="form-control" id="classroom" name="classroom">
                                 <?= Helper::printSelectOptions(0, (new ClassroomMap())->arrClassrooms()) ?>
                             </select>

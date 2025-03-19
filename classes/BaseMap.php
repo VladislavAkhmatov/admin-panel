@@ -1,7 +1,7 @@
 <?php
-abstract class BaseMap extends Config
+class BaseMap extends Config
 {
-    protected $db;
+    public $db;
     function __construct()
     {
         try {

@@ -1,6 +1,7 @@
 <?php
 class Helper
 {
+
     static function clearString($str)
     {
         return trim(strip_tags($str));
@@ -47,7 +48,11 @@ class Helper
             <?php }
         }
     }
-
+    public static function dump($data){
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
     public static function paginator($count = 1, $current = 1, $size = 30)
     {
         $numPages = ceil($count / $size);

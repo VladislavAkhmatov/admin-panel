@@ -54,39 +54,45 @@ require_once 'template/header.php';
     </div>
     <div class="container mt-5">
 <?php if ($allStudents): ?>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">Имя</th>
-            <th scope="col">Присутствовал</th>
-            <th scope="col">Активность</th>
-            <th scope="col">Домашняя работа</th>
-        </tr>
-        </thead>
-        <tbody>
-        <form action="save/save-grades" method="post">
+    <form action="save/save-grades" method="post">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Присутствовал</th>
+                <th scope="col">Активность</th>
+                <th scope="col">Домашняя работа</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php foreach ($allStudents as $item): ?>
+                <?php
+                $grade = (new GradeMap())->findGradeByUserAndSchedule($item->user_id, $foundSchedule->schedule_id ?? 0);
+                ?>
                 <tr>
                     <td>
                         <p class="pt-3"><?= $item->user ?></p>
                     </td>
                     <td>
-                        <input class="form-check-input" type="checkbox" name="attends[]" value="1">
+                        <input class="form-check-input" type="checkbox" name="attends[<?= $item->user_id ?>]"
+                               value="1" <?= $grade->attend == 1 ? 'checked' : ''?>>
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="activities[]" placeholder="Введите текст">
+                        <input type="number" class="form-control" name="activities[]" value="<?= $grade->activity ?>"
+                               placeholder="Введите текст">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="homeworks[]" placeholder="Введите текст">
+                        <input type="number" class="form-control" name="homeworks[]" value="<?= $grade->homework ?>"
+                               placeholder="Введите текст">
                     </td>
                     <input type="hidden" name="user_ids[]" value="<?= $item->user_id ?>">
                 </tr>
             <?php endforeach; ?>
-            <input class="btn btn-primary" type="hidden" name="schedule_id" value="<?= $foundSchedule->schedule_id ?>">
-            <input class="btn btn-primary" type="submit" value="Сохранить">
-        </form>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <input class="btn btn-primary" type="hidden" name="schedule_id" value="<?= $foundSchedule->schedule_id ?>">
+        <input class="btn btn-primary" type="submit" value="Сохранить">
+    </form>
     </div>
 <?php else: ?>
     <p>Ни одной записи не найдено</p>
