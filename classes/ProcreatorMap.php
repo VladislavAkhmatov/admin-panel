@@ -1,4 +1,5 @@
 <?php
+
 class ProcreatorMap extends BaseMap
 {
 
@@ -10,7 +11,6 @@ class ProcreatorMap extends BaseMap
         WHERE user.role_id = 6 and user.branch_id = {$_SESSION['branch']} and parent.deleted = 0");
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
 
     public function arrChilds()
@@ -140,6 +140,7 @@ class ProcreatorMap extends BaseMap
         AND user.branch_id = {$_SESSION['branch']}");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function notice()
     {
         $res = $this->db->query("SELECT notice.id as id, notice.text as text, 
@@ -212,47 +213,6 @@ class ProcreatorMap extends BaseMap
         return $res->fetch(PDO::FETCH_OBJ);
     }
 
-    public function findStudentFromGruppa()
-    {
-        $query = "SELECT homework_teacher.name as name, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
-        homework_teacher.gruppa_id as gruppa_id, gruppa.name as gruppa_name, 
-        homework_teacher.date_begin as date_begin, homework_teacher.date_end as date_end, subject.name as subject_name,
-        homework_teacher.file as file
-        FROM homework_teacher
-        INNER JOIN user ON homework_teacher.user_id = user.user_id
-        INNER JOIN gruppa ON homework_teacher.gruppa_id = gruppa.gruppa_id
-        INNER join subject ON homework_teacher.subject_id = subject.subject_id";
-        $res = $this->db->prepare($query);
-        $res->execute();
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function insertHomeworkFromParent(Procreator $procreator)
-    {
-        $query = "INSERT INTO `homework_parent` (`homework_teacher_id`, `name`, `teacher_id`, `gruppa_id`, 
-        `student_id`, `date_begin`, `date_end`, `subject_id`, `file`, `file_prepared`) 
-        VALUES (:homework_teacher_id, :name, :teacher_id, :gruppa_id, 
-        :student_id, :date_begin, :date_end, :subject_id, :file, :file_prepared)";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'homework_teacher_id' => $procreator->homework_teacher_id,
-                'name' => $procreator->name,
-                'teacher_id' => $procreator->teacher_id,
-                'gruppa_id' => $procreator->gruppa_id,
-                'student_id' => $procreator->child_id,
-                'date_begin' => $procreator->date_begin,
-                'date_end' => $procreator->date_end,
-                'subject_id' => $procreator->subject_id,
-                'file' => $procreator->file,
-                'file_prepared' => $procreator->file_prepared
-            ])
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function deleteParentById($id)
     {
         $query = "UPDATE parent SET deleted = 1 WHERE user_id = :id";
@@ -268,20 +228,18 @@ class ProcreatorMap extends BaseMap
     }
 
 
-    public function findPerformanceBygradesInfo($user_id, $subject_id, $branch_id)
+    public function findPerformanceBygradesInfo($user_id, $subject_id)
     {
-        $query = "SELECT grades.user_id as user_id, subject.name as subject, grades.subject_id, 
-        grades.grade as grades, grades.date as date, grades.attend, grades.branch_id, 
-        grades.comment, grades.homework FROM grades
-        INNER JOIN subject ON subject.subject_id = grades.subject_id
-        WHERE grades.user_id = :user_id and grades.subject_id = :subject_id and grades.branch_id = :branch_id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'user_id' => $user_id,
-            'subject_id' => $subject_id,
-            'branch_id' => $branch_id
-        ]);
-        return $res->fetchAll(PDO::FETCH_OBJ);
+        $query = "SELECT grades.user_id, subject.name, grades.activity, grades.attend, grades.homework, grades.date 
+                    FROM grades 
+                    JOIN schedule ON grades.schedule_id = schedule.schedule_id
+                    JOIN subject ON schedule.subject_id = subject.subject_id
+                    WHERE  grades.user_id = :user_id AND schedule.subject_id = :subject_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':subject_id', $subject_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function findNoticeById($id)

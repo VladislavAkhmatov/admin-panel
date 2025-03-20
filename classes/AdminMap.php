@@ -39,29 +39,6 @@ class AdminMap extends BaseMap
         return false;
     }
 
-    public
-    function insertNotice($admin = admin)
-    {
-
-        $query = "INSERT INTO `notice` (`text`, `subject_id`, `user_id`, `child_id`, `subject_count`, `subject_price`, `date`, `link`)
-        VALUES (:text, :subject_id, :user_id, :child_id, :subject_count, :subject_price, :date, :link)";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'text' => $admin->text,
-                'subject_id' => $admin->subject_id,
-                'user_id' => $admin->user_id,
-                'child_id' => $admin->child_id,
-                'subject_count' => $admin->subject_count,
-                'subject_price' => $admin->subject_price,
-                'date' => $admin->date,
-                'link' => $admin->link
-            ]) == 1
-        )
-            return true;
-        return false;
-    }
-
     private
     function update($admin = Admin)
     {

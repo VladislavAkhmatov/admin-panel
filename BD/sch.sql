@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 18 2025 г., 11:46
+-- Время создания: Мар 20 2025 г., 06:53
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.4.30
 
@@ -135,7 +135,8 @@ INSERT INTO `classroom` (`classroom_id`, `name`, `branch`, `active`, `deleted`) 
 (3, '3/520', 2, 1, 0),
 (4, '3/519', 2, 1, 0),
 (5, '3/516', 1, 1, 0),
-(6, 'test', 1, 1, 1);
+(6, 'test', 1, 1, 1),
+(7, 'a453', 4, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -189,12 +190,24 @@ CREATE TABLE `grades` (
   `grade_id` int NOT NULL,
   `user_id` bigint NOT NULL,
   `schedule_id` int NOT NULL,
-  `grade` tinyint DEFAULT NULL,
-  `attend` tinyint DEFAULT '0',
   `activity` tinyint DEFAULT NULL,
+  `attend` tinyint DEFAULT '0',
+  `homework` tinyint DEFAULT NULL,
   `date` date DEFAULT NULL,
   `branch_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `grades`
+--
+
+INSERT INTO `grades` (`grade_id`, `user_id`, `schedule_id`, `activity`, `attend`, `homework`, `date`, `branch_id`) VALUES
+(415, 18, 72, NULL, 0, NULL, '2025-03-19', 1),
+(416, 83, 72, 33, 1, 55, '2025-03-19', 1),
+(419, 9, 72, 100, 1, 90, '2025-03-19', 1),
+(420, 9, 73, NULL, 0, NULL, '2025-03-19', 1),
+(421, 18, 73, 22, 1, 33, '2025-03-19', 1),
+(422, 83, 73, NULL, 1, NULL, '2025-03-19', 1);
 
 -- --------------------------------------------------------
 
@@ -204,7 +217,7 @@ CREATE TABLE `grades` (
 
 CREATE TABLE `gruppa` (
   `gruppa_id` int NOT NULL,
-  `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_begin` date NOT NULL,
   `date_end` date DEFAULT NULL,
   `branch` int DEFAULT NULL,
@@ -222,7 +235,8 @@ INSERT INTO `gruppa` (`gruppa_id`, `name`, `date_begin`, `date_end`, `branch`, `
 (4, '7А', '2020-01-31', '2026-10-24', 2, 0),
 (5, '9А', '2023-11-01', '2023-11-30', 2, 0),
 (8, 'asd', '2024-04-10', '2024-04-17', 1, 1),
-(9, '7T', '2024-04-17', '2024-04-20', 1, 0);
+(9, '7T', '2024-04-17', '2024-04-20', 1, 0),
+(10, 'тест расписания', '2025-03-19', '2025-03-19', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -367,87 +381,6 @@ INSERT INTO `parent` (`id`, `user_id`, `child_id`, `deleted`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `payment`
---
-
-CREATE TABLE `payment` (
-  `id` int NOT NULL,
-  `parent_id` bigint DEFAULT NULL,
-  `child_id` bigint DEFAULT NULL,
-  `subject_id` int DEFAULT NULL,
-  `count` int DEFAULT NULL,
-  `tab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` int DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `branch_id` int DEFAULT NULL,
-  `deleted` tinyint DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `payment`
---
-
-INSERT INTO `payment` (`id`, `parent_id`, `child_id`, `subject_id`, `count`, `tab`, `price`, `link`, `date`, `branch_id`, `deleted`) VALUES
-(154, 10, 9, 3, 20, '1710749243message.txt', 30000, 'https://example.com', '2024-03-18', 1, 1),
-(155, 10, 8, 20, 8, '1710749251message.txt', 12000, 'https://example.com', '2024-03-18', 1, 1),
-(156, 85, 86, 35, 12, '1710816526message.txt', 12000, 'https://example.com', '2024-03-19', 2, 1),
-(157, 10, 7, 20, 8, '1711333494message.txt', 12000, 'https://example.com', '2024-03-25', 1, 1),
-(158, 10, 7, 16, 8, '1712287541asd.txt', 15000, 'https://example.com', '2024-04-05', 1, 1),
-(159, 10, 8, 20, 8, '1712288454asd.txt', 12000, 'https://example.com', '2024-04-05', 1, 1),
-(160, 10, 18, 21, 8, '1712288458asd.txt', 15000, 'https://example.com', '2024-04-05', 1, 1),
-(161, 10, 18, 22, 8, '1712288462asd.txt', 15000, 'https://example.com', '2024-04-05', 1, 1),
-(162, 10, 9, 3, 20, '1712288466asd.txt', 30000, 'https://example.com', '2024-04-05', 1, 1),
-(163, 10, 7, 20, 8, '1712288470asd.txt', 12000, 'https://example.com', '2024-04-05', 1, 1),
-(164, 10, 7, 5, 12, '1712288473asd.txt', 15000, 'https://example.com', '2024-04-05', 1, 1),
-(165, 10, 7, 16, 8, '1712288477asd.txt', 15000, 'https://example.com', '2024-04-05', 1, 1),
-(166, 10, 9, 18, 12, '1712288603asd.txt', 12000, 'https://example.com', '2024-04-05', 1, 1),
-(167, 10, 7, 3, 12, '1713344934тз.docx', 11900, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(168, 10, 7, 16, 5, '1713372560тз.docx', 5000, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(169, 10, 8, 16, 5, '1713372659тз.docx', 50000, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(170, 10, 7, 3, 1, '1713372892тз.docx', 7500, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(171, 10, 7, 3, 1, '1713372948тз.docx', 7500, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(172, 10, 7, 3, 1, '1713373078тз.docx', 7500, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-17', 1, 1),
-(173, 10, 9, 18, 10, '1713447115тз.docx', 10750, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-18', 1, 0),
-(174, 10, 7, 17, 12, '1713449919тз.docx', 11900, 'https://pay.kaspi.kz/pay/wndzlf4x', '2024-04-18', 1, 1),
-(175, 10, 7, 3, 10, '1741693713atc.sql', 7000, 'https://pay.kaspi.kz/pay/wndzlf4x', '2025-03-11', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `payment_archive`
---
-
-CREATE TABLE `payment_archive` (
-  `id` int NOT NULL,
-  `parent_id` bigint NOT NULL,
-  `child_id` bigint NOT NULL,
-  `subject_id` int DEFAULT NULL,
-  `count` int NOT NULL,
-  `tab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` int DEFAULT NULL,
-  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `attend` tinyint DEFAULT NULL,
-  `payment_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Ссылка'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `payment_archive`
---
-
-INSERT INTO `payment_archive` (`id`, `parent_id`, `child_id`, `subject_id`, `count`, `tab`, `price`, `link`, `attend`, `payment_method`) VALUES
-(123, 10, 7, 16, 22, '1713372560тз.docx', 5000, NULL, 1, 'Ссылка'),
-(124, 10, 8, 16, 5, '1713372659тз.docx', 50000, NULL, 1, 'Ссылка'),
-(125, 10, 7, 3, 32, '1713372892тз.docx', 7500, NULL, 1, 'Ссылка'),
-(126, 10, 18, 17, 2, '', 7200, NULL, 1, 'Ссылка'),
-(127, 10, 18, 18, 4, '', 6000, NULL, 1, 'Ссылка'),
-(128, 85, 86, 18, 2, '', -13000, NULL, 1, 'QR'),
-(129, 85, 86, 23, 2, '', 24000, NULL, 1, 'Наличные'),
-(130, 10, 7, 17, 24, '1713449919тз.docx', 11900, NULL, 1, 'Ссылка');
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `reference`
 --
 
@@ -523,7 +456,8 @@ INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `
 (74, 2, 3, 6, '2025-03-03', '10:37', 1, 0),
 (75, 1, 3, 6, '2025-03-04', '10:38', 1, 0),
 (76, 1, 3, 6, '2025-03-04', '11:40', 1, 0),
-(77, 1, 3, 14, '2025-03-03', '11:40', 1, 0);
+(77, 1, 3, 14, '2025-03-03', '11:40', 1, 0),
+(78, 10, 49, 130, '2025-03-03', '10:00', 7, 0);
 
 -- --------------------------------------------------------
 
@@ -544,9 +478,9 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`user_id`, `gruppa_id`, `reference`, `num_zach`, `deleted`) VALUES
-(7, 9, '123', '0', 0),
+(7, 2, '123', '0', 0),
 (8, 2, NULL, '0', 0),
-(9, 3, NULL, '0', 0),
+(9, 1, NULL, '0', 0),
 (18, 1, NULL, '0', 0),
 (82, 2, NULL, '0', 1),
 (83, 1, NULL, '0', 1),
@@ -556,36 +490,8 @@ INSERT INTO `student` (`user_id`, `gruppa_id`, `reference`, `num_zach`, `deleted
 (105, 9, NULL, '0', 0),
 (122, 3, NULL, '0', 0),
 (126, 3, NULL, '0', 0),
-(128, 2, NULL, '0', 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `student_subjects`
---
-
-CREATE TABLE `student_subjects` (
-  `id` int NOT NULL,
-  `user_id` bigint NOT NULL,
-  `subject_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Дамп данных таблицы `student_subjects`
---
-
-INSERT INTO `student_subjects` (`id`, `user_id`, `subject_id`) VALUES
-(1, 7, 16),
-(2, 7, 5),
-(3, 9, 3),
-(4, 7, 20),
-(5, 8, 20),
-(6, 18, 22),
-(7, 18, 21),
-(8, 86, 35),
-(9, 103, 33),
-(10, 103, 29),
-(11, 9, 18);
+(128, 2, NULL, '0', 0),
+(131, 10, NULL, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -702,7 +608,8 @@ INSERT INTO `teacher` (`user_id`, `deleted`) VALUES
 (113, 1),
 (117, 0),
 (118, 0),
-(124, 0);
+(124, 0),
+(130, 0);
 
 -- --------------------------------------------------------
 
@@ -731,10 +638,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `pass`, `gender_id`, `birthday`, `role_id`, `branch_id`, `active`) VALUES
 (2, 'Смит', 'Джон', 'Тимофеевич', '777', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
 (6, 'Ершов', 'Максимилиан', 'Иосифович', 'ershov@local.lz', '$2y$10$.gk1vkRh9pZCK76B7bDPjutN1dDjaqEZ.8Czha/kKan1QAJJvHwBG', 1, '2000-03-12', 4, 1, 0),
-(7, 'Носов', 'Клим', 'Алексеевич', 'klim@local.lz', '$2y$10$MHIEPbXef3BvPy8aD4EoCuSzV2jn1Ah4W6nMRe0aDT15j.m4RJX/q', 1, '2007-05-25', 5, 1, 0),
+(7, 'Носов', 'Клим', 'Алексеевич', '6655', '$2y$10$Ot4eagPH8bNa0o1cMZDMh.XAD306m0/95KPIv3uSVX5TJZWApQAoa', 1, '2025-03-19', 5, 1, 0),
 (8, 'Шаров', 'Корней', 'Ростиславович', 'sharov', '$2y$10$hosMfj/tIw48P0tYCaQ1IuBwj6UYV9klgDsaVh/t5SxDcgPjAb7WS', 1, '2023-10-01', 5, 1, 1),
-(9, 'Антонова', 'Асида', 'Игнатьевна', 'asida', '$2y$10$TE2o./47eSpX8WaCSQ.O2uzlks.vLNjIjE6tv5qtcg7eavAYMqO0q', 2, '2003-02-20', 5, 1, 1),
-(10, 'Беспалов', 'Агафон', 'Даниилович', 'bespalov@local.lz', '$2y$10$g.qpg2IzLYxlNTcRUtleeO7B.66UBYgRdHjCoht8gnm5p831hkY56', 1, '1980-12-12', 6, 1, 0),
+(9, 'Антонова', 'Асида', 'Игнатьевна', '4445', '$2y$10$.70wbokzcqdhusHHFKlzcO.nlWE2Rhq6tUsEqNAaJzYuMrPOWobS6', 2, '2025-03-19', 5, 1, 1),
+(10, 'Беспалов', 'Агафон', 'Даниилович', '666', '$2y$10$47vF9GTOsEkic8hFpkfeJuyR9KaVNX9ve.nvZ/W94/jOh2NIsDsKe', 1, '2025-03-20', 6, 1, 0),
 (11, 'Карпов', 'Антон', 'Онисимович', 'karpov', '$2y$10$yOW62BB4F8KYnC/Zs95xGeI7HnlX2Rxpdu9qkVInJDRV0igjzbZpq', 1, '1980-11-12', 6, 1, 1),
 (12, 'Гришин', 'Мечеслав', 'Христофорович', 'grishin', '$2y$10$HiUHq9eyUODAWKKvKb072eJFP2mmX993WlE2yvSHlx0X6JqMftKEe', 1, '2002-12-20', 4, 2, 1),
 (14, 'Макаров', 'Михаил', 'Робертович', 'makarov', '$2y$10$Bq7MUyKFpI7sW1SfJvFMBOyXj286ZPVsxenSHLHI.omqV5x1QzZe.', 1, '1977-06-05', 4, 1, 1),
@@ -795,7 +702,9 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1),
 (127, '11111', '11111', '11111', '1111111', '$2y$10$SM2aqFCl73GcR7EewDiEeuzUZRU938dLVfyrvQHcOym6/Qc1DKwQm', 1, '2025-03-13', 3, 1, 1),
 (128, 'asdasd', 'asdasd', 'asdasd', '12312321', '$2y$10$XZOSbCM9YgF9ihvTtRIiKucvfad5MJ.clxz8dpX.HeiTyQyL/yRBy', 1, '2025-03-15', 5, 1, 1),
-(129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1);
+(129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1),
+(130, 'Тест расписания', 'И', 'Оценок', '322', '$2y$10$ii33HEi79F.UIr5ZiMR4m.ATYWkXJrK.sn4NzIu0eOeOdp88QGTdu', 1, '2025-03-04', 4, 4, 1),
+(131, 'тест расписания', 'и', 'оценок (Ученик)', '3222', '$2y$10$qwVDgFEYMClwd.DeZmVVu.ueCQyAtC6WCfeNlyjGxr5gV1rMhI/hq', 1, '2025-03-11', 5, 4, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -889,25 +798,6 @@ ALTER TABLE `parent`
   ADD KEY `child_id` (`child_id`);
 
 --
--- Индексы таблицы `payment`
---
-ALTER TABLE `payment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `child_id` (`child_id`),
-  ADD KEY `parent_id` (`parent_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `branch_id` (`branch_id`);
-
---
--- Индексы таблицы `payment_archive`
---
-ALTER TABLE `payment_archive`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `child_id` (`child_id`),
-  ADD KEY `parent_id` (`parent_id`),
-  ADD KEY `subject_id` (`subject_id`);
-
---
 -- Индексы таблицы `reference`
 --
 ALTER TABLE `reference`
@@ -937,14 +827,6 @@ ALTER TABLE `schedule`
 ALTER TABLE `student`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `gruppa_id` (`gruppa_id`);
-
---
--- Индексы таблицы `student_subjects`
---
-ALTER TABLE `student_subjects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Индексы таблицы `subject`
@@ -989,7 +871,7 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT для таблицы `classroom`
 --
 ALTER TABLE `classroom`
-  MODIFY `classroom_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `classroom_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `day`
@@ -1007,13 +889,13 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT для таблицы `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
+  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=423;
 
 --
 -- AUTO_INCREMENT для таблицы `gruppa`
 --
 ALTER TABLE `gruppa`
-  MODIFY `gruppa_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `gruppa_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `notice`
@@ -1034,18 +916,6 @@ ALTER TABLE `parent`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT для таблицы `payment`
---
-ALTER TABLE `payment`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
-
---
--- AUTO_INCREMENT для таблицы `payment_archive`
---
-ALTER TABLE `payment_archive`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
-
---
 -- AUTO_INCREMENT для таблицы `reference`
 --
 ALTER TABLE `reference`
@@ -1061,13 +931,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
-
---
--- AUTO_INCREMENT для таблицы `student_subjects`
---
-ALTER TABLE `student_subjects`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT для таблицы `subject`
@@ -1079,7 +943,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -1141,23 +1005,6 @@ ALTER TABLE `parent`
   ADD CONSTRAINT `parent_ibfk_2` FOREIGN KEY (`child_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Ограничения внешнего ключа таблицы `payment`
---
-ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `payment_ibfk_5` FOREIGN KEY (`parent_id`) REFERENCES `parent` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `payment_ibfk_6` FOREIGN KEY (`child_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `payment_ibfk_7` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `payment_archive`
---
-ALTER TABLE `payment_archive`
-  ADD CONSTRAINT `payment_archive_ibfk_3` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `payment_archive_ibfk_4` FOREIGN KEY (`child_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `payment_archive_ibfk_5` FOREIGN KEY (`parent_id`) REFERENCES `parent` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
 -- Ограничения внешнего ключа таблицы `reference`
 --
 ALTER TABLE `reference`
@@ -1178,13 +1025,6 @@ ALTER TABLE `schedule`
 ALTER TABLE `student`
   ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `student_ibfk_2` FOREIGN KEY (`gruppa_id`) REFERENCES `gruppa` (`gruppa_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ограничения внешнего ключа таблицы `student_subjects`
---
-ALTER TABLE `student_subjects`
-  ADD CONSTRAINT `student_subjects_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `student_subjects_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `subject`

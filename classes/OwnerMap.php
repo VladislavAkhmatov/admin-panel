@@ -97,15 +97,6 @@ class ownerMap extends BaseMap
         return false;
     }
 
-    public function deleteownerById($id)
-    {
-        $query = "UPDATE student SET deleted = 1 WHERE user_id = :id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'id' => $id
-        ]);
-    }
-
     public function saveBranch(owner $owner)
     {
         $query = "INSERT INTO `branch` (`branch`, `date_founding`, `deleted`) 
@@ -148,33 +139,4 @@ class ownerMap extends BaseMap
         ]);
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
-    public function findPaymentByDateAndBranch($date, $branch)
-    {
-        $query = "SELECT payment.id, 
-        CONCAT(parent.lastname, ' ', parent.firstname, ' ', parent.patronymic) as parent,
-        CONCAT(child.lastname, ' ', child.firstname, ' ', child.patronymic) as child,
-        subject.name as subject,
-        payment.count as subject_count,
-        payment.price as subject_price,
-        payment.tab as tab,
-        payment.link as link,
-        payment.date as date,
-        branch.id as branch_id,
-        branch.branch as branch_name
-        FROM `payment`
-        INNER JOIN user as parent ON payment.parent_id = parent.user_id
-        INNER JOIN user as child ON payment.child_id = child.user_id
-        INNER JOIN subject ON subject.subject_id = payment.subject_id
-        INNER JOIN branch ON branch.id = payment.branch_id
-        WHERE payment.date = :date AND branch.id = :branch";
-
-        $res = $this->db->prepare($query);
-
-        $res->execute([
-            'date' => $date,
-            'branch' => $branch
-        ]);
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
 }

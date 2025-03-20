@@ -2,8 +2,6 @@
 require_once 'autoload.php';
 session_start();
 
-(new UserMap())->autoNotifications();
-
 $message = 'Войдите для просмотра расписания занятий';
 if (
     isset($_POST['login']) &&

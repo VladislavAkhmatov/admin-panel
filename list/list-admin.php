@@ -53,7 +53,7 @@ fa-dashboard"></i> Главная</a></li>
                                 echo '<tr>';
                                 echo '<td><a href="../profile/profile-admin?id=' . $admin->user_id . '">' . $admin->fio . '</a> ' . '<a href="../add/add-admin?id=' . $admin->user_id . '"><i class="fa fa-pencil"></i></a> <a href="../delete/delete-admin?id=' . $admin->user_id . '"><i class="fa fa-times"></i></a></td>';
                                 echo '<td>' . $admin->gender . '</td>';
-                                echo '<td>' . $admin->birthday . '</td>';
+                                echo '<td>' . Helper::formattedData($admin->birthday) . '</td>';
                                 if (Helper::can('admin'))
                                     echo '<td>' . $admin->branch_name . '</td>';
                                 echo '</tr>';

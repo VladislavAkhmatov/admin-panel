@@ -110,15 +110,6 @@ class ScheduleMap extends BaseMap
         }
     }
 
-    public function findGruppaByStudentId($id)
-    {
-        $res = $this->db->query("SELECT gruppa.gruppa_id, gruppa.name 
-            FROM student
-            INNER JOIN gruppa ON student.gruppa_id = gruppa.gruppa_id
-            WHERE student.user_id = $id ");
-        return $res->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function delete($id)
     {
         if (

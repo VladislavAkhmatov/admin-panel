@@ -154,12 +154,6 @@ class StudentMap extends BaseMap
         return false;
     }
 
-    public function checkPaymentArchive()
-    {
-        $res = $this->db->query("SELECT payment_archive.child_id as child_id, payment_archive.subject_id as subject_id FROM payment_archive");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
     private function updatePaymentArchive($student = Student)
     {
         if ($this->db->exec("UPDATE payment_archive SET count = count + $student->count WHERE child_id=" . $student->user_id . " and subject_id=" . $student->subject_id) == 1) {
@@ -205,32 +199,6 @@ class StudentMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function findStudentsFromgrades($id = null, $ofset = 0, $limit = 30)
-    {
-        if ($id) {
-            $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio,  
-            branch.id as branch FROM user 
-            INNER JOIN student ON user.user_id=student.user_id 
-            INNER JOIN branch ON user.branch_id = branch.id 
-            WHERE branch.id = {$_SESSION['branch']} LIMIT $ofset, $limit");
-            return $res->fetchAll(PDO::FETCH_OBJ);
-        }
-    }
-
-    public function checkgrades()
-    {
-        $res = $this->db->query("SELECT grades.grade_id as id, user.user_id AS user_id, 
-        CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, subject.subject_id AS subject_id, 
-        subject.name AS subject, grades.grade AS grade, grades.date AS date, attend.attend as attend, 
-        attend.id as attend_id, grades.comment,grades.homework, branch.id AS branch FROM user
-        INNER JOIN grades ON user.user_id = grades.user_id
-        INNER JOIN subject on subject.subject_id=grades.subject_id
-        LEFT JOIN attend on attend.id = grades.attend
-        INNER JOIN branch on branch.id = user.branch_id
-        WHERE grades.branch_id = {$_SESSION['branch']}");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function viewgrades()
     {
         $res = $this->db->query("SELECT parent.child_id as child_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, subject.name as subject, grades.grades as grades, 
@@ -248,69 +216,6 @@ class StudentMap extends BaseMap
         $res = $this->db->query("SELECT payment_archive.child_id as child_id, payment_archive.subject_id as subject_id FROM payment_archive");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
-
-    public function viewPerformance()
-    {
-        $res = $this->db->query("SELECT parent.child_id as child_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, subject.name as subject, grades.date as date, attend.attend as attend, branch.id as branch, user.user_id as user_id
-            FROM parent
-            INNER JOIN user ON user.user_id = parent.child_id
-            INNER JOIN grades ON grades.user_id = parent.child_id
-            INNER JOIN subject ON subject.subject_id = grades.subject_id
-            INNER JOIN attend ON attend.id = grades.attend
-            INNER JOIN branch ON branch.id = user.branch_id
-            WHERE parent.user_id = {$_SESSION['id']} and (grades.grades = 0 or grades.grades is null) and branch.id = {$_SESSION['branch']}");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function savegrades($student = Student)
-    {
-
-        return $this->insertgrades($student);
-
-    }
-
-    public function saveUpdategrades($student = Student)
-    {
-
-        return $this->updategrades($student);
-
-    }
-
-    public function insertgrades($student = Student)
-    {
-        if (
-            $this->db->exec("INSERT INTO grades (user_id, subject_id, grades, date, attend) VALUES ($student->user_id, $student->subject_id, '$student->grades', '$student->date', $student->attend)
-            ") == 1
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    public function updategrades($student = Student)
-    {
-        $count = $this->db->query("SELECT count FROM payment_archive WHERE child_id = $student->user_id AND subject_id = $student->subject_id")->fetchColumn();
-
-        if ($count > 0) {
-            if (
-                $this->db->exec("UPDATE payment_archive SET count = count - 1
-            WHERE child_id=" . $student->user_id . " and subject_id=" . $student->subject_id) == 1
-            ) {
-                $this->db->exec("INSERT INTO grades (user_id, subject_id, grade, date, attend, comment, homework, branch_id) 
-            VALUES ($student->user_id, $student->subject_id, '$student->grade', '$student->date', $student->attend, 
-            '$student->comment', '$student->file', {$_SESSION['branch']})");
-                $this->db->exec("DELETE FROM grades WHERE grade_id = '$student->grade_id'");
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function deletegrades($student = Student)
-    {
-        $res = $this->db->query("DELETE FROM grades WHERE grade_id = $student->grade_id");
-    }
-
 
     public function findStudentsFromParent($ofset = 0, $limit = 30)
     {
@@ -362,27 +267,6 @@ class StudentMap extends BaseMap
         ]);
     }
 
-    public function Payment()
-    {
-        $res = $this->db->query("SELECT 
-        payment.id as id, 
-        payment.parent_id, 
-        payment.child_id as user_id, 
-        CONCAT(parent.lastname,' ', parent.firstname, ' ', parent.patronymic) AS parent_fio, 
-        CONCAT(child.lastname,' ', child.firstname, ' ', child.patronymic) AS child_fio, 
-        subject.subject_id as subject_id,
-        subject.name as subject, 
-        payment.count as count, 
-        payment.tab as tab, 
-        payment.price as price,
-        payment.deleted
-        FROM payment
-        INNER JOIN user AS parent ON parent.user_id = payment.parent_id
-        INNER JOIN user AS child ON child.user_id = payment.child_id
-        INNER JOIN subject ON payment.subject_id = subject.subject_id 
-        WHERE payment.deleted = 0");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
     public function findStudentById()
     {
         $res = $this->db->query("SELECT student.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio FROM student 
@@ -442,31 +326,4 @@ class StudentMap extends BaseMap
         }
         return false;
     }
-    public function findParentByStudentId($id)
-    {
-        $query = "SELECT DISTINCT parent.user_id FROM parent
-        WHERE child_id = :id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'id' => $id
-        ]);
-        return $res->fetchColumn();
-    }
-
-    public function findStudentSubjectsByUserId($id)
-    {
-        $query = "SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio,  subject.name FROM user 
-        INNER JOIN student ON user.user_id=student.user_id 
-        LEFT JOIN student_subjects ON user.user_id=student_subjects.user_id 
-        LEFT JOIN subject ON subject.subject_id=student_subjects.subject_id
-        WHERE student.deleted = 0 AND user.branch_id = :branch AND user.user_id = :id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'branch' => $_SESSION['branch'],
-            'id' => $id,
-        ]);
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-
 }

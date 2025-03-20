@@ -18,13 +18,12 @@ require_once '../template/header.php';
             </section>
             <div class="box-body">
             </div>
-            <form action="../view/view-performance" method="POST">
+            <form action="../view/view-performance" method="get">
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Ф.И.О ученика</th>
                             <th>Предмет</th>
-                            <th>Филиал</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,16 +38,11 @@ require_once '../template/header.php';
                                     <?= Helper::printSelectOptions(0, (new SubjectMap())->arrSubjects()); ?>
                                 </select>
                             </td>
-                            <td>
-                                <select style="width: 300px;" class="form-control" name="branch_id">
-                                    <?= Helper::printSelectOptions(0, (new UserMap())->arrBranchs()); ?>
-                                </select>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="box-body">
-                    <button type="submit" name="savePayment" class="btn btn-primary">Выполнить</button>
+                    <button type="submit" class="btn btn-primary">Выполнить</button>
                 </div>
             </form>
         </div>

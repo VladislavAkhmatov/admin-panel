@@ -60,7 +60,7 @@ fa-dashboard"></i> Главная</a></li>
                                 else:
                                     echo '<td><p href="../profile/profile-teacher?id=' . $teacher->user_id . '">' . $teacher->fio . '</p> ' . ' </td>';
                                 endif;
-                                echo '<td>' . $teacher->birthday . '</td>';
+                                echo '<td>' . Helper::formattedData($teacher->birthday) . '</td>';
                                 echo '</tr>';
 
                             }
