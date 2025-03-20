@@ -1,4 +1,5 @@
 <?php
+
 class Admin extends Table
 {
     public $user_id = 0;

@@ -20,7 +20,9 @@ class GradeMap extends BaseMap
         }
         return false;
     }
-    public function update($user_id, $schedule_id, $activity, $attend, $homework){
+
+    public function update($user_id, $schedule_id, $activity, $attend, $homework)
+    {
         $sql = "UPDATE `grades` SET activity = :activity, attend = :attend, homework = :homework 
                 WHERE user_id = :user_id AND `schedule_id` = :schedule_id";
         $stmt = $this->db->prepare($sql);
@@ -34,6 +36,7 @@ class GradeMap extends BaseMap
         }
         return false;
     }
+
     public function findGradeByUserAndSchedule($user_id, $schedule_id)
     {
         $sql = "SELECT  `activity`, `attend`, `homework` FROM `grades` WHERE user_id = :user_id

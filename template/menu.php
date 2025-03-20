@@ -25,7 +25,6 @@
                 <li class="header">Справочники</li>
 
 
-
                 <li <?= ($_SERVER['PHP_SELF'] == '/list/list-gruppa.php') ? 'class="active"' : ''; ?>>
 
                     <a href="../list/list-gruppa"><i class="fa fa-object-group"></i><span>Группы</span></a>
@@ -47,6 +46,9 @@
                     <a href="../list/list-teacher-schedule"><i class="fa fa-table"></i><span>Управление
                             расписанием</span></a>
 
+                <li <?= ($_SERVER['PHP_SELF'] == '/select-balance.php') ? 'class="active"' : ''; ?>>
+
+                    <a href="../select-balance"><i class="fa fa-table"></i><span>Баланс уроков</span></a>
                 </li>
             <?php } ?>
             <?php if (Helper::can('teacher')) { ?>
@@ -101,8 +103,6 @@
 
                 <a href="../list/list-classroom"><i class="fa fa-graduation-cap"></i><span>Кабинеты</span></a>
 
-            </li>
-
             <li <?= ($_SERVER['PHP_SELF'] == '/select-schedule.php') ? 'class="active"' : ''; ?>>
 
                 <a href="../select-schedule"><i class="fa fa-address-book"></i><span>Оценки</span></a>
@@ -111,6 +111,10 @@
 
                 <a href="../list/list-teacher-schedule"><i class="fa fa-table"></i><span>Управление
                             расписанием</span></a>
+
+            <li <?= ($_SERVER['PHP_SELF'] == '/select-balance.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../select-balance"><i class="fa fa-table"></i><span>Баланс уроков</span></a>
 
                 <?php } ?>
 

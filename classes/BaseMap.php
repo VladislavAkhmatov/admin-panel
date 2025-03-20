@@ -1,12 +1,14 @@
 <?php
+
 class BaseMap extends Config
 {
     public $db;
+
     function __construct()
     {
         try {
             $this->db = new
-                PDO(
+            PDO(
                 'mysql:host=' . self::HOST . ';dbname=' . self::DB_NAME,
                 self::DB_USER,
                 self::DB_PASSWORD

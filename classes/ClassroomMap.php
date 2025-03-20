@@ -1,4 +1,5 @@
 <?php
+
 class ClassroomMap extends BaseMap
 {
     public function findById($id = null)
@@ -9,6 +10,7 @@ class ClassroomMap extends BaseMap
         }
         return new Classroom();
     }
+
     public function save($classroom = Classroom)
     {
         if ($classroom->validate()) {
@@ -71,6 +73,7 @@ class ClassroomMap extends BaseMap
         }
         return false;
     }
+
     public function arrClassrooms()
     {
         $res = $this->db->query("SELECT classroom_id AS id, name AS value, branch AS branch FROM classroom 

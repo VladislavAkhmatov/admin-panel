@@ -21,6 +21,7 @@ class SubjectMap extends BaseMap
         }
         return new Subject();
     }
+
     public function save($subject = Subject)
     {
         if ($subject->validate()) {
@@ -32,6 +33,7 @@ class SubjectMap extends BaseMap
         }
         return false;
     }
+
     private function insert($subject = Subject)
     {
         $sql = "INSERT INTO subject(name, branch) VALUES(:name, :branch)";
@@ -45,6 +47,7 @@ class SubjectMap extends BaseMap
 
         return false;
     }
+
     private function update($subject = Subject)
     {
         $name = $this->db->quote($subject->name);
@@ -56,6 +59,7 @@ class SubjectMap extends BaseMap
         }
         return false;
     }
+
     public function findAll($ofset = 0, $limit = 30)
     {
         $res = $this->db->query("SELECT subject.subject_id,
@@ -63,12 +67,14 @@ class SubjectMap extends BaseMap
         $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function count()
     {
         $res = $this->db->query("SELECT COUNT(*) AS cnt FROM
         subject WHERE subject.deleted = 0 AND subject.branch = {$_SESSION['branch']}");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function findViewById($id = null)
     {
         if ($id) {

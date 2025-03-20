@@ -1,4 +1,5 @@
 <?php
+
 class User extends Table
 {
     public $user_id = 0;
@@ -11,11 +12,14 @@ class User extends Table
     public $role_id = 0;
     public $branch_id = 0;
     public $gender_id = 0;
+
+    public function __construct()
+    {
+        $this->birthday = date('Y-m-d');
+    }
+
     function validate()
     {
         return true;
-    }
-    public function __construct(){
-        $this->birthday = date('Y-m-d');
     }
 }

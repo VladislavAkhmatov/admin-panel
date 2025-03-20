@@ -45,6 +45,7 @@ class StudentMap extends BaseMap
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function save($user = User, $student = Student)
     {
         if ((new UserMap())->save($user)) {
@@ -57,6 +58,26 @@ class StudentMap extends BaseMap
         }
         return false;
     }
+
+    private function insert($student = Student)
+    {
+        if (
+            $this->db->exec("INSERT INTO student(user_id,
+        gruppa_id, num_zach) VALUES($student->user_id, $student->gruppa_id, $student->num_zach)") == 1
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private function update($student = Student)
+    {
+        if ($this->db->exec("UPDATE student SET gruppa_id = $student->gruppa_id WHERE user_id=" . $student->user_id) == 1) {
+            return true;
+        }
+        return false;
+    }
+
     public function savePayment($student = Student)
     {
         if (
@@ -83,22 +104,26 @@ class StudentMap extends BaseMap
         return false;
     }
 
-    private function insert($student = Student)
-    {
-        if (
-            $this->db->exec("INSERT INTO student(user_id,
-        gruppa_id, num_zach) VALUES($student->user_id, $student->gruppa_id, $student->num_zach)") == 1
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function savePaymentArchive($student = Student)
     {
 
         return $this->insertPaymentArchive($student);
 
+    }
+
+    private function insertPaymentArchive($student = Student)
+    {
+        if (
+            $this->db->exec("INSERT INTO 
+            payment_archive (parent_id, child_id, subject_id, count, tab, price, attend, payment_method) 
+            VALUES($student->parent_id, $student->user_id, 
+            $student->subject_id, $student->count, '$student->tab', $student->price, $student->attend, '$student->payment_method')
+            ") == 1
+        ) {
+            $res = $this->db->query("UPDATE payment SET deleted = 1 WHERE id = $student->id");
+            return true;
+        }
+        return false;
     }
 
     public function deletePayment($student = Student)
@@ -138,22 +163,6 @@ class StudentMap extends BaseMap
 
     }
 
-
-    private function insertPaymentArchive($student = Student)
-    {
-        if (
-            $this->db->exec("INSERT INTO 
-            payment_archive (parent_id, child_id, subject_id, count, tab, price, attend, payment_method) 
-            VALUES($student->parent_id, $student->user_id, 
-            $student->subject_id, $student->count, '$student->tab', $student->price, $student->attend, '$student->payment_method')
-            ") == 1
-        ) {
-            $res = $this->db->query("UPDATE payment SET deleted = 1 WHERE id = $student->id");
-            return true;
-        }
-        return false;
-    }
-
     private function updatePaymentArchive($student = Student)
     {
         if ($this->db->exec("UPDATE payment_archive SET count = count + $student->count WHERE child_id=" . $student->user_id . " and subject_id=" . $student->subject_id) == 1) {
@@ -163,15 +172,6 @@ class StudentMap extends BaseMap
         return false;
     }
 
-
-
-    private function update($student = Student)
-    {
-        if ($this->db->exec("UPDATE student SET gruppa_id = $student->gruppa_id WHERE user_id=" . $student->user_id) == 1) {
-            return true;
-        }
-        return false;
-    }
     public function findAll($ofset = 0, $limit = 30)
     {
         $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, gruppa.name AS gruppa, 
@@ -186,6 +186,7 @@ class StudentMap extends BaseMap
             LIMIT $ofset, $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function findStudentsFromGroup($id)
     {
         $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, gruppa.name AS gruppa, 
@@ -234,6 +235,7 @@ class StudentMap extends BaseMap
             WHERE user.branch_id = {$_SESSION['branch']} AND student.deleted = 0");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function findProfileById($id = null)
     {
         if ($id) {
@@ -294,6 +296,7 @@ class StudentMap extends BaseMap
         return $this->addgrades($student);
 
     }
+
     public function addgrades($student = null)
     {
         if (!$student || !is_object($student)) {

@@ -58,6 +58,7 @@ class TeacherMap extends BaseMap
             return true;
         return false;
     }
+
     public function findAll($ofset = 0, $limit = 30)
     {
 
@@ -73,6 +74,7 @@ class TeacherMap extends BaseMap
             LIMIT $ofset, $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function count()
     {
         $res = $this->db->query("SELECT COUNT(*) AS cnt FROM teacher 
@@ -80,6 +82,7 @@ class TeacherMap extends BaseMap
         WHERE teacher.deleted = 0 AND user.branch_id = {$_SESSION['branch']}");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function findProfileById($id = null)
     {
         if ($id) {

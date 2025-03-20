@@ -1,4 +1,5 @@
 <?php
+
 class Helper
 {
 
@@ -6,17 +7,22 @@ class Helper
     {
         return trim(strip_tags($str));
     }
+
     static function clearInt($str)
     {
-        return (int) $str;
-    }
-    static function formattedData($date){
-       return date_format(date_create($date), 'd.m.Y');
+        return (int)$str;
     }
 
-    static function formattedDataForDB($date){
+    static function formattedData($date)
+    {
+        return date_format(date_create($date), 'd.m.Y');
+    }
+
+    static function formattedDataForDB($date)
+    {
         return date_format(date_create($date), 'Y-m-d');
     }
+
     static function printSelectOptions($key = array(), $options = array())
     {
         if ($options) {
@@ -27,6 +33,7 @@ class Helper
             <?php }
         }
     }
+
     static function printSelectOptionsByIdAndValue($options = array())
     {
         if ($options) {
@@ -48,11 +55,14 @@ class Helper
             <?php }
         }
     }
-    public static function dump($data){
+
+    public static function dump($data)
+    {
         echo '<pre>';
         print_r($data);
         echo '</pre>';
     }
+
     public static function paginator($count = 1, $current = 1, $size = 30)
     {
         $numPages = ceil($count / $size);
@@ -67,20 +77,24 @@ class Helper
         }
         echo '</ul>';
     }
+
     public static function setFlash($message = '')
     {
         $_SESSION['flash'] = $message;
     }
+
     public static function getFlash()
     {
         $msg = $_SESSION['flash'];
         $_SESSION['flash'] = '';
         return $msg;
     }
+
     public static function hasFlash()
     {
         return (!empty($_SESSION['flash'])) ? true : false;
     }
+
     public static function can($role)
     {
         return ($role === $_SESSION['role']) ? true : false;

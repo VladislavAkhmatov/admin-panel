@@ -1,4 +1,5 @@
 <?php
+
 class Student extends Table
 {
     public $id = 0;
@@ -22,15 +23,17 @@ class Student extends Table
     public $file = '';
     public $link = '';
     public $payment_method = 'Ссылка';
+
+    public function __construct()
+    {
+        $this->date = date('Y-m-d');
+    }
+
     function validate()
     {
         if (!empty($this->gruppa_id)) {
             return true;
         }
         return false;
-    }
-
-    public function __construct(){
-        $this->date = date('Y-m-d');
     }
 }

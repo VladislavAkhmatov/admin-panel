@@ -1,4 +1,5 @@
 <?php
+
 class GruppaMap extends BaseMap
 {
     public function arrGruppas()
@@ -9,6 +10,7 @@ class GruppaMap extends BaseMap
         ");
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function findById($id = null)
     {
         if ($id) {
@@ -17,6 +19,7 @@ class GruppaMap extends BaseMap
         }
         return new Gruppa();
     }
+
     public function save($gruppa = Gruppa)
     {
         if ($gruppa->validate()) {
@@ -28,6 +31,7 @@ class GruppaMap extends BaseMap
         }
         return false;
     }
+
     private function insert($gruppa = Gruppa)
     {
         $name = $this->db->quote($gruppa->name);
@@ -43,6 +47,7 @@ class GruppaMap extends BaseMap
         }
         return false;
     }
+
     private function update($gruppa = Gruppa)
     {
         $name = $this->db->quote($gruppa->name);
@@ -57,6 +62,7 @@ class GruppaMap extends BaseMap
         }
         return false;
     }
+
     public function findAll($ofset = 0, $limit = 30)
     {
 
@@ -68,11 +74,13 @@ class GruppaMap extends BaseMap
             LIMIT $ofset, $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function count()
     {
         $res = $this->db->query("SELECT COUNT(*) AS cnt FROM gruppa WHERE gruppa.deleted = 0 AND gruppa.branch = {$_SESSION['branch']}");
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
+
     public function findViewById($id = null)
     {
         if ($id) {

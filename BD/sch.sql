@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 20 2025 г., 06:53
+-- Время создания: Мар 20 2025 г., 08:25
 -- Версия сервера: 8.0.30
--- Версия PHP: 7.4.30
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -82,6 +82,19 @@ INSERT INTO `awards` (`id`, `user_id`, `subject_id`, `award`) VALUES
 (25, 117, 18, '123'),
 (26, 118, NULL, NULL),
 (27, 124, 22, '3');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `balance`
+--
+
+CREATE TABLE `balance` (
+  `id` int NOT NULL,
+  `user_id` bigint NOT NULL,
+  `subject_id` int NOT NULL,
+  `count` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -207,7 +220,10 @@ INSERT INTO `grades` (`grade_id`, `user_id`, `schedule_id`, `activity`, `attend`
 (419, 9, 72, 100, 1, 90, '2025-03-19', 1),
 (420, 9, 73, NULL, 0, NULL, '2025-03-19', 1),
 (421, 18, 73, 22, 1, 33, '2025-03-19', 1),
-(422, 83, 73, NULL, 1, NULL, '2025-03-19', 1);
+(422, 83, 73, NULL, 1, NULL, '2025-03-19', 1),
+(423, 9, 79, 65, 1, 75, '2025-03-20', 1),
+(424, 18, 79, 79, 1, 88, '2025-03-20', 1),
+(425, 83, 79, 50, 1, 75, '2025-03-20', 1);
 
 -- --------------------------------------------------------
 
@@ -441,7 +457,7 @@ CREATE TABLE `schedule` (
   `subject_id` int NOT NULL,
   `teacher_id` bigint NOT NULL,
   `date` date NOT NULL,
-  `time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `classroom_id` int DEFAULT NULL,
   `deleted` tinyint DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -457,7 +473,8 @@ INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `
 (75, 1, 3, 6, '2025-03-04', '10:38', 1, 0),
 (76, 1, 3, 6, '2025-03-04', '11:40', 1, 0),
 (77, 1, 3, 14, '2025-03-03', '11:40', 1, 0),
-(78, 10, 49, 130, '2025-03-03', '10:00', 7, 0);
+(78, 10, 49, 130, '2025-03-03', '10:00', 7, 0),
+(79, 1, 3, 6, '2025-03-05', '10:20', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -726,6 +743,14 @@ ALTER TABLE `awards`
   ADD KEY `subject_id` (`subject_id`);
 
 --
+-- Индексы таблицы `balance`
+--
+ALTER TABLE `balance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `subject_id` (`subject_id`),
+  ADD KEY `balance_ibfk_1` (`user_id`);
+
+--
 -- Индексы таблицы `branch`
 --
 ALTER TABLE `branch`
@@ -862,6 +887,12 @@ ALTER TABLE `awards`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- AUTO_INCREMENT для таблицы `balance`
+--
+ALTER TABLE `balance`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `branch`
 --
 ALTER TABLE `branch`
@@ -889,7 +920,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT для таблицы `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=423;
+  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=426;
 
 --
 -- AUTO_INCREMENT для таблицы `gruppa`
@@ -931,7 +962,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT для таблицы `subject`
@@ -962,6 +993,13 @@ ALTER TABLE `admin`
 ALTER TABLE `awards`
   ADD CONSTRAINT `awards_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `awards_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `balance`
+--
+ALTER TABLE `balance`
+  ADD CONSTRAINT `balance_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `student` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `balance_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `classroom`

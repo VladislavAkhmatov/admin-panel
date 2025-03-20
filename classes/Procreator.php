@@ -1,4 +1,5 @@
 <?php
+
 class Procreator extends Table
 {
     public $user_id = 0;
@@ -12,6 +13,7 @@ class Procreator extends Table
     public $file = '';
     public $file_prepared = '';
     public $child_id = 0;
+
     function validate()
     {
         return true;

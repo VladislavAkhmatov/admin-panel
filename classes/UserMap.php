@@ -86,31 +86,31 @@ class UserMap extends BaseMap
         $login = $this->db->quote($user->login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
-            if ($_SESSION['branch'] != 999) {
-                if (
-                    $this->db->exec("INSERT INTO user(lastname,
+        if ($_SESSION['branch'] != 999) {
+            if (
+                $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
             role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
             $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id
             )") == 1
-                ) {
-                    $user->user_id = $this->db->lastInsertId();
-                    return true;
-                }
-                return false;
-            } else {
-                if (
-                    $this->db->exec("INSERT INTO user(lastname,
+            ) {
+                $user->user_id = $this->db->lastInsertId();
+                return true;
+            }
+            return false;
+        } else {
+            if (
+                $this->db->exec("INSERT INTO user(lastname,
             firstname, patronymic, login, pass, gender_id, birthday,
             role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
             $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id 
             )") == 1
-                ) {
-                    $user->user_id = $this->db->lastInsertId();
-                    return true;
-                }
-                return false;
+            ) {
+                $user->user_id = $this->db->lastInsertId();
+                return true;
             }
+            return false;
+        }
         return false;
     }
 

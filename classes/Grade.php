@@ -1,4 +1,5 @@
 <?php
+
 class Grade extends Table
 {
     public $grades_id = 0;
@@ -7,6 +8,12 @@ class Grade extends Table
     public $grades = 0;
     public $date = date;
     public $reason = 0;
+
+    public function __construct()
+    {
+        $this->date = date('Y-m-d');
+    }
+
     function validate()
     {
         if (
@@ -18,9 +25,5 @@ class Grade extends Table
             return true;
         }
         return false;
-    }
-
-    public function __construct(){
-        $this->date = date('Y-m-d');
     }
 }

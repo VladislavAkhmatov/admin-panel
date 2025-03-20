@@ -1,4 +1,5 @@
 <?php
+
 class owner extends Table
 {
     public $user_id = 0;
@@ -17,6 +18,6 @@ class owner extends Table
             return true;
         }
         return false;
-      }
+    }
 
 }
