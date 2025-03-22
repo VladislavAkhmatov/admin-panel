@@ -30,14 +30,11 @@ if (isset($_POST['user_id'])) {
             if ($teacher->user_id) {
                 header('Location: ../profile/profile-teacher?id=' . $teacher->user_id);
             } else {
-                header('Location: ../profile/profile-teacher');
+                header('Location: ../add/add-teacher?q=err');
             }
         }
         exit();
     }
-
-
-
 
     if (isset($_POST['saveParent'])) {
         $parent = new Procreator();
@@ -53,7 +50,7 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-parent?id=' . $parent->user_id);
 
             } else {
-                header('Location: ../profile/profile-parent');
+                header('Location: ../add/add-parent?q=err');
             }
         }
         exit();
@@ -75,7 +72,7 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-student?id=' . $student->user_id);
 
             } else {
-                header('Location: ../add/add-student');
+                header('Location: ../add/add-student?q=err');
             }
         }
         exit();
@@ -96,7 +93,7 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-owner?id=' . $owner->user_id);
 
             } else {
-                header('Location: ../profile/profile-owner?q=err');
+                header('Location: ../add/add-owner?q=err');
             }
         }
         exit();
@@ -107,6 +104,7 @@ if (isset($_POST['user_id'])) {
         $admin->branch_id = Helper::clearInt($_SESSION['branch']);
         $admin->user_id = $user->user_id;
         $user->role_id = Helper::clearInt(3);
+
         if ((new AdminMap())->save($user, $admin)) {
             header('Location: ../profile/profile-admin?id=' . $admin->user_id);
         } else {
@@ -114,7 +112,7 @@ if (isset($_POST['user_id'])) {
                 header('Location: ../profile/profile-admin?id=' . $admin->user_id);
 
             } else {
-                header('Location: ../profile/profile-admin?q=err');
+                header('Location: ../add/add-admin?q=err');
             }
         }
         exit();

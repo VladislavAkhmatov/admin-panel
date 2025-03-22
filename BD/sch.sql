@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 20 2025 г., 08:25
+-- Время создания: Мар 22 2025 г., 07:48
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -50,7 +50,9 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (119, 1, 0),
 (121, 1, 0),
 (123, 1, 0),
-(129, 1, 0);
+(129, 1, 0),
+(134, 1, 0),
+(135, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -392,7 +394,10 @@ INSERT INTO `parent` (`id`, `user_id`, `child_id`, `deleted`) VALUES
 (37, 125, NULL, 0),
 (38, 10, 126, 0),
 (39, 10, 126, 0),
-(40, 125, 126, 0);
+(40, 125, 126, 0),
+(41, 138, NULL, 0),
+(42, 10, 122, 0),
+(43, 138, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -508,7 +513,8 @@ INSERT INTO `student` (`user_id`, `gruppa_id`, `reference`, `num_zach`, `deleted
 (122, 3, NULL, '0', 0),
 (126, 3, NULL, '0', 0),
 (128, 2, NULL, '0', 0),
-(131, 10, NULL, '0', 0);
+(131, 10, NULL, '0', 0),
+(136, 2, NULL, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -626,7 +632,8 @@ INSERT INTO `teacher` (`user_id`, `deleted`) VALUES
 (117, 0),
 (118, 0),
 (124, 0),
-(130, 0);
+(130, 0),
+(137, 0);
 
 -- --------------------------------------------------------
 
@@ -721,7 +728,12 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (128, 'asdasd', 'asdasd', 'asdasd', '12312321', '$2y$10$XZOSbCM9YgF9ihvTtRIiKucvfad5MJ.clxz8dpX.HeiTyQyL/yRBy', 1, '2025-03-15', 5, 1, 1),
 (129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1),
 (130, 'Тест расписания', 'И', 'Оценок', '322', '$2y$10$ii33HEi79F.UIr5ZiMR4m.ATYWkXJrK.sn4NzIu0eOeOdp88QGTdu', 1, '2025-03-04', 4, 4, 1),
-(131, 'тест расписания', 'и', 'оценок (Ученик)', '3222', '$2y$10$qwVDgFEYMClwd.DeZmVVu.ueCQyAtC6WCfeNlyjGxr5gV1rMhI/hq', 1, '2025-03-11', 5, 4, 1);
+(131, 'тест расписания', 'и', 'оценок (Ученик)', '3222', '$2y$10$qwVDgFEYMClwd.DeZmVVu.ueCQyAtC6WCfeNlyjGxr5gV1rMhI/hq', 1, '2025-03-11', 5, 4, 1),
+(134, 'hjfdnbjfd', 'jdsnvjsdnv', 'djvndfjnv', '777899', '$2y$10$igR0TNovY4UNwI33dqW04eexEfXff9RJkfC5LOLpUddD7qa.3XReu', 1, '2025-03-11', 3, 1, 1),
+(135, 'kdfvjfdnb', 'dnsvjkdnfv', 'lnjjvndfv', '1234321', '$2y$10$X/n2SIfIQnkU6aolVuleYOFKgComGwJkjf6fFCys6Thj.QrXAdaha', 1, '2025-03-04', 3, 1, 1),
+(136, 'studenttest', 'studenttest', 'studenttest', '7770099', '$2y$10$R2IIefOghUtPxjj5yne1weG3m4eiAQOxCYSakZNgCjPq6Tq3G/Zhi', 1, '2025-03-03', 5, 1, 1),
+(137, 'testteacher', 'testteacher', 'testteacher', '77700987', '$2y$10$MM8MSWnKXuU.BHcp4f1k7u11Irc6BMg2eOgGi73zIqfPZ4EM.FdXO', 1, '2025-03-01', 4, 1, 1),
+(138, 'testparent', 'testparent', 'testparent', '7775543', '$2y$10$nsdaA2aUWudu9u6qsef5neOEygahuvVxXlmWuoCbxB3K0MH2Ujieq', 1, '2025-03-01', 6, 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -944,7 +956,7 @@ ALTER TABLE `otdel`
 -- AUTO_INCREMENT для таблицы `parent`
 --
 ALTER TABLE `parent`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT для таблицы `reference`
@@ -974,7 +986,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -11,13 +11,16 @@ if (isset($_GET['id'])) {
 $student = (new StudentMap())->findById($id);
 $header = (($id) ? 'Редактировать данные' : 'Добавить') . '
 Студента';
+if (isset($_GET['q'])) {
+    $header = 'Ошибка при добавлении пользователя <br> (Возможно такой логин уже используется)';
+}
 require_once '../template/header.php';
 $_SESSION['temp'] = "student";
 ?>
 <section class="content-header">
     <h3>
         <b>
-            <?= $header; ?>
+            <?php echo isset($_GET['q']) ? "<p style='color: red'> $header <p>" : $header ?>
         </b>
     </h3>
     <ol class="breadcrumb">
