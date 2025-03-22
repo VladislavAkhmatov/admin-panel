@@ -62,7 +62,6 @@ fa-dashboard"></i> Главная</a></li>
                                 endif;
                                 echo '<td>' . Helper::formattedData($teacher->birthday) . '</td>';
                                 echo '</tr>';
-
                             }
                             ?>
                             </tbody>

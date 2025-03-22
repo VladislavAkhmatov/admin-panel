@@ -11,17 +11,7 @@ if (isset($_GET['date'])) {
 
 }
 
-$message = 'Посмотреть оценки';
-
-switch ($_GET['message']) {
-    case 'ok':
-        $message = '<span style="color: green;">Успешно</span>';
-        break;
-    case 'err':
-        $message = '<span style="color: red;">Ошибка</span>';
-        break;
-}
-
+$message = 'Просмотреть баланс уроков';
 require_once 'template/header.php';
 
 ?>
@@ -42,21 +32,11 @@ require_once 'template/header.php';
     </section>
     <div class="box-body">
         <div class="form-group">
-            <form method="GET" action="select-schedule">
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input class="form-control" type="date" name="date" required>
-                </div>
+            <form method="GET" action="set-balance">
                 <div class="form-group">
                     <label>Предмет</label>
                     <select class="form-control" name="subject_id">
                         <?php Helper::printSelectOptions(0, (new SubjectMap)->arrSubjects()) ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Учитель</label>
-                    <select class="form-control" name="teacher_id">
-                        <?php Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -71,21 +51,6 @@ require_once 'template/header.php';
             </form>
         </div>
     </div>
-<?php if ($allSchedule != null): ?>
-    <div class="box-body" style="display: flex;">
-        <?php foreach ($allSchedule as $item): ?>
-            <form action="set-grades" method="get">
-                <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->time ?>">
-                <input type="hidden" name="schedule" value="<?= $item->schedule_id ?>">
-                <input type="hidden" name="group" value="<?= $item->group_id ?>">
-            </form>
-        <?php endforeach; ?>
-    </div>
-<?php else: ?>
-    <div class="box-body">
-        Ни одной записи не найдено
-    </div>
-<?php endif; ?>
 <?php
 require_once 'template/footer.php';
 ?>

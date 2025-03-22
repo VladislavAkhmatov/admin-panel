@@ -33,7 +33,6 @@ if (isset($_POST['user_ids'])) {
     } catch (Exception $e) {
         $grade->db->rollback();
         var_dump($e->getMessage());
-        die();
         header('Location: ../set-grades?q=err');
         exit();
     }

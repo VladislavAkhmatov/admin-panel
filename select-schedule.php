@@ -14,16 +14,7 @@ if (isset($_GET['date'])) {
     $allSchedule = $schedule->findByParams($date, $teacher_id, $subject_id, $group_id);
 }
 
-$message = 'Посмотреть оценки';
-
-switch ($_GET['message']) {
-    case 'ok':
-        $message = '<span style="color: green;">Успешно</span>';
-        break;
-    case 'err':
-        $message = '<span style="color: red;">Ошибка</span>';
-        break;
-}
+$message = 'Просмотреть оценки';
 
 require_once 'template/header.php';
 

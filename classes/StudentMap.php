@@ -37,9 +37,11 @@ class StudentMap extends BaseMap
     public function findByGruppaID($id = null)
     {
         $sql = "SELECT CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as user, 
-            student.user_id, gruppa_id FROM student 
+            student.user_id, gruppa.gruppa_id as gruppa_id, gruppa.name as gruppa_name 
+            FROM student 
             INNER JOIN user ON student.user_id = user.user_id
-            WHERE student.gruppa_id = :group_id";
+            INNER JOIN gruppa ON student.gruppa_id = gruppa.gruppa_id
+            WHERE gruppa.gruppa_id = :group_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(":group_id", $id, PDO::PARAM_INT);
         $stmt->execute();
