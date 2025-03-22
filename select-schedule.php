@@ -15,7 +15,9 @@ if (isset($_GET['date'])) {
 }
 
 $message = 'Просмотреть оценки';
-
+if (isset($_GET['q'])) {
+    $message = Helper::message($_GET['q']);
+}
 require_once 'template/header.php';
 
 ?>

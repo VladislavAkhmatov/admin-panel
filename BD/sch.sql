@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 22 2025 г., 07:48
+-- Время создания: Мар 22 2025 г., 12:02
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -52,7 +52,8 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (123, 1, 0),
 (129, 1, 0),
 (134, 1, 0),
-(135, 1, 0);
+(135, 1, 0),
+(139, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -97,6 +98,15 @@ CREATE TABLE `balance` (
   `subject_id` int NOT NULL,
   `count` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Дамп данных таблицы `balance`
+--
+
+INSERT INTO `balance` (`id`, `user_id`, `subject_id`, `count`) VALUES
+(1, 9, 3, 50),
+(2, 18, 3, 3),
+(3, 83, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -217,9 +227,9 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`grade_id`, `user_id`, `schedule_id`, `activity`, `attend`, `homework`, `date`, `branch_id`) VALUES
-(415, 18, 72, NULL, 0, NULL, '2025-03-19', 1),
+(415, 18, 72, 0, 0, 35, '2025-03-19', 1),
 (416, 83, 72, 33, 1, 55, '2025-03-19', 1),
-(419, 9, 72, 100, 1, 90, '2025-03-19', 1),
+(419, 9, 72, 90, 1, 90, '2025-03-19', 1),
 (420, 9, 73, NULL, 0, NULL, '2025-03-19', 1),
 (421, 18, 73, 22, 1, 33, '2025-03-19', 1),
 (422, 83, 73, NULL, 1, NULL, '2025-03-19', 1),
@@ -479,7 +489,8 @@ INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `
 (76, 1, 3, 6, '2025-03-04', '11:40', 1, 0),
 (77, 1, 3, 14, '2025-03-03', '11:40', 1, 0),
 (78, 10, 49, 130, '2025-03-03', '10:00', 7, 0),
-(79, 1, 3, 6, '2025-03-05', '10:20', 1, 0);
+(79, 1, 3, 6, '2025-03-05', '10:20', 1, 0),
+(80, 1, 3, 6, '2025-03-26', '15:40', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -733,7 +744,8 @@ INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `
 (135, 'kdfvjfdnb', 'dnsvjkdnfv', 'lnjjvndfv', '1234321', '$2y$10$X/n2SIfIQnkU6aolVuleYOFKgComGwJkjf6fFCys6Thj.QrXAdaha', 1, '2025-03-04', 3, 1, 1),
 (136, 'studenttest', 'studenttest', 'studenttest', '7770099', '$2y$10$R2IIefOghUtPxjj5yne1weG3m4eiAQOxCYSakZNgCjPq6Tq3G/Zhi', 1, '2025-03-03', 5, 1, 1),
 (137, 'testteacher', 'testteacher', 'testteacher', '77700987', '$2y$10$MM8MSWnKXuU.BHcp4f1k7u11Irc6BMg2eOgGi73zIqfPZ4EM.FdXO', 1, '2025-03-01', 4, 1, 1),
-(138, 'testparent', 'testparent', 'testparent', '7775543', '$2y$10$nsdaA2aUWudu9u6qsef5neOEygahuvVxXlmWuoCbxB3K0MH2Ujieq', 1, '2025-03-01', 6, 1, 1);
+(138, 'testparent', 'testparent', 'testparent', '7775543', '$2y$10$nsdaA2aUWudu9u6qsef5neOEygahuvVxXlmWuoCbxB3K0MH2Ujieq', 1, '2025-03-01', 6, 1, 1),
+(139, 'Администратор', 'Первого', 'Филиала', '333', '$2y$10$yFFu55Z2aWSTYInURGUy1.0W5JeGYcOvknst2afUNrTJIKj4gIhni', 1, '2025-03-01', 3, 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -902,7 +914,7 @@ ALTER TABLE `awards`
 -- AUTO_INCREMENT для таблицы `balance`
 --
 ALTER TABLE `balance`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `branch`
@@ -974,7 +986,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT для таблицы `subject`
@@ -986,7 +998,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

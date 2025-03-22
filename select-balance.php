@@ -12,6 +12,9 @@ if (isset($_GET['date'])) {
 }
 
 $message = 'Просмотреть баланс уроков';
+if (isset($_GET['q'])) {
+    $message = Helper::message($_GET['q']);
+}
 require_once 'template/header.php';
 
 ?>

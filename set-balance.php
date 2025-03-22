@@ -54,7 +54,7 @@ require_once 'template/header.php';
     </div>
     <div class="container mt-5">
 <?php if ($allStudents): ?>
-    <form action="save/save-grades" method="post">
+    <form action="save/save-balance" method="post">
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -77,19 +77,19 @@ require_once 'template/header.php';
                         <p><?= $balance->count ?></p>
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="addCount[]"
-                        >
+                        <input type="number" class="form-control" name="addCounts[<?= $item->user_id ?>]"
+                               min="0">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="reduceCount[]"
-                        >
+                        <input type="number" class="form-control" name="reduceCounts[<?= $item->user_id ?>]"
+                               min="0">
                     </td>
                     <input type="hidden" name="user_ids[]" value="<?= $item->user_id ?>">
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
-        <input class="btn btn-primary" type="hidden" name="schedule_id" value="">
+        <input type="hidden" value="<?= $subject_id ?>" name="subject_id">
         <input class="btn btn-primary" type="submit" value="Сохранить">
     </form>
     </div>

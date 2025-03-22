@@ -101,22 +101,16 @@ class Helper
     }
 
 
-    public static function getQuery($status)
+    public static function message($query)
     {
-        $statuses = [
-            'ok' => 'Успешно',
-            'okDel' => 'Успешно удалено',
-            'err' => 'Ошибка',
-            'errDel' => 'Ошибка удаления',
-            'errBranch' => 'Вы не принадлежите этому филиалу',
-            'errgrades' => 'Ошибка при подтверждении оценки (Возможно у ученика закончились допуски к уроку)',
+        $queries = [
+            'err' => 'Ошибка добавления',
+            'ok' => 'Успешно добавлено'
         ];
-
-        if ($status == 'ok' || $status == 'okDel') {
-            $message = '<span style="color: green;">' . $statuses[$status] . '</span>';
+        if ($query == 'err') {
+            return "<b style='color: darkred'>$queries[$query]</b>";
         } else {
-            $message = '<span style="color: red;">' . $statuses[$status] . '</span>';
+            return "<b style='color: darkgreen'>$queries[$query]</b>";
         }
-        echo $message;
     }
 }

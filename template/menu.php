@@ -39,7 +39,7 @@
 
                 <li <?= ($_SERVER['PHP_SELF'] == '/select-schedule.php') ? 'class="active"' : ''; ?>>
 
-                    <a href="../select-schedule.php"><i class="fa fa-book"></i><span>Журнал</span></a>
+                    <a href="../select-schedule.php"><i class="fa fa-address-book"></i><span>Оценки</span></a>
 
                 <li <?= ($_SERVER['PHP_SELF'] == '/list/list-teacher-schedule.php') ? 'class="active"' : ''; ?>>
 

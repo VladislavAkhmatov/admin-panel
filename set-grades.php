@@ -75,15 +75,15 @@ require_once 'template/header.php';
                     </td>
                     <td>
                         <input class="form-check-input" type="checkbox" name="attends[<?= $item->user_id ?>]"
-                               value="1" <?= $grade->attend == 1 ? 'checked' : ''?>>
+                               value="1" <?= $grade->attend == 1 ? 'checked' : '' ?>>
                     </td>
                     <td>
                         <input type="number" class="form-control" name="activities[]" value="<?= $grade->activity ?>"
-                               placeholder="Введите текст">
+                               min="0" max="100">
                     </td>
                     <td>
                         <input type="number" class="form-control" name="homeworks[]" value="<?= $grade->homework ?>"
-                               placeholder="Введите текст">
+                               min="0" max="100">
                     </td>
                     <input type="hidden" name="user_ids[]" value="<?= $item->user_id ?>">
                 </tr>
