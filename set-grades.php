@@ -11,7 +11,8 @@ $student = new StudentMap();
 $foundSchedule = null;
 $allStudents = null;
 
-if ($_GET['schedule'] && $_GET['group']) {
+if ($_GET['schedule'] && $_GET['group'] && $_GET['subject']) {
+    $subject_id = $_GET['subject'];
     $schedule_id = $_GET['schedule'];
     $group_id = $_GET['group'];
 
@@ -91,6 +92,7 @@ require_once 'template/header.php';
             </tbody>
         </table>
         <input class="btn btn-primary" type="hidden" name="schedule_id" value="<?= $foundSchedule->schedule_id ?>">
+        <input class="btn btn-primary" type="hidden" name="subject_id" value="<?= $subject_id ?>">
         <input class="btn btn-primary" type="submit" value="Сохранить">
     </form>
     </div>

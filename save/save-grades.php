@@ -7,7 +7,7 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
 
 if (isset($_POST['user_ids'])) {
     $grade = new GradeMap();
-
+    $balance = new BalanceMap();
     $user_ids = $_POST['user_ids'];
     $schedule_id = $_POST['schedule_id'];
     $attends = $_POST['attends'];
@@ -26,6 +26,7 @@ if (isset($_POST['user_ids'])) {
                 $grade->update($user_id, $schedule_id, $activity, $attend, $homework);
             } else {
                 $grade->insert($user_id, $schedule_id, $activity, $attend, $homework);
+                $balance->withdraw($user_id, $schedule_id);
             }
         }
 

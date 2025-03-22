@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 22 2025 г., 12:02
+-- Время создания: Мар 22 2025 г., 14:59
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -104,7 +104,7 @@ CREATE TABLE `balance` (
 --
 
 INSERT INTO `balance` (`id`, `user_id`, `subject_id`, `count`) VALUES
-(1, 9, 3, 50),
+(1, 9, 3, 48),
 (2, 18, 3, 3),
 (3, 83, 3, 4);
 
@@ -227,15 +227,9 @@ CREATE TABLE `grades` (
 --
 
 INSERT INTO `grades` (`grade_id`, `user_id`, `schedule_id`, `activity`, `attend`, `homework`, `date`, `branch_id`) VALUES
-(415, 18, 72, 0, 0, 35, '2025-03-19', 1),
-(416, 83, 72, 33, 1, 55, '2025-03-19', 1),
-(419, 9, 72, 90, 1, 90, '2025-03-19', 1),
-(420, 9, 73, NULL, 0, NULL, '2025-03-19', 1),
-(421, 18, 73, 22, 1, 33, '2025-03-19', 1),
-(422, 83, 73, NULL, 1, NULL, '2025-03-19', 1),
-(423, 9, 79, 65, 1, 75, '2025-03-20', 1),
-(424, 18, 79, 79, 1, 88, '2025-03-20', 1),
-(425, 83, 79, 50, 1, 75, '2025-03-20', 1);
+(426, 9, 72, 75, 1, 50, '2025-03-22', 1),
+(427, 18, 72, NULL, 0, NULL, '2025-03-22', 1),
+(428, 83, 72, NULL, 0, NULL, '2025-03-22', 1);
 
 -- --------------------------------------------------------
 
@@ -944,7 +938,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT для таблицы `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=426;
+  MODIFY `grade_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=429;
 
 --
 -- AUTO_INCREMENT для таблицы `gruppa`

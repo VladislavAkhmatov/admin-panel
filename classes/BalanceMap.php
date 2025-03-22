@@ -14,7 +14,8 @@ class BalanceMap extends BaseMap
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function update($user_id, $subject_id, $count){
+    public function update($user_id, $subject_id, $count)
+    {
         $sql = "UPDATE `balance` SET `count` = count + :count 
                 WHERE user_id = :user_id AND subject_id = :subject_id";
         $stmt = $this->db->prepare($sql);
@@ -24,13 +25,24 @@ class BalanceMap extends BaseMap
         return $stmt->execute();
     }
 
-    public function insert($user_id, $subject_id, $count){
+    public function insert($user_id, $subject_id, $count)
+    {
         $sql = "INSERT INTO `balance`(`user_id`, `subject_id`, `count`) 
                 VALUES (:user_id, :subject_id, :count)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':subject_id', $subject_id);
         $stmt->bindParam(':count', $count);
+        return $stmt->execute();
+    }
+
+    public function withdraw($user_id, $subject_id)
+    {
+        $sql = "UPDATE `balance` SET `count` = count + (-1) 
+                WHERE user_id = :user_id AND subject_id = :subject_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':subject_id', $subject_id);
         return $stmt->execute();
     }
 }

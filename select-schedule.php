@@ -74,6 +74,7 @@ require_once 'template/header.php';
                 <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->time ?>">
                 <input type="hidden" name="schedule" value="<?= $item->schedule_id ?>">
                 <input type="hidden" name="group" value="<?= $item->group_id ?>">
+                <input type="hidden" name="subject" value="<?= $subject_id ?>">
             </form>
         <?php endforeach; ?>
     </div>
