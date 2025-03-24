@@ -43,6 +43,14 @@ class BalanceMap extends BaseMap
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->bindParam(':subject_id', $subject_id);
-        return $stmt->execute();
+        if ($this->findByUserIdAndSubjectId($user_id, $subject_id) > 0) {
+            return $stmt->execute();
+        } else {
+            $count = 0;
+            if ($this->insert($user_id, $subject_id, $count)) {
+                return $stmt->execute();
+            }
+        }
+
     }
 }

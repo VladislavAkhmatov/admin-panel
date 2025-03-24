@@ -23,6 +23,7 @@ class GradeMap extends BaseMap
 
     public function update($user_id, $schedule_id, $activity, $attend, $homework)
     {
+
         $sql = "UPDATE `grades` SET activity = :activity, attend = :attend, homework = :homework 
                 WHERE user_id = :user_id AND `schedule_id` = :schedule_id";
         $stmt = $this->db->prepare($sql);

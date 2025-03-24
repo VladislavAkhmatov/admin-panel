@@ -214,17 +214,4 @@ class ScheduleMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function updatePlan($schedule_id, $lesson_plan_id)
-    {
-        $query = "UPDATE schedule SET deleted = 1 WHERE schedule_id = :schedule_id";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'schedule_id' => $schedule_id,
-            ])
-        ) {
-            return true;
-        }
-        return false;
-    }
 }

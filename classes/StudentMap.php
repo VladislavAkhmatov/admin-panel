@@ -92,20 +92,6 @@ class StudentMap extends BaseMap
         return false;
     }
 
-    public function deleteNoticeById($id)
-    {
-        $query = "UPDATE notice SET deleted = 1 WHERE id = :id";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'id' => $id
-            ])
-        ) {
-            return true;
-        }
-        return false;
-    }
-
     public function savePaymentArchive($student = Student)
     {
 
@@ -124,36 +110,6 @@ class StudentMap extends BaseMap
         ) {
             $res = $this->db->query("UPDATE payment SET deleted = 1 WHERE id = $student->id");
             return true;
-        }
-        return false;
-    }
-
-    public function deletePayment($student = Student)
-    {
-        $query = "UPDATE payment SET deleted = 1 WHERE id = :id";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'id' => $student->id
-            ])
-        ) {
-            $query = "INSERT INTO notice(text, subject_id, user_id, child_id, subject_count, subject_price, canceled)
-            VALUES(:text, :subject_id, :user_id, :child_id, :subject_count, :subject_price, :canceled)";
-            $res = $this->db->prepare($query);
-            if (
-                $res->execute([
-                    'text' => $student->text,
-                    'subject_id' => $student->subject_id,
-                    'user_id' => $student->parent_id,
-                    'child_id' => $student->child_id,
-                    'subject_count' => $student->subject_count,
-                    'subject_price' => $student->subject_price,
-                    'canceled' => 1
-                ])
-            ) {
-                return true;
-            }
-            return false;
         }
         return false;
     }
