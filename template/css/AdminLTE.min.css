@@ -400,6 +400,10 @@ a:focus {
     .content-header>.breadcrumb li:before {
         color: #97a0b3
     }
+
+    .sidebar-toggle{
+        display: none;
+    }
 }
 
 .navbar-toggle {
@@ -641,6 +645,7 @@ a:focus {
 }
 
 @media (min-width:768px) {
+
 
     .sidebar-mini.sidebar-collapse .content-wrapper,
     .sidebar-mini.sidebar-collapse .right-side,

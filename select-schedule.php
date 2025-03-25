@@ -1,6 +1,6 @@
 <?php
 require_once 'secure.php';
-if (!Helper::can('owner') && !Helper::can('admin')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
     header('Location: 404');
     exit();
 }
@@ -9,7 +9,7 @@ $allSchedule = null;
 if (isset($_GET['date'])) {
     $date = $_GET['date'];
     $subject_id = $_GET['subject_id'];
-    $teacher_id = $_GET['teacher_id'];
+    $_SESSION['role'] == 'teacher' ? $teacher_id = $_SESSION['id'] : $teacher_id = $_GET['teacher_id'];
     $group_id = $_GET['group_id'];
     $allSchedule = $schedule->findByParams($date, $teacher_id, $subject_id, $group_id);
 }
@@ -18,6 +18,7 @@ $message = 'Просмотреть оценки';
 if (isset($_GET['q'])) {
     $message = Helper::message($_GET['q']);
 }
+
 require_once 'template/header.php';
 
 ?>
@@ -32,8 +33,6 @@ require_once 'template/header.php';
             <li><a href="/index"><i class="fa fa-dashboard"></i> Главная</a></li>
 
             <li>Оценки</li>
-
-
         </ol>
     </section>
     <div class="box-body">
@@ -49,12 +48,14 @@ require_once 'template/header.php';
                         <?php Helper::printSelectOptions(0, (new SubjectMap)->arrSubjects()) ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Учитель</label>
-                    <select class="form-control" name="teacher_id">
-                        <?php Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
-                    </select>
-                </div>
+                <?php if ($_SESSION['role'] != 'teacher'): ?>
+                    <div class="form-group">
+                        <label>Учитель</label>
+                        <select class="form-control" name="teacher_id">
+                            <?php Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
+                        </select>
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label>Группа</label>
                     <select class="form-control" name="group_id">

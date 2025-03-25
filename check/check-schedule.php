@@ -1,12 +1,12 @@
 <?php
-$header = 'Расписание и планы преподавателей';
 require_once '../secure.php';
-if (!Helper::can('owner') && !Helper::can('admin')) {
-    header('Location: 404');
-    exit();
-}
 require_once '../template/header.php';
 ?>
+
+<?php if (Helper::can('teacher')) {
+    $header = 'Мое расписание';
+    ?>
+
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -31,12 +31,7 @@ require_once '../template/header.php';
                                 <?= Helper::printSelectOptions(0, (new SubjectMap())->arrSubjects()) ?>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="teacher">Учитель</label>
-                            <select class="form-control" id="teacher" name="teacher">
-                                <?= Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
-                            </select>
-                        </div>
+                        <input type="hidden" id="teacher" name="teacher" value="<?= $_SESSION['id'] ?>">
                         <div class="form-group">
                             <label for="teacher">Кабинет</label>
                             <select class="form-control" id="classroom" name="classroom">
@@ -47,7 +42,7 @@ require_once '../template/header.php';
                             <label for="month">Месяц</label>
                             <input class="form-control" type="month" id="month" name="month">
                         </div>
-                        <button type="submit" class="btn btn-primary">Показать календарь</button>
+                        <button type="submit" class="btn btn-primary">Показать расписание</button>
                     </form>
                 </div>
                 <div id="calendar"></div>
@@ -84,6 +79,7 @@ require_once '../template/header.php';
                         initialView: 'dayGridMonth',
                         initialDate: month + '-01',
                         events: eventsData,
+                        aspectRatio: 1.35,
                         eventContent: function (arg) {
                             let parentContainer = document.createElement('div');
 
@@ -112,68 +108,6 @@ require_once '../template/header.php';
                             }
 
                             return {domNodes: [parentContainer]};
-                        },
-
-                        dateClick: function (info) {
-                            let clickedDate = new Date(info.dateStr);
-                            let selectedMonth = new Date(`${month}-01`);
-
-                            if (clickedDate.getFullYear() !== selectedMonth.getFullYear() || clickedDate.getMonth() !== selectedMonth.getMonth()) {
-                                alert('Выбранная дата не соответствует указанному месяцу!');
-                                return;
-                            }
-
-                            document.querySelectorAll('.time-input').forEach(el => el.remove());
-
-                            let cell = document.querySelector(`[data-date="${info.dateStr}"]`);
-                            if (!cell) return;
-
-                            let input = document.createElement('input');
-                            input.type = 'time';
-                            input.classList.add('time-input');
-                            input.style.position = 'absolute';
-                            input.style.zIndex = '1000';
-                            input.style.width = '80px';
-                            input.style.background = 'white';
-                            input.style.border = '1px solid #ccc';
-                            input.style.padding = '2px';
-                            input.style.marginTop = '5px';
-
-                            let rect = cell.getBoundingClientRect();
-                            input.style.left = `${rect.left + window.scrollX + 5}px`;
-                            input.style.top = `${rect.top + window.scrollY + 5}px`;
-
-                            document.body.appendChild(input);
-                            input.focus();
-
-                            input.addEventListener('change', function () {
-                                fetch('../save/save-schedule.php', {
-                                    method: 'POST',
-                                    headers: {'Content-Type': 'application/json'},
-                                    body: JSON.stringify({
-                                        group, subject, teacher, month, classroom,
-                                        day: info.dateStr, time: input.value
-                                    })
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.success) {
-                                            alert('Данные успешно сохранены!');
-                                            window.calendarInstance.refetchEvents();
-                                        } else {
-                                            alert('Ошибка при сохранении данных!');
-                                        }
-                                    });
-
-                                input.remove();
-                            });
-
-                            document.addEventListener('click', function outsideClick(e) {
-                                if (!input.contains(e.target)) {
-                                    input.remove();
-                                    document.removeEventListener('click', outsideClick);
-                                }
-                            });
                         }
                     });
 
@@ -232,7 +166,7 @@ require_once '../template/header.php';
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 10000;
             left: 0;
             top: 0;
             width: 100%;
@@ -272,7 +206,7 @@ require_once '../template/header.php';
             background: transparent !important; /* Убирает фон при наведении и фокусе */
         }
     </style>
-
+<?php } ?>
 <?php
 require_once '../template/footer.php';
 ?>

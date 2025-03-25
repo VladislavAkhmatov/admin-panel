@@ -1,6 +1,6 @@
 <?php
 require_once '../secure.php';
-if (!Helper::can('owner') && !Helper::can('admin')) {
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Доступ запрещен']);
     exit();

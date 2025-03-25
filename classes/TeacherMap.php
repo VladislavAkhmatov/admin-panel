@@ -23,7 +23,7 @@ class TeacherMap extends BaseMap
 
     public function save($user = User, $teacher = Teacher)
     {
-        if ($user->validate() && $teacher->validate() && (new UserMap())->save($user)) {
+        if ($teacher->validate() && (new UserMap())->save($user)) {
             if ($teacher->user_id == 0) {
                 $teacher->user_id = $user->user_id;
                 return $this->insert($teacher);
@@ -46,17 +46,7 @@ class TeacherMap extends BaseMap
 
     private function update($teacher = Teacher)
     {
-        if (
-            $this->db->exec("UPDATE awards SET subject_id = '$teacher->award_subject_id' WHERE user_id = 
-            $teacher->user_id")
-        )
-            return true;
-        if (
-            $this->db->exec("UPDATE awards SET award = '$teacher->award' WHERE user_id = 
-            $teacher->user_id")
-        )
-            return true;
-        return false;
+        return true;
     }
 
     public function findAll($ofset = 0, $limit = 30)

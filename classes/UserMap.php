@@ -71,12 +71,11 @@ class UserMap extends BaseMap
 
     public function save($user = User)
     {
-        if(!$this->existLogin($user->login)){
-            if ($user->user_id == 0) {
+        if ($user->user_id == 0) {
+            if (!$this->existLogin($user->login)) {
                 return $this->insert($user);
             }
-        }
-        else {
+        } else {
             return $this->update($user);
         }
     }
