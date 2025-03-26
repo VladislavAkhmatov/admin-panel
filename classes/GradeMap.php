@@ -48,4 +48,16 @@ class GradeMap extends BaseMap
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function findByUserAndSubject($user_id, $subject_id){
+        $sql = "SELECT subject.name as subject, grades.activity, grades.attend, grades.homework, grades.date FROM `grades` 
+                JOIN schedule ON grades.schedule_id = schedule.schedule_id
+                JOIN subject ON schedule.subject_id = subject.subject_id
+                WHERE grades.user_id = :user_id AND schedule.subject_id = :subject_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':subject_id', $subject_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }

@@ -227,10 +227,10 @@ class StudentMap extends BaseMap
         ]);
     }
 
-    public function findStudentById()
+    public function findStudentById($id)
     {
         $res = $this->db->query("SELECT student.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio FROM student 
-            INNER JOIN user ON user.user_id=student.user_id
+            INNER JOIN user ON user.user_id=student.user_id WHERE student.user_id = $id
             ");
         return $res->fetch(PDO::FETCH_OBJ);
     }

@@ -113,4 +113,8 @@ class Helper
             return "<b style='color: darkgreen'>$queries[$query]</b>";
         }
     }
+
+    public static function attend($attend){
+        return $attend == 0 ? 'Н' : 'Б';
+    }
 }

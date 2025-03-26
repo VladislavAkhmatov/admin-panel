@@ -187,7 +187,6 @@ if (Helper::can('procreator')) {
     $size = 10;
     if (isset($_GET['page'])) {
         $page = Helper::clearInt($_GET['page']);
-
     } else {
         $page = 1;
     }
@@ -214,25 +213,22 @@ if (Helper::can('procreator')) {
                     <?php
                     if ($student) {
                         ?>
-                        <form action="save/saveStundentInfo" method="POST" enctype="multipart/form-data">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Ф.И.О</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                foreach ($student as $student) {
-                                    echo '<tr>';
-                                    echo '<td><a href="profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '</td>';
-                                    echo '</tr>';
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                        </form>
-
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Ф.И.О</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach ($student as $student) {
+                                echo '<tr>';
+                                echo '<td><a href="check/check-child?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '</td>';
+                                echo '</tr>';
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     <?php } else {
                         echo 'Ни одного студента не найдено';
                     } ?>

@@ -6,8 +6,8 @@ if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
 }
 $schedule = new ScheduleMap();
 $allSchedule = null;
-if (isset($_GET['date'])) {
-    $date = $_GET['date'];
+if (isset($_GET['subject_id'])) {
+    $_SESSION['role'] == 'teacher' ? date('Y-m-d') : $date = $_GET['date'];
     $subject_id = $_GET['subject_id'];
     $_SESSION['role'] == 'teacher' ? $teacher_id = $_SESSION['id'] : $teacher_id = $_GET['teacher_id'];
     $group_id = $_GET['group_id'];
@@ -18,7 +18,6 @@ $message = 'Просмотреть оценки';
 if (isset($_GET['q'])) {
     $message = Helper::message($_GET['q']);
 }
-
 require_once 'template/header.php';
 
 ?>
@@ -38,10 +37,12 @@ require_once 'template/header.php';
     <div class="box-body">
         <div class="form-group">
             <form method="GET" action="select-schedule">
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input class="form-control" type="date" name="date" required>
-                </div>
+                <?php if ($_SESSION['role'] != 'teacher'): ?>
+                    <div class="form-group">
+                        <label>Дата</label>
+                        <input class="form-control" type="date" name="date" required>
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label>Предмет</label>
                     <select class="form-control" name="subject_id">
