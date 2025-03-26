@@ -81,7 +81,7 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
     $header = 'Мое расписание';
     ?>
     <div class="mb-3">
-        <a href="/check/check-schedule" class="btn btn-primary d-block w-100 mb-2">
+        <a href="/check/check-teacher-schedule" class="btn btn-primary d-block w-100 mb-2">
             Просмотр расписания
         </a>
         <a href="/select-schedule" class="btn btn-primary d-block w-100">

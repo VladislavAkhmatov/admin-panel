@@ -36,16 +36,15 @@ require_once '../template/header.php';
                                class="btn btn-primary d-block w-100 mb-2">
                                 Оценки
                             </a>
-                            <a href="/select-schedule" class="btn btn-primary d-block w-100">
+                            <a href="/check/check-student-schedule?id=<?= $student->user_id ?>" class="btn btn-primary d-block w-100">
                                 Расписание
                             </a>
-                            <a href="/select-schedule" class="btn btn-primary d-block w-100">
+                            <a href="/check/check-balance?id=<?= $student->user_id ?>" class="btn btn-primary d-block w-100">
                                 Баланс уроков
                             </a>
                         </div>
                     <?php endif; ?>
                 </div>
-
             </div>
         </div>
     </div>

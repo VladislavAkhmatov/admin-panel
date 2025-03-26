@@ -53,7 +53,6 @@ require_once '../template/header.php';
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>Предмет</th>
                             <th>Активность</th>
                             <th>Дом. работа</th>
                             <th>Посещаемость</th>
@@ -63,7 +62,6 @@ require_once '../template/header.php';
                         <tbody>
                         <?php foreach ($grades as $grade): ?>
                             <tr>
-                                <td><?= $grade->subject ?></td>
                                 <td><?= $grade->activity ?></td>
                                 <td><?= $grade->homework ?></td>
                                 <td><?= Helper::attend($grade->attend) ?></td>

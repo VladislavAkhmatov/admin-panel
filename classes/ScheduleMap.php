@@ -214,4 +214,16 @@ class ScheduleMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function findByGroupId($group_id){
+        $sql = "SELECT gruppa.name as group_name, subject.name as subject, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as user, `date`, `time`, classroom.name as classroom, schedule.deleted FROM `schedule`
+                JOIN gruppa ON schedule.group_id = gruppa.gruppa_id
+                JOIN subject ON schedule.subject_id = subject.subject_id
+                JOIN classroom ON schedule.classroom_id = classroom.classroom_id
+                JOIN user ON schedule.teacher_id = user.user_id
+                WHERE schedule.group_id = :group_id AND schedule.deleted = 0";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':group_id', $group_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
