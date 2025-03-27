@@ -128,51 +128,6 @@ if ($student) {
             <ul id="scheduleList"></ul>
         </div>
     </div>
-
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            width: 50%;
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        a.fc-daygrid-event {
-            outline: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-        }
-
-        a.fc-daygrid-event:hover,
-        a.fc-daygrid-event:focus {
-            outline: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-        }
-    </style>
 <?php } ?>
 <?php
 require_once '../template/footer.php';

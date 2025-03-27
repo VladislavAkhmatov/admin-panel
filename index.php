@@ -90,7 +90,6 @@ $branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
     </div>
 <?php } ?>
 
-
 <?php if (Helper::can('owner')) {
     $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;
     ?>
@@ -237,6 +236,48 @@ if (Helper::can('procreator')) {
                     <?php Helper::paginator($count, $page, $size); ?>
                 </div>
                 <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<?php
+if (Helper::can('student')) {
+    if (!Helper::can('student')) {
+        header('Location: 404');
+        exit();
+    }
+    $studentMap = new StudentMap();
+    $header = isset($_GET['message']) ? '<span style="color: red;">Ошибка</span>' : 'Главная';
+    require_once 'template/header.php';
+    ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <section class="content-header">
+                    <h1><b>
+                            <?= $header ?>
+                        </b>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li class="active">Главная</li>
+                    </ol>
+                </section>
+                <div class="box-body">
+                    <div class="mb-3">
+                        <a href="/check/check-grades?id=<?= $_SESSION['id'] ?>"
+                           class="btn btn-primary d-block w-100 mb-2">
+                            Оценки
+                        </a>
+                        <a href="/check/check-student-schedule?id=<?= $_SESSION['id'] ?>"
+                           class="btn btn-primary d-block w-100">
+                            Расписание
+                        </a>
+                        <a href="/check/check-balance?id=<?= $_SESSION['id'] ?>"
+                           class="btn btn-primary d-block w-100">
+                            Баланс уроков
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

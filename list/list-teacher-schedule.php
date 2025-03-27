@@ -227,52 +227,6 @@ require_once '../template/header.php';
             <ul id="scheduleList"></ul>
         </div>
     </div>
-
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 20px;
-            width: 50%;
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        a.fc-daygrid-event {
-            outline: none !important; /* Убирает обводку */
-            border: none !important; /* Убирает границу */
-            box-shadow: none !important; /* Убирает тень */
-            background: transparent !important; /* Убирает фон */
-        }
-
-        a.fc-daygrid-event:hover,
-        a.fc-daygrid-event:focus {
-            outline: none !important; /* Убирает обводку при наведении и фокусе */
-            border: none !important; /* Убирает границу при наведении и фокусе */
-            box-shadow: none !important; /* Убирает тень при наведении и фокусе */
-            background: transparent !important; /* Убирает фон при наведении и фокусе */
-        }
-    </style>
-
 <?php
 require_once '../template/footer.php';
 ?>
