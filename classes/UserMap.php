@@ -158,4 +158,14 @@ class UserMap extends BaseMap
         return $res->fetch(PDO::FETCH_OBJ);
     }
 
+
+    public function getUserByUsername($phone)
+    {
+        $stmt = $this->db->prepare("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name, branch.id AS branch, branch.branch as branch_name FROM user 
+        INNER JOIN role ON user.role_id=role.role_id 
+        INNER JOIN branch ON user.branch_id = branch.id 
+        WHERE user.login = :phone");
+        $stmt->execute(['phone' => $phone]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
 }
