@@ -18,7 +18,7 @@ if ($student) {
 }
 ?>
 
-<?php if (Helper::can('procreator')) {
+<?php if (Helper::can('procreator') || Helper::can('student')) {
     $header = "Расписание группы";
     ?>
 
@@ -45,6 +45,7 @@ if ($student) {
         const scheduleData = <?php echo $scheduleJson; ?>;
         const createdIcons = {};
         console.log(scheduleData)
+
         function prepareCalendarEvents(schedule) {
             return schedule.map(item => {
                 return {
