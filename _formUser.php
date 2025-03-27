@@ -30,7 +30,7 @@ $user = $userMap->findById($id);
 </div>
 <div class="form-group">
     <label>Логин</label>
-    <input type="tel" class="form-control" name="login" pattern="\?[0-9\s\-]+" placeholder="+7 (XXX) XXX-XX-XX"
+    <input type="tel" class="form-control" name="login" pattern="8\d{10}" placeholder="8XXXXXXXXXX"
            required="required"
            value="<?= $user->login; ?>">
 </div>

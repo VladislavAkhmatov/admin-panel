@@ -16,8 +16,6 @@ if (isset($_POST['user_id'])) {
     $user->gender_id = Helper::clearInt($_POST['gender_id']);
     $user->branch_id = $_SESSION['branch'];
 
-    Helper::dump($user->login);
-    die();
     if (isset($_POST['saveTeacher'])) {
         $teacher = new Teacher();
         $teacher->user_id = $user->user_id;
