@@ -1,8 +1,3 @@
-<?php
-$procreatorMap = new ProcreatorMap();
-$notices = $procreatorMap->notice();
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -74,99 +69,6 @@ desired effect
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <?php if (Helper::can('procreator')) { ?>
-
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">
-                    <?php echo $procreatorMap->noticeCount(); ?>
-                  </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">
-                                    <?php if ($procreatorMap->noticeCount() == 0) {
-                                        echo 'У вас нет уведомлений';
-                                    } else { ?>
-                                        У вас
-                                        <?php echo $procreatorMap->noticeCount(); ?>
-                                        Уведомлений(я)
-                                    <?php } ?>
-                                </li>
-                                <li class="header">
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <?php if ($notices) { ?>
-                                            <?php foreach ($notices as $item) {
-                                                $text = "Оплатите сумму указанную в приложении";
-                                                if (strtolower($item->text) == strtolower($text)) {
-                                                    $text = mb_substr($text, 8);
-                                                    ?>
-
-                                                    <a href="../add/add-payment?id=<?= $item->id; ?>">
-                                                        <li>
-                                                            Оплатите
-                                                            <b>
-                                                                за
-                                                                <?= $item->child ?>
-                                                                по предмету
-
-                                                                <?= $item->subject ?>
-                                                            </b>
-                                                            <?= $text ?> до <b>
-                                                                <?= $item->date ?> по ссылке
-
-                                                            </b>
-                                                            <?= $item->link ?>
-                                                        </li>
-                                                    </a><br>
-                                                <?php } elseif ($item->canceled == 1) {
-                                                    ?>
-                                                    <a href="../add/add-payment?id=<?= $item->id; ?>">
-                                                        <li>
-                                                            Ваша оплата
-                                                            <b>
-                                                                за
-                                                                <?= $item->child ?>
-                                                            </b>
-                                                            по предмету
-                                                            <b>
-                                                                <?= $item->subject ?>
-                                                            </b>
-                                                            Отменена по причине
-                                                            <b>
-                                                                <?= $item->text ?>
-                                                            </b>
-                                                        </li>
-                                                    </a><br>
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <a href="../add/add-payment?id=<?= $item->id; ?>">
-                                                        <li>
-                                                            <?= $item->text ?>
-                                                            <b>
-                                                                <?= $item->child ?>
-                                                                <?= $item->subject ?>
-                                                                до
-                                                                <?= $item->date ?>
-                                                                по ссылке
-                                                            </b>
-                                                            <?= $item->link ?><br>
-                                                        </li>
-                                                    </a><br>
-
-                                                    <?php
-                                                }
-                                                ?>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    <?php } ?>
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
@@ -176,7 +78,6 @@ desired effect
                             <?php ?>
                             <span class="hidden-xs">Здравствуйте,
                   <?= $_SESSION["fio"] ?>
-
                 </span>
                         </a>
                         <ul class="dropdown-menu">

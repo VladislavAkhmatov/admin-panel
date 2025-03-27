@@ -4,6 +4,11 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
+$id = 0;
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+}
+$branch = (new BranchMap())->findById($id);
 $header = 'Добавить филиал: ';
 require_once '../template/header.php';
 ?>
@@ -29,9 +34,9 @@ require_once '../template/header.php';
     <form action="../save/save-branch" method="POST">
         <div class="form-group">
             <label>Название филиала</label>
-            <input class="form-control" type="text" name="branch">
+            <input class="form-control" type="text" name="branch" value="<?= $id == 0 ? '' : $branch->branch ?>">
+            <input type="hidden" value="<?= $id ?>" name="id">
         </div>
-
         <div class="form-group">
             <button type="submit" name="saveBranch" class="btn btn-primary">Сохранить</button>
         </div>

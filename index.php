@@ -14,7 +14,7 @@ $indexParent = $userMap->parentCount();
 
 $branch = $userMap->findBranchById($id);
 
-$branchWithoutCurrent = (new UserMap())->arrBranchWithoutCurrent();
+$branchWithoutCurrent = (new BranchMap())->arrBranchWithoutCurrent();
 ?>
 <?php if (Helper::can('admin')) {
     $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;

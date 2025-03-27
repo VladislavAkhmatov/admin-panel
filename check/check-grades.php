@@ -31,7 +31,7 @@ require_once '../template/header.php';
         <div class="box">
             <section class="content-header m-5">
                 <h3><b>
-                        <?= $message = isset($_GET['message']) ? Helper::getQuery($_GET['message']) : $student->fio; ?>
+                        <?= $message = isset($_GET['message']) ? Helper::message($_GET['message']) : $student->fio; ?>
                     </b></h3>
                 <ol class="breadcrumb">
                     <li><a href="../index"><i class="fa fa-dashboard"></i> Главная</a></li>

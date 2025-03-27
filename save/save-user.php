@@ -63,9 +63,7 @@ if (isset($_POST['user_id'])) {
         $user->role_id = Helper::clearInt(5);
 
         if ((new StudentMap())->save($user, $student)) {
-
             header('Location: ../profile/profile-student?id=' . $student->user_id);
-
         } else {
             if ($student->user_id) {
 
@@ -84,14 +82,10 @@ if (isset($_POST['user_id'])) {
         $owner->user_id = $user->user_id;
         $user->role_id = Helper::clearInt(2);
         if ((new ownerMap())->save($user, $owner)) {
-
             header('Location: ../profile/profile-owner?id=' . $owner->user_id);
-
         } else {
             if ($owner->user_id) {
-
                 header('Location: ../profile/profile-owner?id=' . $owner->user_id);
-
             } else {
                 header('Location: ../add/add-owner?q=err');
             }

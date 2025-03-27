@@ -43,21 +43,6 @@ class UserMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function arrBranchs()
-    {
-        $res = $this->db->query("SELECT id AS id, branch AS value FROM branch 
-        WHERE id != 999 and deleted = 0");
-        return $res->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function arrBranchWithoutCurrent()
-    {
-        $res = $this->db->query("SELECT id AS id, branch AS value FROM branch 
-        WHERE id != 999 and deleted = 0 and id != {$_SESSION['branch']}");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-
     public function findBranchById($id)
     {
         $query = "SELECT id AS id, branch AS name, date_founding FROM branch 
@@ -76,8 +61,11 @@ class UserMap extends BaseMap
                 return $this->insert($user);
             }
         } else {
-            return $this->update($user);
+            if (!$this->existLogin($user->login)) {
+                return $this->update($user);
+            }
         }
+        return false;
     }
 
     private function existLogin($login)

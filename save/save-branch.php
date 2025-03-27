@@ -8,14 +8,24 @@ if (!Helper::can('owner')) {
 }
 
 if (isset ($_POST["saveBranch"])) {
-    $owner = new owner();
-    $owner->text = $_POST['branch'];
-    if ((new ownerMap())->saveBranch($owner)) {
-        header("Location: ../list/list-branch?message=ok");
-        exit();
-    } else {
-        header("Location: ../list/list-branch?message=err");
-        exit();
+    $branch = $_POST['branch'];
+    $id = $_POST['id'];
+    if ($id == 0) {
+        if ((new BranchMap())->insert($branch)) {
+            header("Location: ../list/list-branch?message=ok");
+            exit();
+        } else {
+            header("Location: ../list/list-branch?message=err");
+            exit();
+        }
     }
-
+    else{
+        if ((new BranchMap())->update($id, $branch)) {
+            header("Location: ../list/list-branch?message=ok");
+            exit();
+        } else {
+            header("Location: ../list/list-branch?message=err");
+            exit();
+        }
+    }
 }

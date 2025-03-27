@@ -1,7 +1,7 @@
 <?php
 require_once ('../secure.php');
 
-$branch = (new UserMap())->arrBranchs();
+$branch = (new BranchMap())->arrBranches();
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +45,7 @@ $branch = (new UserMap())->arrBranchs();
             </div>
             <div class="login-box-body">
                 <p class="login-box-msg">
-                    <?= $message = isset ($_GET['message']) ? Helper::getQuery($_GET['message']) : 'Выберите филиал'; ?>
+                    <?= $message = isset ($_GET['message']) ? Helper::message($_GET['message']) : 'Выберите филиал'; ?>
                 </p>
                 <form action="../auth" method="post">
                     <div class="form-group has-feedback">

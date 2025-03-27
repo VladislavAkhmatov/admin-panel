@@ -104,10 +104,11 @@ class Helper
     public static function message($query)
     {
         $queries = [
-            'err' => 'Ошибка добавления',
-            'ok' => 'Успешно добавлено'
+            'err' => 'Ошибка',
+            'ok' => 'Успешно',
+            'errBranch' => 'Вы не принадлежите этому филиалу'
         ];
-        if ($query == 'err') {
+        if ($query == 'err' || $query == 'errBranch') {
             return "<b style='color: darkred'>$queries[$query]</b>";
         } else {
             return "<b style='color: darkgreen'>$queries[$query]</b>";

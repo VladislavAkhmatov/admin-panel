@@ -19,34 +19,12 @@ if (
         $_SESSION['branch'] = $user->branch;
         $_SESSION['branch_name'] = $user->branch_name;
         $_SESSION['photo'] = $user->photo;
-        header('Location: template/branch');
+        header('Location: index');
         exit;
     } else {
         $message = '<span style="color:red;">Некорректен
 логин или пароль</span>';
     }
 }
-
-if (isset($_POST['branch'])) {
-
-    $res = explode(',', $_POST['branch']);
-    $branch_id = $res[0];
-    $branch_name = $res[1];
-
-    if (Helper::can('owner')) {
-        $_SESSION['branch'] = $branch_id;
-        $_SESSION['branch_name'] = $branch_name;
-        header("Location: index");
-        exit;
-    }
-
-    if ($_SESSION['branch'] != $branch_id) {
-        header("Location: template/branch?message=errBranch");
-        exit;
-    }
-    header("Location: index");
-
-}
-
 require_once ('template/login.php');
 ?>

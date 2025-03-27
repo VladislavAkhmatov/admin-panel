@@ -88,12 +88,6 @@ class ScheduleMap extends BaseMap
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function findDays()
-    {
-        $res = $this->db->query("SELECT day_id, name FROM day");
-        return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
     public function save($group_id, $subject_id, $teacher_id, $day, $time, $classroom)
     {
         $stmt = $this->db->prepare("INSERT INTO schedule (group_id, subject_id, teacher_id, date, time, classroom_id) 
@@ -156,20 +150,6 @@ class ScheduleMap extends BaseMap
             schedule.date;"
         );
         return $res->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    public function allowed($schedule_id)
-    {
-        $query = "UPDATE schedule SET allowed=1 WHERE schedule_id=:schedule_id";
-        $res = $this->db->prepare($query);
-        if (
-            $res->execute([
-                'schedule_id' => $schedule_id,
-            ])
-        ) {
-            return true;
-        }
-        return false;
     }
 
     public function arrDate()

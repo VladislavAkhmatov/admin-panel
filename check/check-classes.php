@@ -12,7 +12,7 @@ $header = 'Расписание занятий.';
 <?php if (isset($_GET['message'])): ?>
     <section class="content-header">
         <h3><b>
-                <?= $message = isset($_GET['message']) ? Helper::getQuery($_GET['message']) : '' ?>
+                <?= $message = isset($_GET['message']) ? Helper::message($_GET['message']) : '' ?>
             </b></h3>
     </section><br>
 <?php endif; ?>

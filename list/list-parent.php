@@ -22,7 +22,7 @@ require_once '../template/header.php';
                 <section class="content-header">
                     <h3><b>
                             <?=
-                            $header = isset ($_GET['message']) ? Helper::getQuery($_GET['message']) : 'Список родителей';
+                            $header = isset ($_GET['message']) ? Helper::message($_GET['message']) : 'Список родителей';
                             ?>
                         </b></h3>
                     <ol class="breadcrumb">

@@ -54,21 +54,6 @@ fa-dashboard"></i> Главная</a></li>
 
                     </tr>
 
-                    <tr>
-
-                        <th>Справки</th>
-
-                        <td>
-                            <?php
-                            foreach ($reference as $item) {
-                                echo '<a href="../references/' . $item->reference . '">' . $item->reference . ' ' . '</a>';
-                            }
-                            ?>
-                        </td>
-
-
-                    </tr>
-
                     <?php if (Helper::can('admin')) { ?>
                         <tr>
                             <th>Филиал</th>
