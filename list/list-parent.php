@@ -34,7 +34,7 @@ fa-dashboard"></i> Главная</a></li>
                     </ol>
                 </section>
                 <div class="box-body">
-                    <a class="btn btn-success" href="../add/add-parent">Добавить родителя</a>
+                    <a class="btn btn-success" href="../add/add-parent?k=parent">Добавить родителя</a>
                 </div>
 
                 <div class="box-body">

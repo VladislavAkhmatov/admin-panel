@@ -16,44 +16,44 @@ $count = $studentMap->count();
 $student = $studentMap->findAll($page * $size - $size, $size);
 
 
-
 require_once '../template/header.php';
 ?>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <section class="content-header">
-                <h3><b>
-                        <?= $header = isset($_GET['message']) ? Helper::message($_GET['message']) : 'Список учеников'; ?>
-                    </b></h3>
-                <ol class="breadcrumb">
-                    <li><a href="../index"><i class="fa
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <section class="content-header">
+                    <h3><b>
+                            <?= $header = isset($_GET['message']) ? Helper::message($_GET['message']) : 'Список учеников'; ?>
+                        </b></h3>
+                    <ol class="breadcrumb">
+                        <li><a href="../index"><i class="fa
 fa-dashboard"></i> Главная</a></li>
-                    <li class="active">Список
-                        учеников</li>
-                </ol>
-            </section>
-            <div class="box-body">
-                <?php if (!Helper::can('teacher')): ?>
-                    <a class="btn btn-success" href="../add/add-student">Добавить ученика</a>
-                <?php endif; ?>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-                <?php
-                if ($student) {
-                    ?>
+                        <li class="active">Список
+                            учеников
+                        </li>
+                    </ol>
+                </section>
+                <div class="box-body">
+                    <?php if (!Helper::can('teacher')): ?>
+                        <a class="btn btn-success" href="../add/add-student?k=student">Добавить ученика</a>
+                    <?php endif; ?>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <?php
+                    if ($student) {
+                        ?>
 
-                    <table id="example2" class="table table-bordered table-hover">
+                        <table id="example2" class="table table-bordered table-hover">
 
-                        <thead>
+                            <thead>
                             <tr>
                                 <th>Ф.И.О</th>
                                 <th>Дата рождения</th>
                                 <th>Группа</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <?php
                             foreach ($student as $student) {
                                 echo '<tr>';
@@ -67,20 +67,20 @@ fa-dashboard"></i> Главная</a></li>
                                 echo '</tr>';
                             }
                             ?>
-                        </tbody>
-                    </table>
-                <?php } else {
-                    echo 'Ни одного ученика не найдено';
-                } ?>
-            </div>
+                            </tbody>
+                        </table>
+                    <?php } else {
+                        echo 'Ни одного ученика не найдено';
+                    } ?>
+                </div>
 
-            <div class="box-body">
-                <?php Helper::paginator($count, $page, $size); ?>
+                <div class="box-body">
+                    <?php Helper::paginator($count, $page, $size); ?>
+                </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-body -->
         </div>
     </div>
-</div>
 <?php
 require_once '../template/footer.php';
 ?>

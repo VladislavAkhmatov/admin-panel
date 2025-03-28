@@ -110,12 +110,13 @@ class Helper
         ];
         if ($query == 'err' || $query == 'errBranch') {
             return "<b style='color: darkred'>$queries[$query]</b>";
-        } else {
+        } elseif ($query == 'ok') {
             return "<b style='color: darkgreen'>$queries[$query]</b>";
         }
     }
 
-    public static function attend($attend){
+    public static function attend($attend)
+    {
         return $attend == 0 ? 'Н' : 'Б';
     }
 }

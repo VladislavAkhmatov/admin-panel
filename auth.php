@@ -5,10 +5,10 @@ session_start();
 $message = 'Войдите для просмотра расписания занятий';
 
 // Если передан username из Telegram, пытаемся войти
-if (isset($_GET['phone'])) {
-    $phone = Helper::clearString($_GET['phone']);
+if (isset($_GET['token'])) {
+    $token = Helper::clearString($_GET['token']);
     $userMap = new UserMap();
-    $user = $userMap->getUserByUsername($phone); // Проверяем пользователя
+    $user = $userMap->getUserByToken($token);
     if ($user) {
         $_SESSION['id'] = $user->user_id;
         $_SESSION['role'] = $user->sys_name;
@@ -16,10 +16,13 @@ if (isset($_GET['phone'])) {
         $_SESSION['branch'] = $user->branch;
         $_SESSION['branch_name'] = $user->branch_name;
 
-        header('Location: index.php'); // Перенаправляем в кабинет
+        // Удаляем использованный токен
+        $userMap->deleteToken($token);
+
+        header('Location: index.php');
         exit;
     } else {
-        $message = '<span style="color:red;">Пользователь не найден</span>';
+        echo '<span style="color:red;">Неверный или устаревший токен</span>';
     }
 }
 

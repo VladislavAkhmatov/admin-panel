@@ -1,7 +1,10 @@
 <?php
 $userMap = new UserMap();
 $user = $userMap->findById($id);
-
+$role = null;
+if (isset($_GET['k'])) {
+    $role = $_GET['k'];
+}
 ?>
 <div class="form-group">
     <label>Фамилия</label>
@@ -34,9 +37,10 @@ $user = $userMap->findById($id);
            required="required"
            value="<?= $user->login; ?>">
 </div>
-<div class="form-group">
-    <label>Пароль</label>
-    <input type="password" class="form-control" name="password" required="required">
-</div>
-
+<?php if ($role != 'student' && $role != 'teacher' && $role != 'parent'): ?>
+    <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" class="form-control" name="password">
+    </div>
+<?php endif; ?>
 <input type="hidden" name="user_id" value="<?= $id; ?>"/>

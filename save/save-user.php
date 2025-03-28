@@ -9,10 +9,14 @@ if (isset($_POST['user_id'])) {
     $user->patronymic = Helper::clearString($_POST['patronymic']);
     $user->birthday = Helper::clearString($_POST['birthday']);
     $user->login = Helper::clearString($_POST['login']);
-    $user->pass = password_hash(
-        Helper::clearString($_POST['password']),
-        PASSWORD_BCRYPT
-    );
+    if ($_POST['password'] == '') {
+        $user->pass = null;
+    } else {
+        $user->pass = password_hash(
+            Helper::clearString($_POST['password']),
+            PASSWORD_BCRYPT
+        );
+    }
     $user->gender_id = Helper::clearInt($_POST['gender_id']);
     $user->branch_id = $_SESSION['branch'];
 

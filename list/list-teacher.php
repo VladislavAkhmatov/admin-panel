@@ -34,7 +34,7 @@ fa-dashboard"></i> Главная</a></li>
                 </section>
                 <div class="box-body">
                     <?php if (!Helper::can('teacher')): ?>
-                        <a class="btn btn-success" href="../add/add-teacher">Добавить преподавателя</a>
+                        <a class="btn btn-success" href="../add/add-teacher?k=teacher">Добавить преподавателя</a>
                     <?php endif; ?>
                 </div>
                 <!-- /.box-header -->

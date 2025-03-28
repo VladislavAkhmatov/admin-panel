@@ -18,7 +18,6 @@ class UserMap extends BaseMap
         $user = $res->fetch(PDO::FETCH_OBJ);
         if ($user) {
             if (password_verify($password, $user->pass)) {
-
                 return $user;
             }
         }
@@ -167,5 +166,27 @@ class UserMap extends BaseMap
         WHERE user.login = :phone");
         $stmt->execute(['phone' => $phone]);
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function generateToken($phone) {
+        $token = bin2hex(random_bytes(16)); // Генерируем токен
+        $stmt = $this->db->prepare("INSERT INTO auth_tokens (login, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE))");
+        $stmt->execute([$phone, $token]);
+        return $token;
+    }
+
+    public function getUserByToken($token) {
+        $stmt = $this->db->prepare("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name, branch.id AS branch, branch.branch as branch_name FROM user
+                JOIN role ON user.role_id=role.role_id 
+                JOIN branch ON user.branch_id = branch.id 
+                JOIN auth_tokens ON user.login = auth_tokens.login 
+                WHERE auth_tokens.token = ?");
+        $stmt->execute([$token]);
+        return $stmt->fetchObject("User");
+    }
+
+    public function deleteToken($token) {
+        $stmt = $this->db->prepare("DELETE FROM auth_tokens WHERE token = ?");
+        $stmt->execute([$token]);
     }
 }
