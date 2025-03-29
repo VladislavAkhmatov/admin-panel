@@ -170,7 +170,7 @@ class UserMap extends BaseMap
 
     public function generateToken($phone) {
         $token = bin2hex(random_bytes(16)); // Генерируем токен
-        $stmt = $this->db->prepare("INSERT INTO auth_tokens (login, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 5 MINUTE))");
+        $stmt = $this->db->prepare("INSERT INTO auth_tokens (login, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 MINUTE))");
         $stmt->execute([$phone, $token]);
         return $token;
     }
