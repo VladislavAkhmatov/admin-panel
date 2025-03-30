@@ -114,4 +114,12 @@ class ProcreatorMap extends BaseMap
         }
         return false;
     }
+
+    public function deleteChildById($parent_id, $child_id){
+        $sql = "DELETE FROM `parent` WHERE user_id = :parent_id AND child_id = :child_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':parent_id', $parent_id);
+        $stmt->bindParam(':child_id', $child_id);
+        return $stmt->execute();
+    }
 }
