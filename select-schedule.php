@@ -11,7 +11,7 @@ if (isset($_GET['subject_id'])) {
     $subject_id = $_GET['subject_id'];
     $_SESSION['role'] == 'teacher' ? $teacher_id = $_SESSION['id'] : $teacher_id = $_GET['teacher_id'];
     $group_id = $_GET['group_id'];
-    $allSchedule = $schedule->findByParams($date, $teacher_id, $subject_id, $group_id);
+    $allSchedule = $schedule->findByParams($date, $subject_id, $group_id);
 }
 
 $message = 'Просмотреть оценки';
@@ -49,14 +49,6 @@ require_once 'template/header.php';
                         <?php Helper::printSelectOptions(0, (new SubjectMap)->arrSubjects()) ?>
                     </select>
                 </div>
-                <?php if ($_SESSION['role'] != 'teacher'): ?>
-                    <div class="form-group">
-                        <label>Учитель</label>
-                        <select class="form-control" name="teacher_id">
-                            <?php Helper::printSelectOptions(0, (new TeacherMap())->arrTeachers()) ?>
-                        </select>
-                    </div>
-                <?php endif; ?>
                 <div class="form-group">
                     <label>Группа</label>
                     <select class="form-control" name="group_id">
@@ -73,7 +65,7 @@ require_once 'template/header.php';
     <div class="box-body" style="display: flex;">
         <?php foreach ($allSchedule as $item): ?>
             <form action="set-grades" method="get">
-                <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->time ?>">
+                <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->teacher . ' - ' . $item->time ?>">
                 <input type="hidden" name="schedule" value="<?= $item->schedule_id ?>">
                 <input type="hidden" name="group" value="<?= $item->group_id ?>">
                 <input type="hidden" name="subject" value="<?= $subject_id ?>">
