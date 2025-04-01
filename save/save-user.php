@@ -23,10 +23,6 @@ if (isset($_POST['user_id'])) {
     if (isset($_POST['saveTeacher'])) {
         $teacher = new Teacher();
         $teacher->user_id = $user->user_id;
-        if ($_POST['award'] != NULL) {
-            $teacher->award_subject_id = Helper::clearInt($_POST['subject_id']);
-            $teacher->award = Helper::clearString($_POST['award']);
-        }
         $user->role_id = Helper::clearInt(4);
         if ((new TeacherMap())->save($user, $teacher)) {
             header('Location: ../profile/profile-teacher?id=' . $teacher->user_id);

@@ -13,7 +13,6 @@ if (isset($_GET['page'])) {
 $subjectMap = new SubjectMap();
 $count = $subjectMap->count();
 $subjects = $subjectMap->findAll($page * $size - $size, $size);
-
 require_once '../template/header.php';
 ?>
 <div class="row">

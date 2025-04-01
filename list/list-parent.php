@@ -59,7 +59,7 @@ fa-dashboard"></i> Главная</a></li>
                             <?php
                             foreach ($parent as $parent) {
                                 echo '<tr>';
-                                echo '<td><a href="../profile/profile-parent?id=' . $parent->user_id . '">' . $parent->parent_fio . '</a> ' . '<a href="../add/add-parent?id=' . $parent->user_id . '"><i class="fa fa-pencil"></i></a> <a href="../delete/delete-parent?id=' . $parent->user_id . '"><i class="fa fa-times"></i></a></td>';
+                                echo '<td><a href="../profile/profile-parent?id=' . $parent->user_id . '">' . $parent->parent_fio . '</a> ' . '<a href="../add/add-parent?k=parent&id=' . $parent->user_id . '"><i class="fa fa-pencil"></i></a> <a href="../delete/delete-parent?id=' . $parent->user_id . '"><i class="fa fa-times"></i></a></td>';
                                 echo '<td>' . Helper::formattedData($parent->birthday) . '</td>';
                                 echo '<td>';
                                 foreach ((new ProcreatorMap())->findStudentFromParentId($parent->user_id) as $item) {

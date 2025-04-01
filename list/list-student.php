@@ -58,7 +58,7 @@ fa-dashboard"></i> Главная</a></li>
                             foreach ($student as $student) {
                                 echo '<tr>';
                                 if (!Helper::can('teacher')):
-                                    echo '<td><a href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '<a href="../add/add-student?id=' . $student->user_id . '"><i class="fa fa-pencil"></i></a>  <a href="../delete/delete-student?id=' . $student->user_id . '"><i class="fa fa-times"></i></a></td>';
+                                    echo '<td><a href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '<a href="../add/add-student?k=student&id=' . $student->user_id . '"><i class="fa fa-pencil"></i></a>  <a href="../delete/delete-student?id=' . $student->user_id . '"><i class="fa fa-times"></i></a></td>';
                                 else:
                                     echo '<td><p href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</p> ' . '</i></a></td>';
                                 endif;
