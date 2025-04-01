@@ -64,7 +64,7 @@ class ScheduleMap extends BaseMap
 
     public function getEventsByDay($day, $teacher = null)
     {
-        $sql = "SELECT `schedule_id`, gruppa.name as gruppa_name, subject.name as subject_name, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as teacher_fio, `date`, `time`, classroom.name as classroom_name
+        $sql = "SELECT `schedule_id`, gruppa.gruppa_id, subject.subject_id, user.user_id as teacher_id, classroom.classroom_id, gruppa.name as gruppa_name, subject.name as subject_name, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as teacher_fio, `date`, `time`, classroom.name as classroom_name
                 FROM `schedule`
                 JOIN gruppa ON schedule.group_id = gruppa.gruppa_id
                 JOIN subject ON schedule.subject_id = subject.subject_id

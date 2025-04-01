@@ -5,6 +5,9 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     header('Location: 404');
     exit();
 }
+
+$teachers = (new TeacherMap())->arrTeachers();
+
 require_once '../template/header.php';
 ?>
     <div class="row">
@@ -18,7 +21,7 @@ require_once '../template/header.php';
                     </ol>
                 </section>
                 <div class="box-body">
-                    <form id="filterForm">
+                    <form id="filterForm" method="get">
                         <div class="form-group">
                             <label for="group">Группа</label>
                             <select class="form-control" id="group" name="group">
@@ -183,16 +186,14 @@ require_once '../template/header.php';
         });
 
         function openModal(date) {
-            let dateOnly = date.split("T")[0]; // Оставляем только "YYYY-MM-DD"
+            let dateOnly = date.split("T")[0];
             document.getElementById('modalDate').textContent = dateOnly;
-
-            // Получаем значение teacher из формы
             const teacher = document.getElementById('teacher').value;
 
             fetch(`../save/save-schedule.php`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({day: dateOnly, teacher: teacher}) // Добавляем teacher в запрос
+                body: JSON.stringify({day: dateOnly, teacher: teacher})
             })
                 .then(response => response.json())
                 .then(data => {
@@ -207,8 +208,25 @@ require_once '../template/header.php';
 
                     data.forEach(event => {
                         let li = document.createElement('li');
-                        li.textContent = `${event.time} - Предмет: ${event.subject_name}, Учитель: ${event.teacher_fio}, Кабинет: ${event.classroom_name}, Группа: ${event.gruppa_name}`;
-                        li.innerHTML += ' <i class="fa fa-pencil"></i>'
+                        li.dataset.eventId = event.id; // Сохраняем ID события
+
+                        // Основное содержимое элемента
+                        let contentSpan = document.createElement('span');
+                        contentSpan.textContent = `${event.time} - Предмет: ${event.subject_name}, Учитель: ${event.teacher_fio}, Кабинет: ${event.classroom_name}, Группа: ${event.gruppa_name}`;
+
+                        // Иконка редактирования
+                        let editIcon = document.createElement('i');
+                        editIcon.className = 'fa fa-pencil';
+                        editIcon.style.cursor = 'pointer';
+                        editIcon.style.marginLeft = '10px';
+
+                        // Обработчик клика по иконке
+                        editIcon.addEventListener('click', function () {
+                            openEditForm(li, event);
+                        });
+
+                        li.appendChild(contentSpan);
+                        li.appendChild(editIcon);
                         scheduleList.appendChild(li);
                     });
                 })
@@ -220,7 +238,172 @@ require_once '../template/header.php';
             });
         }
 
+        function openEditForm(liElement, eventData) {
+            // Создаем форму для редактирования
+            let form = document.createElement('form');
+            form.className = 'edit-form';
+
+            // Поле времени
+            let timeDiv = document.createElement('div');
+            timeDiv.innerHTML = `
+        <label>Время:</label>
+        <input type="time" name="time" value="${eventData.time}" required>
+    `;
+
+            // Добавляем временные заглушки для select'ов
+            form.appendChild(timeDiv);
+
+            // Создаем контейнеры для select'ов
+            let subjectDiv = document.createElement('div');
+            subjectDiv.innerHTML = '<label>Предмет:</label><select name="subject" required></select>';
+
+            let teacherDiv = document.createElement('div');
+            teacherDiv.innerHTML = '<label>Преподаватель:</label><select name="teacher" required></select>';
+
+            let classroomDiv = document.createElement('div');
+            classroomDiv.innerHTML = '<label>Кабинет:</label><select name="classroom" required></select>';
+
+            let groupDiv = document.createElement('div');
+            groupDiv.innerHTML = '<label>Группа:</label><select name="group" required></select>';
+
+            form.appendChild(subjectDiv);
+            form.appendChild(teacherDiv);
+            form.appendChild(classroomDiv);
+            form.appendChild(groupDiv);
+
+            // Заменяем содержимое li на форму (пока без заполненных select'ов)
+            liElement.innerHTML = '';
+            liElement.appendChild(form);
+            // Загружаем данные для каждого select'а
+            loadSelectOptions('subject', eventData.subject_id);
+            loadSelectOptions('teacher', eventData.teacher_id);
+            loadSelectOptions('classroom', eventData.classroom_id);
+            loadSelectOptions('group', eventData.gruppa_id);
+
+            // Функция для загрузки опций
+            function loadSelectOptions(fieldName, selectedId) {
+                fetch(`../get-options.php?type=${fieldName}`, {
+                    method: 'GET', // явно указываем метод GET
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(options => {
+                        const select = form.querySelector(`[name="${fieldName}"]`);
+                        select.innerHTML = '';
+
+                        options.forEach(option => {
+                            const optElement = document.createElement('option');
+                            optElement.value = option.id;
+                            optElement.textContent = option.value;
+                            if (option.id == selectedId) {
+                                optElement.selected = true;
+                            }
+                            select.appendChild(optElement);
+                        });
+                    })
+                    .catch(error => console.error(`Ошибка загрузки ${fieldName}:`, error));
+            }
+
+            // Кнопки
+            let buttonsDiv = document.createElement('div');
+            buttonsDiv.style.marginTop = '10px';
+            buttonsDiv.innerHTML = `
+        <button type="submit" class="save-btn">Сохранить</button>
+        <button type="button" class="cancel-btn">Отмена</button>
+    `;
+
+            form.appendChild(buttonsDiv);
+
+            // Остальной код (обработчики событий) остается без изменений
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                saveChanges(liElement, eventData.id, form);
+            });
+
+            form.querySelector('.cancel-btn').addEventListener('click', function () {
+                // Восстанавливаем исходное содержимое
+                let contentSpan = document.createElement('span');
+                contentSpan.textContent = `${eventData.time} - Предмет: ${eventData.subject_name}, Учитель: ${eventData.teacher_fio}, Кабинет: ${eventData.classroom_name}, Группа: ${eventData.gruppa_name}`;
+
+                let editIcon = document.createElement('i');
+                editIcon.className = 'fa fa-pencil';
+                editIcon.style.cursor = 'pointer';
+                editIcon.style.marginLeft = '10px';
+                editIcon.addEventListener('click', function () {
+                    openEditForm(liElement, eventData);
+                });
+
+                liElement.innerHTML = '';
+                liElement.appendChild(contentSpan);
+                liElement.appendChild(editIcon);
+            });
+        }
+
+        function saveChanges(liElement, eventId, form) {
+            const formData = {
+                id: eventId,
+                time: form.querySelector('[name="time"]').value,
+                subject: form.querySelector('[name="subject"]').value,
+                teacher: form.querySelector('[name="teacher"]').value,
+                classroom: form.querySelector('[name="classroom"]').value,
+                group: form.querySelector('[name="group"]').value
+            };
+
+            fetch('../save/save-schedule.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Обновляем отображение
+                        let contentSpan = document.createElement('span');
+                        contentSpan.textContent = `${formData.time} - Предмет: ${form.querySelector('[name="subject"] option:selected').textContent}, ` +
+                            `Учитель: ${form.querySelector('[name="teacher"] option:selected').textContent}, ` +
+                            `Кабинет: ${form.querySelector('[name="classroom"] option:selected').textContent}, ` +
+                            `Группа: ${form.querySelector('[name="group"] option:selected').textContent}`;
+
+                        let editIcon = document.createElement('i');
+                        editIcon.className = 'fa fa-pencil';
+                        editIcon.style.cursor = 'pointer';
+                        editIcon.style.marginLeft = '10px';
+                        editIcon.addEventListener('click', function () {
+                            openEditForm(liElement, {
+                                id: eventId,
+                                time: formData.time,
+                                subject_id: formData.subject,
+                                subject_name: form.querySelector('[name="subject"] option:selected').textContent,
+                                teacher_id: formData.teacher,
+                                teacher_fio: form.querySelector('[name="teacher"] option:selected').textContent,
+                                classroom_id: formData.classroom,
+                                classroom_name: form.querySelector('[name="classroom"] option:selected').textContent,
+                                gruppa_id: formData.group,
+                                gruppa_name: form.querySelector('[name="group"] option:selected').textContent
+                            });
+                        });
+
+                        liElement.innerHTML = '';
+                        liElement.appendChild(contentSpan);
+                        liElement.appendChild(editIcon);
+
+                        // Обновляем календарь
+                        if (window.calendarInstance) {
+                            window.calendarInstance.refetchEvents();
+                        }
+                    } else {
+                        alert('Ошибка при сохранении изменений: ' + (data.message || ''));
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при сохранении изменений');
+                });
+        }
     </script>
+
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -228,6 +411,28 @@ require_once '../template/header.php';
             <ul id="scheduleList"></ul>
         </div>
     </div>
+
+    <style>
+        .edit-form div {
+            margin-bottom: 8px;
+        }
+
+        .edit-form label {
+            display: inline-block;
+            width: 80px;
+        }
+
+        .edit-form select, .edit-form input[type="time"] {
+            width: 200px;
+            padding: 4px;
+        }
+
+        .save-btn, .cancel-btn {
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
 <?php
 require_once '../template/footer.php';
 ?>
