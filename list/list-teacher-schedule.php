@@ -189,11 +189,12 @@ require_once '../template/header.php';
             let dateOnly = date.split("T")[0];
             document.getElementById('modalDate').textContent = dateOnly;
             const teacher = document.getElementById('teacher').value;
+            const group = document.getElementById('group').value;
 
             fetch(`../save/save-schedule.php`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({day: dateOnly, teacher: teacher})
+                body: JSON.stringify({day: dateOnly, teacher: teacher, group: group})
             })
                 .then(response => response.json())
                 .then(data => {

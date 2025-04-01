@@ -62,7 +62,7 @@ class ScheduleMap extends BaseMap
         return $events;
     }
 
-    public function getEventsByDay($day, $teacher = null)
+    public function getEventsByDay($day, $teacher = null, $group = null)
     {
         $sql = "SELECT `schedule_id`, gruppa.gruppa_id, subject.subject_id, user.user_id as teacher_id, classroom.classroom_id, gruppa.name as gruppa_name, subject.name as subject_name, CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as teacher_fio, `date`, `time`, classroom.name as classroom_name
                 FROM `schedule`
@@ -74,9 +74,10 @@ class ScheduleMap extends BaseMap
 
         $params = [':date' => $day . "%"];
 
-        if (!empty($teacher)) {
-            $sql .= " AND `teacher_id` = :teacher";
+        if (!empty($teacher) && !empty($group)) {
+            $sql .= " AND `teacher_id` = :teacher AND `gruppa_id` = :group";
             $params[':teacher'] = $teacher;
+            $params[':group'] = $group;
         }
 
         $stmt = $this->db->prepare($sql);
