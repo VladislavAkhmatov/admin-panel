@@ -110,6 +110,36 @@ class ScheduleMap extends BaseMap
         }
     }
 
+    public function update($schedule_id, $time, $subject, $teacher, $classroom, $group)
+    {
+        $sql = "UPDATE schedule SET 
+            time = :time,
+            subject_id = :subject,
+            teacher_id = :teacher,
+            classroom_id = :classroom,
+            group_id = :group
+            WHERE schedule_id = :schedule_id";
+
+        $stmt = $this->db->prepare($sql);
+
+        // Привязываем параметры
+        $stmt->bindParam(':schedule_id', $schedule_id, PDO::PARAM_INT);
+        $stmt->bindParam(':time', $time, PDO::PARAM_STR);
+        $stmt->bindParam(':subject', $subject, PDO::PARAM_INT);
+        $stmt->bindParam(':teacher', $teacher, PDO::PARAM_INT);
+        $stmt->bindParam(':classroom', $classroom, PDO::PARAM_INT);
+        $stmt->bindParam(':group', $group, PDO::PARAM_INT);
+
+        // Выполняем запрос
+        if ($stmt->execute()) {
+            $response['success'] = true;
+            $response['message'] = 'Изменения успешно сохранены';
+            return $response;
+        } else {
+            return 'Ошибка при обновлении записи в БД';
+        }
+    }
+
     public function delete($id)
     {
         if (
@@ -226,4 +256,6 @@ class ScheduleMap extends BaseMap
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+
 }

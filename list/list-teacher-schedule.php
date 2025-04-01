@@ -76,7 +76,6 @@ require_once '../template/header.php';
             })
                 .then(response => response.json())
                 .then(eventsData => {
-                    console.log(eventsData);
                     const calendarEl = document.getElementById('calendar');
 
                     if (window.calendarInstance) {
@@ -87,6 +86,11 @@ require_once '../template/header.php';
                         initialView: 'dayGridMonth',
                         initialDate: month + '-01',
                         events: eventsData,
+                        headerToolbar: {
+                            left: '',   // убираем все элементы слева (включая today)
+                            center: 'title', // оставляем только заголовок месяца
+                            right: ''   // убираем все элементы справа (включая стрелки)
+                        },
                         eventContent: function (arg) {
                             let parentContainer = document.createElement('div');
 
@@ -198,7 +202,6 @@ require_once '../template/header.php';
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Полученные данные:", data);
                     const scheduleList = document.getElementById('scheduleList');
                     scheduleList.innerHTML = '';
 
@@ -210,7 +213,6 @@ require_once '../template/header.php';
                     data.forEach(event => {
                         let li = document.createElement('li');
                         li.dataset.eventId = event.id; // Сохраняем ID события
-
                         // Основное содержимое элемента
                         let contentSpan = document.createElement('span');
                         contentSpan.textContent = `${event.time} - Предмет: ${event.subject_name}, Учитель: ${event.teacher_fio}, Кабинет: ${event.classroom_name}, Группа: ${event.gruppa_name}`;
@@ -243,6 +245,12 @@ require_once '../template/header.php';
             // Создаем форму для редактирования
             let form = document.createElement('form');
             form.className = 'edit-form';
+
+            let scheduleIdInput = document.createElement('input');
+            scheduleIdInput.type = 'hidden';
+            scheduleIdInput.name = 'schedule_id';
+            scheduleIdInput.value = eventData.schedule_id;
+            form.appendChild(scheduleIdInput);
 
             // Поле времени
             let timeDiv = document.createElement('div');
@@ -345,14 +353,14 @@ require_once '../template/header.php';
         function saveChanges(liElement, eventId, form) {
             const formData = {
                 id: eventId,
+                schedule_id: form.querySelector('[name="schedule_id"]').value,
                 time: form.querySelector('[name="time"]').value,
                 subject: form.querySelector('[name="subject"]').value,
                 teacher: form.querySelector('[name="teacher"]').value,
                 classroom: form.querySelector('[name="classroom"]').value,
                 group: form.querySelector('[name="group"]').value
             };
-
-            fetch('../save/save-schedule.php', {
+            fetch('../update-schedule.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(formData)
@@ -382,7 +390,7 @@ require_once '../template/header.php';
                                 classroom_id: formData.classroom,
                                 classroom_name: form.querySelector('[name="classroom"] option:selected').textContent,
                                 gruppa_id: formData.group,
-                                gruppa_name: form.querySelector('[name="group"] option:selected').textContent
+                                gruppa_name: form.querySelector('[name="group"] option:selected').textContent,
                             });
                         });
 
@@ -395,7 +403,7 @@ require_once '../template/header.php';
                             window.calendarInstance.refetchEvents();
                         }
                     } else {
-                        alert('Ошибка при сохранении изменений: ' + (data.message || ''));
+                        alert((data.message || ''));
                     }
                 })
                 .catch(error => {
@@ -412,28 +420,6 @@ require_once '../template/header.php';
             <ul id="scheduleList"></ul>
         </div>
     </div>
-
-    <style>
-        .edit-form div {
-            margin-bottom: 8px;
-        }
-
-        .edit-form label {
-            display: inline-block;
-            width: 80px;
-        }
-
-        .edit-form select, .edit-form input[type="time"] {
-            width: 200px;
-            padding: 4px;
-        }
-
-        .save-btn, .cancel-btn {
-            padding: 5px 10px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-    </style>
 <?php
 require_once '../template/footer.php';
 ?>

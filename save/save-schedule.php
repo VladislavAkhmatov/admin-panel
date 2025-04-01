@@ -57,6 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    if(!empty($input['gruppa_id']) && !empty($input['subject_id']) && !empty($input['teacher_id']) &&
+        !empty($input['classroom_id']) && !empty($input['date']) && !empty($input['time']) && $input['update'] == 1){
+        return 123;
+    }
+
     echo json_encode(['error' => 'Некорректные входные данные']);
     exit();
 }

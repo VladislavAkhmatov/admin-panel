@@ -4,6 +4,25 @@ body {
 
 }
 
+.edit-form div {
+    margin-bottom: 8px;
+}
+
+.edit-form label {
+    display: inline-block;
+    width: 80px;
+}
+
+.edit-form select, .edit-form input[type="time"] {
+    width: 200px;
+    padding: 4px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
 
 .modal {
     display: none;

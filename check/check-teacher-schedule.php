@@ -71,6 +71,11 @@ $header = 'Мое расписание';
 
             window.calendarInstance = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: '',   // убираем все элементы слева (включая today)
+                    center: 'title', // оставляем только заголовок месяца
+                    right: ''   // убираем все элементы справа (включая стрелки)
+                },
                 events: events,
                 aspectRatio: 1.35,
                 eventContent: function (arg) {
