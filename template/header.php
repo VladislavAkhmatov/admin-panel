@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/template/css/bootstrap.min.css">
     <link rel="stylesheet" href="/template/css/font-awesome.min.css">
     <link rel="stylesheet" href="/template/css/ionicons.min.css">
-    <link rel="stylesheet" href="/template/css/adminLTE.min.css">
+    <link rel="stylesheet" href="/template/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/template/css/skins/skin-blue.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
 
@@ -22,7 +22,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link rel="preconnect">
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -102,8 +102,6 @@ desired effect
                         </div>
 
                     </li>
-                </ul>
-                </li>
                 </ul>
             </div>
         </nav>

@@ -8,7 +8,7 @@ class BaseMap extends Config
     {
         try {
             $this->db = new PDO(
-                'mysql:host=' . Config::HOST . ';port=' . Config::DB_PORT . ';dbname=' . Config::DB_NAME,
+                'mysql:host=' . Config::HOST . ';port=' . ';dbname=' . Config::DB_NAME,
                 Config::DB_USER,
                 Config::DB_PASSWORD
             );

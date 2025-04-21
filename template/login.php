@@ -8,13 +8,13 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="template/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/template/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="template/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/template/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="template/css/ionicons.min.css">
+  <link rel="stylesheet" href="/template/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="template/css/adminLTE.min.css">
+  <link rel="stylesheet" href="/template/css/AdminLTE.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,8 +26,8 @@
   <!-- Google Font -->
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-  <link rel="stylesheet" href="../css/adminLTE.css">
+    <link rel="preconnect">
+  <link rel="stylesheet" href="../css/AdminLTE.css">
 
 </head>
 

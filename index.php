@@ -183,15 +183,9 @@ if (Helper::can('procreator')) {
         header('Location: 404');
         exit();
     }
-    $size = 10;
-    if (isset($_GET['page'])) {
-        $page = Helper::clearInt($_GET['page']);
-    } else {
-        $page = 1;
-    }
     $studentMap = new StudentMap();
     $count = $studentMap->count();
-    $student = $studentMap->findStudentsFromParent($page * $size - $size, $size);
+    $students = $studentMap->findStudentsFromParent();
     $header = isset($_GET['message']) ? '<span style="color: red;">Ошибка</span>' : 'Главная';
     require_once 'template/header.php';
     ?>
@@ -210,7 +204,7 @@ if (Helper::can('procreator')) {
                 <!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                    if ($student) {
+                    if ($students) {
                         ?>
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
@@ -220,7 +214,7 @@ if (Helper::can('procreator')) {
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($student as $student) {
+                            foreach ($students as $student) {
                                 echo '<tr>';
                                 echo '<td><a href="check/check-child?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '</td>';
                                 echo '</tr>';
@@ -232,10 +226,6 @@ if (Helper::can('procreator')) {
                         echo 'Ни одного студента не найдено';
                     } ?>
                 </div>
-                <div class="box-body">
-                    <?php Helper::paginator($count, $page, $size); ?>
-                </div>
-                <!-- /.box-body -->
             </div>
         </div>
     </div>

@@ -5955,4 +5955,8 @@ table.text-center th {
     .input-radio {
         padding: 1px;
     }
+
+    .navbar-custom-menu{
+        display: none;
+    }
 }

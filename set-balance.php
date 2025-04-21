@@ -74,7 +74,7 @@ require_once 'template/header.php';
                         <p class="pt-3"><?= $item->user ?></p>
                     </td>
                     <td>
-                        <p><?= $balance->count ?></p>
+                        <p><?= $balance->count  ?? '0' ?></p>
                     </td>
                     <td>
                         <input type="number" class="form-control" name="addCounts[<?= $item->user_id ?>]"

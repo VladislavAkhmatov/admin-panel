@@ -89,12 +89,12 @@ class StudentMap extends BaseMap
     }
 
 
-    public function findStudentsFromParent($ofset = 0, $limit = 30)
+    public function findStudentsFromParent()
     {
         $res = $this->db->query("SELECT DISTINCT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio FROM parent
         INNER JOIN user ON user.user_id = parent.child_id
         WHERE parent.user_id = {$_SESSION['id']}
-        LIMIT $ofset, $limit");
+        ");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
