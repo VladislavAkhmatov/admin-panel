@@ -21,9 +21,15 @@ if ($user) {
         </td>
     </tr>
     <tr>
-        <th>Логин</th>
+        <th>Номер</th>
         <td>
             <?= $user->login; ?>
+        </td>
+    </tr>
+    <tr>
+        <th>Дополнительный номер</th>
+        <td>
+            <?= $user->additional_number; ?>
         </td>
     </tr>
     <tr>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 21 2025 г., 14:36
+-- Время создания: Июн 02 2025 г., 11:51
 -- Версия сервера: 8.0.30
--- Версия PHP: 8.1.9
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -57,7 +57,8 @@ INSERT INTO `admin` (`user_id`, `branch_id`, `deleted`) VALUES
 (140, 1, 0),
 (143, 4, 0),
 (147, 1, 0),
-(150, 1, 0);
+(150, 1, 0),
+(156, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -543,7 +544,9 @@ INSERT INTO `schedule` (`schedule_id`, `group_id`, `subject_id`, `teacher_id`, `
 (93, 1, 3, 6, '2025-03-11', '16:00', 1, 0),
 (94, 1, 3, 14, '2025-04-01', '14:11', 5, 0),
 (95, 2, 3, 6, '2025-04-01', '14:12', 1, 0),
-(96, 1, 3, 6, '2025-04-01', '15:45', 1, 0);
+(96, 1, 3, 6, '2025-04-01', '15:45', 1, 0),
+(97, 1, 3, 6, '2025-05-07', '18:28', 1, 0),
+(98, 1, 3, 6, '2025-05-08', '09:39', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -714,6 +717,7 @@ CREATE TABLE `user` (
   `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `patronymic` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `login` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `additional_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pass` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender_id` tinyint NOT NULL,
   `birthday` date DEFAULT NULL,
@@ -726,94 +730,95 @@ CREATE TABLE `user` (
 -- Дамп данных таблицы `user`
 --
 
-INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `pass`, `gender_id`, `birthday`, `role_id`, `branch_id`, `active`) VALUES
-(2, 'Смит', 'Джон', 'Тимофеевич', '777', '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
-(6, 'Ершов', 'Максимилиан', 'Иосифович', '87771111111', '', 1, '2025-03-29', 4, 1, 0),
-(7, 'Носов', 'Клим', 'Алексеевич', '6655', '$2y$10$Ot4eagPH8bNa0o1cMZDMh.XAD306m0/95KPIv3uSVX5TJZWApQAoa', 1, '2025-03-19', 5, 1, 0),
-(8, 'Шаров', 'Корней', 'Ростиславович', 'sharov', '$2y$10$hosMfj/tIw48P0tYCaQ1IuBwj6UYV9klgDsaVh/t5SxDcgPjAb7WS', 1, '2023-10-01', 5, 1, 1),
-(9, 'Антонова', 'Асида', 'Игнатьевна', '87774444444', '', 2, '2025-03-29', 5, 1, 1),
-(10, 'Беспалов', 'Агафон', 'Даниилович', '666', '$2y$10$47vF9GTOsEkic8hFpkfeJuyR9KaVNX9ve.nvZ/W94/jOh2NIsDsKe', 1, '2025-03-20', 6, 1, 0),
-(11, 'Карпов', 'Антон', 'Онисимович', 'karpov', '$2y$10$yOW62BB4F8KYnC/Zs95xGeI7HnlX2Rxpdu9qkVInJDRV0igjzbZpq', 1, '1980-11-12', 6, 1, 1),
-(12, 'Гришин', 'Мечеслав', 'Христофорович', 'grishin', '$2y$10$HiUHq9eyUODAWKKvKb072eJFP2mmX993WlE2yvSHlx0X6JqMftKEe', 1, '2002-12-20', 4, 2, 1),
-(14, 'Макаров', 'Михаил', 'Робертович', 'makarov', '$2y$10$Bq7MUyKFpI7sW1SfJvFMBOyXj286ZPVsxenSHLHI.omqV5x1QzZe.', 1, '1977-06-05', 4, 1, 1),
-(15, 'Андреев ', 'Венедикт ', 'Святославович', 'owner2', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1975-08-03', 2, 2, 1),
-(16, 'Лебедев', 'Альфред ', 'Викторович', 'owner3', '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1997-07-12', 2, 3, 1),
-(17, 'Соловьёв', 'Бронислав', 'Федотович', 'soloviev', '$2y$10$hwoeqR.h7cOSrs8mPHnbm.bmDXUd/2i4Xg968skfMTFQ.gQystHdC', 1, '1999-05-14', 4, 2, 1),
-(18, 'Кошелев', 'Эрнест', 'Лаврентьевич', 'koshelev', '$2y$10$mlU3F7DiiEWPXzdfjPiHseYtchL0YITkhg9XOGz72xF.klefiTgnO', 1, '2005-12-15', 5, 1, 1),
-(19, 'Дроздов', 'Арсений', 'Михайлович', 'admin@local.kz', '$2y$10$/7oNN.YXdskRMpeRJAPqZuRHJqsrsUV.XHVnJia9/JzthZqhYL4Sq', 1, '1997-07-12', 3, 1, 0),
-(22, 'Гурьев', 'Артур', 'Протасьевич', 'gurevvv', '$2y$10$n8AMg5CxgaCH2ujt2WII1e5UNDR3p4ocRRXiYiu/A6UwmBuvgTD.O', 1, '2023-10-01', 4, 1, 1),
-(25, 'Буров', 'Георгий', 'Матвеевич', 'burov', '$2y$10$xKG6mPSXSLVK/6/wWNtbfuE1WA4RLCUe80syL0eTja5J09EMaHh1.', 1, '1999-05-15', 4, 1, 1),
-(38, 'Соловьёва', 'Лея', 'Георгьевна', 'solovieva', '$2y$10$iH5wNehSfohUxfUTwKSNB.F01vhtYuddPbxUNZADQqgf5weDX7is2', 2, '2000-05-18', 6, 1, 1),
-(39, 'Шестаков', 'Бенедикт', 'Русланович', 'shestakov', '$2y$10$sSfncxp1TVq5wkKWWy/F4.6g1XKTimJXz2QfKQmNcGFW.Nkib5guq', 1, '2002-10-02', 6, 2, 1),
-(48, 'test2', 'test2', 'test2', 'test2', '$2y$10$KgMM268dqpwL.oRtnM.o/.opCP9heolbsII0x2tKGHuHQF9FeFijy', 1, '2023-12-21', 4, 2, 1),
-(59, 'test7', 'test7', 'test7', 'test7', '$2y$10$OEUiq/r9i7tBbrfHoL3RR.SgW6zesAnM0dLqb.TzdONAxT4Y0W9Hi', 1, '2024-02-01', 4, 2, 1),
-(80, 'test4', 'test4', 'test4', 'test4', '$2y$10$pp976ICBJqxGn.KYKz2b6OhlrFdhjEB8GvsPGG.hBjuXvNU6pn58u', 1, '2024-02-29', 4, 1, 1),
-(82, 'deleted', 'deleted', 'deleted', 'deleted', '$2y$10$NIHjHc3c.VDns6IZbzAXweX/kIfWTtsJPHHLIJb708eKVvvN2Rcua', 2, '2024-03-02', 5, 1, 1),
-(83, 'testPage', 'testPage', 'testPage', 'testPage', '$2y$10$h3EC2CNW/zuL4nfGn5m3GeO7labLNebLi2sZuC5Neblur6JVhNBq.', 1, '2024-03-01', 5, 1, 1),
-(84, 'testPage2', 'testPage2', 'testPage2', 'testPage2', '$2y$10$skY0FxghP6Mc6cTmFrDOPeF44ezYeRYx/ZqfAODmf8JgeObsXMYRG', 1, '2024-03-01', 5, 1, 1),
-(85, 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', '$2y$10$MuGlpXEloMN9nDBfHTS9qeYQrFjxt/yREHxvWa9utCsSq24o5uV3O', 1, '2024-03-11', 6, 2, 1),
-(86, 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', '$2y$10$0hsI3ae3OI/4AN01oPLnXuF3Qx8HgWVtaGiGpC1.6PZOXQlmYPmE.', 1, '2024-03-01', 5, 2, 1),
-(87, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$pVe5MlrjJMVoOzwj53pCjeUnrVen51.eV10YQhHM5j/.TH90CNfCi', 1, '2024-03-13', 2, 2, 1),
-(88, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Dblc3.ukFjNTiXEJmJllLelJLz/ITCSOEbpF6UkB7kLteLJDVQPJu', 1, '2024-03-13', 2, 2, 1),
-(89, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$6nVpUA0Wn.TVr9e1KGOhguTcLn/B.BdKwGg8sP3xzULEUKe2/pa6i', 1, '2024-03-13', 2, 2, 1),
-(90, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Ck2AmHtSXWMgYBWf.36gMeu4Xdix19939LR9jR5KYtO/29biEd/by', 1, '2024-03-13', 2, 2, 1),
-(91, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$Vo8jGIlFKDlgl8BaWSU2beCIR5ZDutDcdVnqWbsDP8Nezh8T3szBK', 1, '2024-03-13', 3, 4, 1),
-(92, 'testadmin', 'testadmin', 'testadmin', 'testadmin', '$2y$10$ImOJ7xUrI3Rf83OHt39WNumLxsZUWZTI.28bCq7hzw3hu/ETAN/dO', 1, '2024-03-13', 3, 2, 1),
-(93, 'test5', 'test5', 'test5', 'test5', '$2y$10$hOLufC3QkTe/8uoIQGId6uEX4iA9/5I2uAGV4IIEp5/wApd3PnEhq', 1, '2024-03-13', 3, 2, 1),
-(94, 'admin2', 'admin2', 'admin2', 'admin2', '$2y$10$9SOKQ9pYXJB0HBNOdG.n8uTpF9ysi/qUFxiUoHauJUrxGcr1C9Ade', 1, '2024-03-14', 3, 6, 1),
-(95, 'admin3', 'admin3', 'admin3', 'admin3', '$2y$10$PrdGxvEKAeNsUTilWv/gHOcbwO37X.tlZvw0AR591jY.s2VJMfSqy', 1, '2024-03-14', 3, 1, 1),
-(96, 'admin4', 'admin4', 'admin4', 'admin4', '$2y$10$nj8RCuRcLpir8ce4yMV1g.esDBVZ6C4e/eo7isXy5dSOhD2Cx3wRu', 1, '2024-03-14', 3, 1, 1),
-(97, 'admin4', 'admin4', 'admin4', 'admin4', '$2y$10$kiTdMnElxyshOc9hzD69GOs3cgonYhT04eQpgEI464wOAHamEkx7a', 1, '2024-03-14', 3, 1, 1),
-(98, 'admin5', 'admin5', 'admin5', 'admin5', '$2y$10$C.EzbynIs3UcrwMBvFNFTuSJ3t.XMLeGfH/nRKold2e.sB7nNouAu', 1, '2024-03-14', 3, 1, 1),
-(99, 'admin6', 'admin6', 'admin6', 'admin6', '$2y$10$4a8oRnU6SMCkZzidKT7r6OuEftc9Mmxc0Q3RWs/48wpMXXo27GN5K', 1, '2024-03-14', 3, 6, 1),
-(100, 'prepodAlma', 'prepodAlma', 'prepodAlma', 'prepodAlma', '$2y$10$owiL9AnguFWdQBsHPqWr..bo2yCtst4q.PNQyO/6663n.VhfPZfaq', 1, '2024-03-14', 4, 6, 1),
-(101, 'admin7', 'admin7', 'admin7', 'admin7', '$2y$10$0RsV9Zz6s/3WWFJxb1ZEu.fGRHbfk5LIHk4nuJ5RUW0aToZDrrkXO', 1, '2024-03-14', 3, 2, 1),
-(102, 'testTeacher2', 'testTeacher2', 'testTeacher2', 'testTeacher2', '$2y$10$FGx5IGBtsUmWHKYubJPJyOVG5D3RYIPvxy1X1jBpvLBmZlfseLh4G', 1, '2024-03-14', 4, 2, 1),
-(103, 'testBranch2', 'testBranch2', 'testBranch2', 'testBranch2', '$2y$10$RslJe6gGJMog..z/1JrauOi5Z4LE0Lcoc3J3IIatMJ1f.fLopmzWG', 1, '2024-03-10', 5, 2, 1),
-(104, 'testTest', 'testTest', 'testTest', 'testTest', '$2y$10$HgWytxz7hqd.Sf5q0Fq25e8T3jfYU7icOHLUkvDivmaVkClfS6wLW', 1, '2024-03-17', 4, 1001, 1),
-(105, 'testForParent', 'testForParent', 'testForParent', 'testForParent@mail.ru', '$2y$10$TMCYMjQESbQdgyyi1swx7OOoiwPQhNQBEUbO7JseElLnyXu6tPpte', 1, '2024-03-18', 5, 1, 1),
-(106, 'testParent', 'testParent', 'testParent', 'testParent', '$2y$10$nLRpiucgxHoMzpCy/HFxkOBwHK8GVvxClg.2THndRavqK1khyPAKq', 1, '2024-03-18', 6, 1, 1),
-(107, 'testTeacher3', 'testTeacher3', 'testTeacher3', 'testTeacher3@local.kz', '$2y$10$1OuBcnykWI.vUZ5eeEZaauGRaUL5ahI2aBb.7n8qwyxndn5VMebxq', 1, '2024-03-22', 4, 1, 1),
-(108, 'test44', 'test44', 'test44', 'asdasdasd@mail.ru', '$2y$10$5dpIwy0a5P.NcYrRNMYFPOT9P4c81t9dknYK4p1606wHhPmpPtW1e', 2, '2024-04-02', 4, 1, 1),
-(110, 'фывфыв', 'фывфывфы', 'вфывфывфывфы', 'asdasd@mail.ru', '$2y$10$x0/Ld8Zfg2w9X0COurGJIuFa21WNXsqL9E.n2oW4AOTjErRMABeHe', 2, '2024-04-18', 4, 1, 0),
-(111, 'asdasd', 'asdasd', 'asdasd', 'asdas@mail.ru', '$2y$10$dS5gefxKH.91gaCWTTdvL.Q.NOHfN8esKmk7HmyWls6pWPnPh.PA2', 1, '2024-04-16', 4, 1, 0),
-(113, 'uchitel', 'uchitel', 'uchitel', 'uchitel', '$2y$10$OQ28T5QSPNGV8XLVfgu/o.Cq/g27GI07Tc8wIlO/dqjDNCHOB1PyC', 1, '2024-04-19', 4, 1, 0),
-(114, 'roditel', 'roditel', 'roditel', 'roditel@local.kz', '$2y$10$KxGRrohmIa8g96AuImC97.aA0Q6eMt080oTDyqxZ/cB7mn9Q0Wcpy', 1, '2024-04-18', 6, 1, 0),
-(115, 'sadaljshdnas', 'fkgjdegklfdngh', 'lkjdfgklfdng', 'test@mail.ru', '$2y$10$q.uzAAxtTZQBrDJ.v5gWveGgpXJXMDgiAtvh39Ih.UFHmSZhaR.4O', 1, '2024-04-01', 6, 1, 0),
-(116, 'admin12345', 'admin12345', 'admin12345', 'admin12345@mail.ru', '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
-(117, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.ru', '$2y$10$LOsSTvoRhCg3Z35wOEHdEu0gAGE5ITKWGo3uoMW1I3aoauGbL504m', 1, '2024-05-01', 4, 1, 0),
-(118, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.kz', '$2y$10$UqIBrXGgSAWK5rbILrzGyO2pRyXqV4.OOa/ZIZmI9eqPEJ.09jvwG', 1, '2024-04-01', 4, 1, 0),
-(119, 'TestAdmin', 'TestAdmin', 'TestAdmin', '123323123', '$2y$10$.oBzEWq3p0C.58HbUlqkJerpsOPj18Pu3JHdxhXF5ccrRl.bHilfO', 1, '2025-03-25', 3, 1, 0),
-(120, 'asdasd', 'asdasd', 'asdasd', '123123', '123', 1, '2222-02-11', 3, 1, 1),
-(121, 'asdsadasd', 'asdasdsadas', 'asdsadasdasd', '123123123', '$2y$10$DG.6WlIjCmhWzt2X0uIf3.SUDhp8G1q3yJPEcjRHW5vmZ7TphR5/2', 1, '2025-03-27', 3, 1, 1),
-(122, 'asdsadsad', 'asdasd', 'asdasdasd', '123123123', '$2y$10$3F/h3i6tU5BZQhq.liIc3uIVz5F2d/LV5i/7AR/TROpBZcnsT5rJG', 1, '2025-02-24', 5, 1, 1),
-(123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА', '999', '$2y$10$W0kthoseijxJABtHTf9rn.tRJsAlV7SJH1WRyeq5AiBO9srVroLse', 1, '2025-03-15', 3, 1, 1),
-(124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', '$2y$10$Ww2tGeD2LWLzsgAFYOsL6eiZXKuDizWHiRnZu7lh8QAxH2tffQTdC', 1, '2025-03-16', 4, 1, 1),
-(125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
-(126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1),
-(127, '11111', '11111', '11111', '1111111', '$2y$10$SM2aqFCl73GcR7EewDiEeuzUZRU938dLVfyrvQHcOym6/Qc1DKwQm', 1, '2025-03-13', 3, 1, 1),
-(128, 'asdasd', 'asdasd', 'asdasd', '12312321', '$2y$10$XZOSbCM9YgF9ihvTtRIiKucvfad5MJ.clxz8dpX.HeiTyQyL/yRBy', 1, '2025-03-15', 5, 1, 1),
-(129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1),
-(130, 'Тест расписания', 'И', 'Оценок', '322', '$2y$10$ii33HEi79F.UIr5ZiMR4m.ATYWkXJrK.sn4NzIu0eOeOdp88QGTdu', 1, '2025-03-04', 4, 4, 1),
-(131, 'тест расписания', 'и', 'оценок (Ученик)', '3222', '$2y$10$qwVDgFEYMClwd.DeZmVVu.ueCQyAtC6WCfeNlyjGxr5gV1rMhI/hq', 1, '2025-03-11', 5, 4, 1),
-(134, 'hjfdnbjfd', 'jdsnvjsdnv', 'djvndfjnv', '777899', '$2y$10$igR0TNovY4UNwI33dqW04eexEfXff9RJkfC5LOLpUddD7qa.3XReu', 1, '2025-03-11', 3, 1, 1),
-(135, 'kdfvjfdnb', 'dnsvjkdnfv', 'lnjjvndfv', '1234321', '$2y$10$X/n2SIfIQnkU6aolVuleYOFKgComGwJkjf6fFCys6Thj.QrXAdaha', 1, '2025-03-04', 3, 1, 1),
-(136, 'studenttest', 'studenttest', 'studenttest', '7770099', '$2y$10$R2IIefOghUtPxjj5yne1weG3m4eiAQOxCYSakZNgCjPq6Tq3G/Zhi', 1, '2025-03-03', 5, 1, 1),
-(137, 'testteacher', 'testteacher', 'testteacher', '77700987', '$2y$10$MM8MSWnKXuU.BHcp4f1k7u11Irc6BMg2eOgGi73zIqfPZ4EM.FdXO', 1, '2025-03-01', 4, 1, 1),
-(138, 'testparent', 'testparent', 'testparent', '7775543', '$2y$10$nsdaA2aUWudu9u6qsef5neOEygahuvVxXlmWuoCbxB3K0MH2Ujieq', 1, '2025-03-01', 6, 1, 1),
-(139, 'Администратор', 'Первого', 'Филиала', '333', '$2y$10$yFFu55Z2aWSTYInURGUy1.0W5JeGYcOvknst2afUNrTJIKj4gIhni', 1, '2025-03-01', 3, 1, 1),
-(140, 'test', 'test', 'test', '111222', '$2y$10$I4UdiSH0qnNG5O8jOhi0V.QHPY2nUK94grX.u.h08BGAgzdfaxVES', 1, '2025-03-03', 3, 1, 1),
-(141, 'Ученик', 'Ученик', 'Ученик', '7713', '$2y$10$bSzqDrqyj1yrla31/OpuZe6gIHxJN1Ck9Aj6tql5Cr5yQUafNYVzi', 1, '2025-03-10', 5, 1, 1),
-(142, 'Родитель', 'Родитель', 'Родитель', '6613', '$2y$10$0GXJzXYLlkeC2QgmmYZTEu9gXOyioA7kt3EmIypcxNtwftt5RzJNG', 1, '2025-03-01', 6, 1, 1),
-(143, 'Администратор', 'Филиала', 'Дарабоз', '7777', '$2y$10$4oTrsAHhrNWact/RX/ulQ.nSsLcKVGqbJRMuoEePBtxvkWXdMgzuG', 1, '2025-03-27', 3, 4, 1),
-(144, 'Тест', 'Филиала', 'Дарабоз', '001', '$2y$10$gsYQdxXVict314fcv3QhLegfjhCuGQq0mkr2qWxUBu1FAT1y3p4Be', 1, '2025-03-02', 4, 4, 1),
-(145, 'Учение', 'Филиала', 'Дарабоз', '002', '$2y$10$72cay1pYD238tb.Hf0SCqej.E1pP1yzbkP3Bq1oXNT4Ybv2s.srh.', 1, '2025-03-03', 5, 4, 1),
-(146, 'Родитель', 'Филиала', 'Дарабоз', '003', '$2y$10$CkUappIXHvRhLC8I1WhkguFqbYCnETSZocYsK4aIt/7084Sds9X6e', 1, '2025-03-02', 6, 4, 1),
-(147, 'Ахматов', 'Владислав', 'Витальевич', '7081756417', '$2y$10$3GkXbakqzBMaZgGL3NalkuW8Ezd/qcQk6ptu28f4k/fr0cwNF3Jwy', 1, '2025-03-03', 3, 1, 1),
-(148, 'Бондарчик', 'Николай', 'Александрович', '7024369260', '$2y$10$K2ZUNJe5kHYOkObOpn9oi.xfOjmuhzwjQFRpHaY9GNP4uSkOLb1Ge', 1, '2002-01-16', 4, 1, 1),
-(150, 'Бондарчик', 'Николай', 'Александрович', '87024369260', '$2y$10$wnTv1Scijcdoo09puR/d6.MG/SZ9EN.rLyvCI9BwPTfHue7jfljUe', 1, '2025-03-03', 3, 1, 1),
-(154, 'Тест', 'Без', 'Пароля', '87772221111', '', 1, '2025-03-01', 5, 1, 1),
-(155, 'Ахматов', 'Владислав', 'Витальевич', '87081756417', '', 1, '2025-03-02', 6, 1, 1);
+INSERT INTO `user` (`user_id`, `lastname`, `firstname`, `patronymic`, `login`, `additional_number`, `pass`, `gender_id`, `birthday`, `role_id`, `branch_id`, `active`) VALUES
+(2, 'Смит', 'Джон', 'Тимофеевич', '777', NULL, '$2y$10$kkAc3Z1kd7baFhhpVj98feshP7nhhY8IeT7L04xY9I4PuuhKT3Aii', 1, '2023-11-01', 2, 1, 1),
+(6, 'Ершов', 'Максимилиан', 'Иосифович', '87771111111', NULL, '', 1, '2025-03-29', 4, 1, 0),
+(7, 'Носов', 'Клим', 'Алексеевич', '6655', NULL, '$2y$10$Ot4eagPH8bNa0o1cMZDMh.XAD306m0/95KPIv3uSVX5TJZWApQAoa', 1, '2025-03-19', 5, 1, 0),
+(8, 'Шаров', 'Корней', 'Ростиславович', 'sharov', NULL, '$2y$10$hosMfj/tIw48P0tYCaQ1IuBwj6UYV9klgDsaVh/t5SxDcgPjAb7WS', 1, '2023-10-01', 5, 1, 1),
+(9, 'Антонова', 'Асида', 'Игнатьевна', '87774444444', NULL, '', 2, '2025-03-29', 5, 1, 1),
+(10, 'Беспалов', 'Агафон', 'Даниилович', '666', NULL, '$2y$10$47vF9GTOsEkic8hFpkfeJuyR9KaVNX9ve.nvZ/W94/jOh2NIsDsKe', 1, '2025-03-20', 6, 1, 0),
+(11, 'Карпов', 'Антон', 'Онисимович', 'karpov', NULL, '$2y$10$yOW62BB4F8KYnC/Zs95xGeI7HnlX2Rxpdu9qkVInJDRV0igjzbZpq', 1, '1980-11-12', 6, 1, 1),
+(12, 'Гришин', 'Мечеслав', 'Христофорович', 'grishin', NULL, '$2y$10$HiUHq9eyUODAWKKvKb072eJFP2mmX993WlE2yvSHlx0X6JqMftKEe', 1, '2002-12-20', 4, 2, 1),
+(14, 'Макаров', 'Михаил', 'Робертович', 'makarov', NULL, '$2y$10$Bq7MUyKFpI7sW1SfJvFMBOyXj286ZPVsxenSHLHI.omqV5x1QzZe.', 1, '1977-06-05', 4, 1, 1),
+(15, 'Андреев ', 'Венедикт ', 'Святославович', 'owner2', NULL, '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1975-08-03', 2, 2, 1),
+(16, 'Лебедев', 'Альфред ', 'Викторович', 'owner3', NULL, '$2y$10$mFlJsQgNvDQ27XfADrMh8O9OQA47f2gLmqYdwGeg8SpsvdoRUX95S', 1, '1997-07-12', 2, 3, 1),
+(17, 'Соловьёв', 'Бронислав', 'Федотович', 'soloviev', NULL, '$2y$10$hwoeqR.h7cOSrs8mPHnbm.bmDXUd/2i4Xg968skfMTFQ.gQystHdC', 1, '1999-05-14', 4, 2, 1),
+(18, 'Кошелев', 'Эрнест', 'Лаврентьевич', 'koshelev', NULL, '$2y$10$mlU3F7DiiEWPXzdfjPiHseYtchL0YITkhg9XOGz72xF.klefiTgnO', 1, '2005-12-15', 5, 1, 1),
+(19, 'Дроздов', 'Арсений', 'Михайлович', 'admin@local.kz', NULL, '$2y$10$/7oNN.YXdskRMpeRJAPqZuRHJqsrsUV.XHVnJia9/JzthZqhYL4Sq', 1, '1997-07-12', 3, 1, 0),
+(22, 'Гурьев', 'Артур', 'Протасьевич', 'gurevvv', NULL, '$2y$10$n8AMg5CxgaCH2ujt2WII1e5UNDR3p4ocRRXiYiu/A6UwmBuvgTD.O', 1, '2023-10-01', 4, 1, 1),
+(25, 'Буров', 'Георгий', 'Матвеевич', 'burov', NULL, '$2y$10$xKG6mPSXSLVK/6/wWNtbfuE1WA4RLCUe80syL0eTja5J09EMaHh1.', 1, '1999-05-15', 4, 1, 1),
+(38, 'Соловьёва', 'Лея', 'Георгьевна', 'solovieva', NULL, '$2y$10$iH5wNehSfohUxfUTwKSNB.F01vhtYuddPbxUNZADQqgf5weDX7is2', 2, '2000-05-18', 6, 1, 1),
+(39, 'Шестаков', 'Бенедикт', 'Русланович', 'shestakov', NULL, '$2y$10$sSfncxp1TVq5wkKWWy/F4.6g1XKTimJXz2QfKQmNcGFW.Nkib5guq', 1, '2002-10-02', 6, 2, 1),
+(48, 'test2', 'test2', 'test2', 'test2', NULL, '$2y$10$KgMM268dqpwL.oRtnM.o/.opCP9heolbsII0x2tKGHuHQF9FeFijy', 1, '2023-12-21', 4, 2, 1),
+(59, 'test7', 'test7', 'test7', 'test7', NULL, '$2y$10$OEUiq/r9i7tBbrfHoL3RR.SgW6zesAnM0dLqb.TzdONAxT4Y0W9Hi', 1, '2024-02-01', 4, 2, 1),
+(80, 'test4', 'test4', 'test4', 'test4', NULL, '$2y$10$pp976ICBJqxGn.KYKz2b6OhlrFdhjEB8GvsPGG.hBjuXvNU6pn58u', 1, '2024-02-29', 4, 1, 1),
+(82, 'deleted', 'deleted', 'deleted', 'deleted', NULL, '$2y$10$NIHjHc3c.VDns6IZbzAXweX/kIfWTtsJPHHLIJb708eKVvvN2Rcua', 2, '2024-03-02', 5, 1, 1),
+(83, 'testPage', 'testPage', 'testPage', 'testPage', NULL, '$2y$10$h3EC2CNW/zuL4nfGn5m3GeO7labLNebLi2sZuC5Neblur6JVhNBq.', 1, '2024-03-01', 5, 1, 1),
+(84, 'testPage2', 'testPage2', 'testPage2', 'testPage2', NULL, '$2y$10$skY0FxghP6Mc6cTmFrDOPeF44ezYeRYx/ZqfAODmf8JgeObsXMYRG', 1, '2024-03-01', 5, 1, 1),
+(85, 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', 'forAutoNotice', NULL, '$2y$10$MuGlpXEloMN9nDBfHTS9qeYQrFjxt/yREHxvWa9utCsSq24o5uV3O', 1, '2024-03-11', 6, 2, 1),
+(86, 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', 'forAutoNoticeStudent', NULL, '$2y$10$0hsI3ae3OI/4AN01oPLnXuF3Qx8HgWVtaGiGpC1.6PZOXQlmYPmE.', 1, '2024-03-01', 5, 2, 1),
+(87, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$pVe5MlrjJMVoOzwj53pCjeUnrVen51.eV10YQhHM5j/.TH90CNfCi', 1, '2024-03-13', 2, 2, 1),
+(88, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$Dblc3.ukFjNTiXEJmJllLelJLz/ITCSOEbpF6UkB7kLteLJDVQPJu', 1, '2024-03-13', 2, 2, 1),
+(89, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$6nVpUA0Wn.TVr9e1KGOhguTcLn/B.BdKwGg8sP3xzULEUKe2/pa6i', 1, '2024-03-13', 2, 2, 1),
+(90, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$Ck2AmHtSXWMgYBWf.36gMeu4Xdix19939LR9jR5KYtO/29biEd/by', 1, '2024-03-13', 2, 2, 1),
+(91, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$Vo8jGIlFKDlgl8BaWSU2beCIR5ZDutDcdVnqWbsDP8Nezh8T3szBK', 1, '2024-03-13', 3, 4, 1),
+(92, 'testadmin', 'testadmin', 'testadmin', 'testadmin', NULL, '$2y$10$ImOJ7xUrI3Rf83OHt39WNumLxsZUWZTI.28bCq7hzw3hu/ETAN/dO', 1, '2024-03-13', 3, 2, 1),
+(93, 'test5', 'test5', 'test5', 'test5', NULL, '$2y$10$hOLufC3QkTe/8uoIQGId6uEX4iA9/5I2uAGV4IIEp5/wApd3PnEhq', 1, '2024-03-13', 3, 2, 1),
+(94, 'admin2', 'admin2', 'admin2', 'admin2', NULL, '$2y$10$9SOKQ9pYXJB0HBNOdG.n8uTpF9ysi/qUFxiUoHauJUrxGcr1C9Ade', 1, '2024-03-14', 3, 6, 1),
+(95, 'admin3', 'admin3', 'admin3', 'admin3', NULL, '$2y$10$PrdGxvEKAeNsUTilWv/gHOcbwO37X.tlZvw0AR591jY.s2VJMfSqy', 1, '2024-03-14', 3, 1, 1),
+(96, 'admin4', 'admin4', 'admin4', 'admin4', NULL, '$2y$10$nj8RCuRcLpir8ce4yMV1g.esDBVZ6C4e/eo7isXy5dSOhD2Cx3wRu', 1, '2024-03-14', 3, 1, 1),
+(97, 'admin4', 'admin4', 'admin4', 'admin4', NULL, '$2y$10$kiTdMnElxyshOc9hzD69GOs3cgonYhT04eQpgEI464wOAHamEkx7a', 1, '2024-03-14', 3, 1, 1),
+(98, 'admin5', 'admin5', 'admin5', 'admin5', NULL, '$2y$10$C.EzbynIs3UcrwMBvFNFTuSJ3t.XMLeGfH/nRKold2e.sB7nNouAu', 1, '2024-03-14', 3, 1, 1),
+(99, 'admin6', 'admin6', 'admin6', 'admin6', NULL, '$2y$10$4a8oRnU6SMCkZzidKT7r6OuEftc9Mmxc0Q3RWs/48wpMXXo27GN5K', 1, '2024-03-14', 3, 6, 1),
+(100, 'prepodAlma', 'prepodAlma', 'prepodAlma', 'prepodAlma', NULL, '$2y$10$owiL9AnguFWdQBsHPqWr..bo2yCtst4q.PNQyO/6663n.VhfPZfaq', 1, '2024-03-14', 4, 6, 1),
+(101, 'admin7', 'admin7', 'admin7', 'admin7', NULL, '$2y$10$0RsV9Zz6s/3WWFJxb1ZEu.fGRHbfk5LIHk4nuJ5RUW0aToZDrrkXO', 1, '2024-03-14', 3, 2, 1),
+(102, 'testTeacher2', 'testTeacher2', 'testTeacher2', 'testTeacher2', NULL, '$2y$10$FGx5IGBtsUmWHKYubJPJyOVG5D3RYIPvxy1X1jBpvLBmZlfseLh4G', 1, '2024-03-14', 4, 2, 1),
+(103, 'testBranch2', 'testBranch2', 'testBranch2', 'testBranch2', NULL, '$2y$10$RslJe6gGJMog..z/1JrauOi5Z4LE0Lcoc3J3IIatMJ1f.fLopmzWG', 1, '2024-03-10', 5, 2, 1),
+(104, 'testTest', 'testTest', 'testTest', 'testTest', NULL, '$2y$10$HgWytxz7hqd.Sf5q0Fq25e8T3jfYU7icOHLUkvDivmaVkClfS6wLW', 1, '2024-03-17', 4, 1001, 1),
+(105, 'testForParent', 'testForParent', 'testForParent', 'testForParent@mail.ru', NULL, '$2y$10$TMCYMjQESbQdgyyi1swx7OOoiwPQhNQBEUbO7JseElLnyXu6tPpte', 1, '2024-03-18', 5, 1, 1),
+(106, 'testParent', 'testParent', 'testParent', 'testParent', NULL, '$2y$10$nLRpiucgxHoMzpCy/HFxkOBwHK8GVvxClg.2THndRavqK1khyPAKq', 1, '2024-03-18', 6, 1, 1),
+(107, 'testTeacher3', 'testTeacher3', 'testTeacher3', 'testTeacher3@local.kz', NULL, '$2y$10$1OuBcnykWI.vUZ5eeEZaauGRaUL5ahI2aBb.7n8qwyxndn5VMebxq', 1, '2024-03-22', 4, 1, 1),
+(108, 'test44', 'test44', 'test44', 'asdasdasd@mail.ru', NULL, '$2y$10$5dpIwy0a5P.NcYrRNMYFPOT9P4c81t9dknYK4p1606wHhPmpPtW1e', 2, '2024-04-02', 4, 1, 1),
+(110, 'фывфыв', 'фывфывфы', 'вфывфывфывфы', 'asdasd@mail.ru', NULL, '$2y$10$x0/Ld8Zfg2w9X0COurGJIuFa21WNXsqL9E.n2oW4AOTjErRMABeHe', 2, '2024-04-18', 4, 1, 0),
+(111, 'asdasd', 'asdasd', 'asdasd', 'asdas@mail.ru', NULL, '$2y$10$dS5gefxKH.91gaCWTTdvL.Q.NOHfN8esKmk7HmyWls6pWPnPh.PA2', 1, '2024-04-16', 4, 1, 0),
+(113, 'uchitel', 'uchitel', 'uchitel', 'uchitel', NULL, '$2y$10$OQ28T5QSPNGV8XLVfgu/o.Cq/g27GI07Tc8wIlO/dqjDNCHOB1PyC', 1, '2024-04-19', 4, 1, 0),
+(114, 'roditel', 'roditel', 'roditel', 'roditel@local.kz', NULL, '$2y$10$KxGRrohmIa8g96AuImC97.aA0Q6eMt080oTDyqxZ/cB7mn9Q0Wcpy', 1, '2024-04-18', 6, 1, 0),
+(115, 'sadaljshdnas', 'fkgjdegklfdngh', 'lkjdfgklfdng', 'test@mail.ru', NULL, '$2y$10$q.uzAAxtTZQBrDJ.v5gWveGgpXJXMDgiAtvh39Ih.UFHmSZhaR.4O', 1, '2024-04-01', 6, 1, 0),
+(116, 'admin12345', 'admin12345', 'admin12345', 'admin12345@mail.ru', NULL, '$2y$10$ZmD9D6bjU0uTk.ys/zCs5.SPh5C2J/KDYMw47e.9IyvxNYRd5tqiS', 1, '2024-05-01', 3, 1, 0),
+(117, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.ru', NULL, '$2y$10$LOsSTvoRhCg3Z35wOEHdEu0gAGE5ITKWGo3uoMW1I3aoauGbL504m', 1, '2024-05-01', 4, 1, 0),
+(118, 'uchitel', 'uchitel', 'uchitel', 'uchitel@local.kz', NULL, '$2y$10$UqIBrXGgSAWK5rbILrzGyO2pRyXqV4.OOa/ZIZmI9eqPEJ.09jvwG', 1, '2024-04-01', 4, 1, 0),
+(119, 'TestAdmin', 'TestAdmin', 'TestAdmin', '123323123', NULL, '$2y$10$.oBzEWq3p0C.58HbUlqkJerpsOPj18Pu3JHdxhXF5ccrRl.bHilfO', 1, '2025-03-25', 3, 1, 0),
+(120, 'asdasd', 'asdasd', 'asdasd', '123123', NULL, '123', 1, '2222-02-11', 3, 1, 1),
+(121, 'asdsadasd', 'asdasdsadas', 'asdsadasdasd', '123123123', NULL, '$2y$10$DG.6WlIjCmhWzt2X0uIf3.SUDhp8G1q3yJPEcjRHW5vmZ7TphR5/2', 1, '2025-03-27', 3, 1, 1),
+(122, 'asdsadsad', 'asdasd', 'asdasdasd', '123123123', NULL, '$2y$10$3F/h3i6tU5BZQhq.liIc3uIVz5F2d/LV5i/7AR/TROpBZcnsT5rJG', 1, '2025-02-24', 5, 1, 1),
+(123, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА', '999', NULL, '$2y$10$W0kthoseijxJABtHTf9rn.tRJsAlV7SJH1WRyeq5AiBO9srVroLse', 1, '2025-03-15', 3, 1, 1),
+(124, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧИТЕЛь)', '888', NULL, '$2y$10$Ww2tGeD2LWLzsgAFYOsL6eiZXKuDizWHiRnZu7lh8QAxH2tffQTdC', 1, '2025-03-16', 4, 1, 1),
+(125, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (РОДИТЕЛЬ)', '666', NULL, '$2y$10$jHcZ0fCbaIKJrIEwNCAHOeCgGCsm5rxyAFN1nNyrqLbH2pm1/nXJm', 1, '2025-03-14', 6, 1, 1),
+(126, 'ТЕСТ', 'ДЛЯ', 'ПОКАЗА (УЧЕНИК)', '555', NULL, '$2y$10$XzpjUcoDFpBqy4UmlGJvyuvnRd7GQR8KKPCCucEYbkxn6naid6cLq', 1, '2025-02-23', 5, 1, 1),
+(127, '11111', '11111', '11111', '1111111', NULL, '$2y$10$SM2aqFCl73GcR7EewDiEeuzUZRU938dLVfyrvQHcOym6/Qc1DKwQm', 1, '2025-03-13', 3, 1, 1),
+(128, 'asdasd', 'asdasd', 'asdasd', '12312321', NULL, '$2y$10$XZOSbCM9YgF9ihvTtRIiKucvfad5MJ.clxz8dpX.HeiTyQyL/yRBy', 1, '2025-03-15', 5, 1, 1),
+(129, 'asdasdasd', 'asdasdsad', 'asdasdasd', '123123123', NULL, '$2y$10$nP7U5hhaLUepk.koYPvOAOFjpu/cw.FsT4ZSpWc4S6whkisIQY0EC', 1, '2025-03-15', 3, 1, 1),
+(130, 'Тест расписания', 'И', 'Оценок', '322', NULL, '$2y$10$ii33HEi79F.UIr5ZiMR4m.ATYWkXJrK.sn4NzIu0eOeOdp88QGTdu', 1, '2025-03-04', 4, 4, 1),
+(131, 'тест расписания', 'и', 'оценок (Ученик)', '3222', NULL, '$2y$10$qwVDgFEYMClwd.DeZmVVu.ueCQyAtC6WCfeNlyjGxr5gV1rMhI/hq', 1, '2025-03-11', 5, 4, 1),
+(134, 'hjfdnbjfd', 'jdsnvjsdnv', 'djvndfjnv', '777899', NULL, '$2y$10$igR0TNovY4UNwI33dqW04eexEfXff9RJkfC5LOLpUddD7qa.3XReu', 1, '2025-03-11', 3, 1, 1),
+(135, 'kdfvjfdnb', 'dnsvjkdnfv', 'lnjjvndfv', '1234321', NULL, '$2y$10$X/n2SIfIQnkU6aolVuleYOFKgComGwJkjf6fFCys6Thj.QrXAdaha', 1, '2025-03-04', 3, 1, 1),
+(136, 'studenttest', 'studenttest', 'studenttest', '7770099', NULL, '$2y$10$R2IIefOghUtPxjj5yne1weG3m4eiAQOxCYSakZNgCjPq6Tq3G/Zhi', 1, '2025-03-03', 5, 1, 1),
+(137, 'testteacher', 'testteacher', 'testteacher', '77700987', NULL, '$2y$10$MM8MSWnKXuU.BHcp4f1k7u11Irc6BMg2eOgGi73zIqfPZ4EM.FdXO', 1, '2025-03-01', 4, 1, 1),
+(138, 'testparent', 'testparent', 'testparent', '7775543', NULL, '$2y$10$nsdaA2aUWudu9u6qsef5neOEygahuvVxXlmWuoCbxB3K0MH2Ujieq', 1, '2025-03-01', 6, 1, 1),
+(139, 'Администратор', 'Первого', 'Филиала', '333', NULL, '$2y$10$yFFu55Z2aWSTYInURGUy1.0W5JeGYcOvknst2afUNrTJIKj4gIhni', 1, '2025-03-01', 3, 1, 1),
+(140, 'test', 'test', 'test', '111222', NULL, '$2y$10$I4UdiSH0qnNG5O8jOhi0V.QHPY2nUK94grX.u.h08BGAgzdfaxVES', 1, '2025-03-03', 3, 1, 1),
+(141, 'Ученик', 'Ученик', 'Ученик', '7713', NULL, '$2y$10$bSzqDrqyj1yrla31/OpuZe6gIHxJN1Ck9Aj6tql5Cr5yQUafNYVzi', 1, '2025-03-10', 5, 1, 1),
+(142, 'Родитель', 'Родитель', 'Родитель', '6613', NULL, '$2y$10$0GXJzXYLlkeC2QgmmYZTEu9gXOyioA7kt3EmIypcxNtwftt5RzJNG', 1, '2025-03-01', 6, 1, 1),
+(143, 'Администратор', 'Филиала', 'Дарабоз', '7777', NULL, '$2y$10$4oTrsAHhrNWact/RX/ulQ.nSsLcKVGqbJRMuoEePBtxvkWXdMgzuG', 1, '2025-03-27', 3, 4, 1),
+(144, 'Тест', 'Филиала', 'Дарабоз', '001', NULL, '$2y$10$gsYQdxXVict314fcv3QhLegfjhCuGQq0mkr2qWxUBu1FAT1y3p4Be', 1, '2025-03-02', 4, 4, 1),
+(145, 'Учение', 'Филиала', 'Дарабоз', '002', NULL, '$2y$10$72cay1pYD238tb.Hf0SCqej.E1pP1yzbkP3Bq1oXNT4Ybv2s.srh.', 1, '2025-03-03', 5, 4, 1),
+(146, 'Родитель', 'Филиала', 'Дарабоз', '003', NULL, '$2y$10$CkUappIXHvRhLC8I1WhkguFqbYCnETSZocYsK4aIt/7084Sds9X6e', 1, '2025-03-02', 6, 4, 1),
+(147, 'Ахматов', 'Владислав', 'Витальевич', '7081756417', NULL, '$2y$10$3GkXbakqzBMaZgGL3NalkuW8Ezd/qcQk6ptu28f4k/fr0cwNF3Jwy', 1, '2025-03-03', 3, 1, 1),
+(148, 'Бондарчик', 'Николай', 'Александрович', '7024369260', NULL, '$2y$10$K2ZUNJe5kHYOkObOpn9oi.xfOjmuhzwjQFRpHaY9GNP4uSkOLb1Ge', 1, '2002-01-16', 4, 1, 1),
+(150, 'Бондарчик', 'Николай', 'Александрович', '87024369260', NULL, '$2y$10$wnTv1Scijcdoo09puR/d6.MG/SZ9EN.rLyvCI9BwPTfHue7jfljUe', 1, '2025-03-03', 3, 1, 1),
+(154, 'Тест', 'Без', 'Пароля', '87772221111', NULL, '', 1, '2025-03-01', 5, 1, 1),
+(155, 'Ахматов', 'Владислав', 'Витальевич', '87081756417', NULL, '', 1, '2025-03-02', 6, 1, 1),
+(156, 'test', 'test', 'test', '87770009911', '87770009933', '$2y$10$F2mKEROm9dgbv4KtGIwhYuMEFeKJ13Yk/fESnz3h1Vusu0/BivicG', 1, '2025-06-01', 3, 1, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -1039,7 +1044,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT для таблицы `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT для таблицы `subject`
@@ -1051,7 +1056,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `user_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
