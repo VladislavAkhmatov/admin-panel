@@ -9,7 +9,6 @@ if (isset($_POST['user_id'])) {
     $user->patronymic = Helper::clearString($_POST['patronymic']);
     $user->birthday = Helper::clearString($_POST['birthday']);
     $user->login = Helper::clearString($_POST['login']);
-    $user->additional_number = Helper::clearString($_POST['additional_number']);
     if ($_POST['password'] == '') {
         $user->pass = null;
     } else {

@@ -1,6 +1,8 @@
 <?php
 require_once 'autoload.php';
 
+header("Content-Type: application/json");
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['login'])) {
@@ -20,4 +22,7 @@ if (!$user) {
 }
 
 $token = $userMap->generateToken($phone);
+
+http_response_code(200);
 echo json_encode(["token" => $token]);
+exit;

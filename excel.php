@@ -6,7 +6,6 @@ if (!Helper::can('owner') && !Helper::can('admin')) {
     exit();
 }
 
-// Импортируем необходимые классы из PHPExcel
 require 'phpoffice/phpexcel/Classes/PHPExcel.php';
 
 $fileName = "Оценки_" . time() . ".xlsx";

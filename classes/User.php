@@ -12,7 +12,7 @@ class User extends Table
     public $role_id = 0;
     public $branch_id = 0;
     public $gender_id = 0;
-    public $additional_number = '';
+
     public function __construct()
     {
         $this->birthday = date('Y-m-d');

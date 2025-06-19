@@ -1,280 +1,160 @@
 <?php
 require_once 'secure.php';
 require_once 'template/header.php';
+
+// Initialize branch from GET or session
 if (isset($_GET['id'])) {
     $_SESSION['branch'] = (int)$_GET['id'];
 }
-
 $id = $_SESSION['branch'];
 
+// Load data
 $userMap = new UserMap();
-$indexTeacher = $userMap->teacherCount();
-$indexStudent = $userMap->studentCount();
-$indexParent = $userMap->parentCount();
-
 $branch = $userMap->findBranchById($id);
-
 $branchWithoutCurrent = (new BranchMap())->arrBranchWithoutCurrent();
 ?>
-<?php if (Helper::can('admin')) {
-    $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;
-    ?>
 
-    <section class="content-header">
-        <h3><b>
-                <?= $header ?>
-            </b></h3>
-    </section>
-    <section class="content-header">
-        <h3><b>
-                Дата основания:
-                <?= $branch->date_founding ?>
-            </b></h3>
-    </section>
-    <section class="content">
-        <a style="text-decoration: none; color: #333;" href="list/list-teacher">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="ion ion-stats-bars"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во учителей</b></span>
-                        <span class="info-box-number">
-                                <?= $indexTeacher->count ?>
-                            </span>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $branch->name ?? 'Главная' ?> | Образовательный портал</title>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <?php if (Helper::can('admin') || Helper::can('owner')): ?>
+            <!-- Admin/Owner Dashboard -->
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">
+                    <?= isset($_GET['message']) ? '<span class="error-message">Неверный формат файла</span>' : htmlspecialchars($branch->name) ?>
+                </h1>
+                <p class="dashboard-subtitle">Дата основания: <span class="highlight"><?= $branch->date_founding ?></span></p>
+                
+                <?php if (Helper::can('owner')): ?>
+                    <div class="branch-selector">
+                        <p class="selector-title">Выберите филиал:</p>
+                        <form id="branchSelectForm" class="branch-form">
+                            <div class="branch-buttons">
+                                <?php foreach ($branchWithoutCurrent as $item): ?>
+                                    <button type="button" class="branch-button" onclick="submitBranch(<?= $item->id ?>)">
+                                        <?= htmlspecialchars($item->value) ?>
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                            <input type="hidden" id="selectedId" name="id">
+                        </form>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
-        </a>
 
-        <a style="text-decoration: none; color: #333;" href="list/list-student">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во учеников</b></span>
-                        <span class="info-box-number">
-                                <?= $indexStudent->count ?>
-                            </span>
+            <div class="stats-grid">
+                <a href="list/list-teacher" class="stat-card teacher-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
                     </div>
-                </div>
-            </div>
-        </a>
-
-        <a style="text-decoration: none; color: #333;" href="list/list-parent">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во родителей</b></span>
-                        <span class="info-box-number">
-                                <?= $indexParent->count ?>
-                            </span>
+                    <div class="card-content">
+                        <h3>Учителей</h3>
+                        <p class="stat-value"><?= $userMap->teacherCount()->count ?></p>
                     </div>
-                </div>
-            </div>
-        </a>
-    </section>
-<?php } ?>
+                </a>
 
-<?php if (Helper::can('teacher')) {
-    $header = 'Мое расписание';
-    ?>
-    <div class="mb-3">
-        <a href="/check/check-teacher-schedule" class="btn btn-primary d-block w-100 mb-2">
-            Просмотр расписания
-        </a>
-        <a href="/select-schedule" class="btn btn-primary d-block w-100">
-            Выставить оценки
-        </a>
+                <a href="list/list-student" class="stat-card student-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Учеников</h3>
+                        <p class="stat-value"><?= $userMap->studentCount()->count ?></p>
+                    </div>
+                </a>
+
+                <a href="list/list-parent" class="stat-card parent-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Родителей</h3>
+                        <p class="stat-value"><?= $userMap->parentCount()->count ?></p>
+                    </div>
+                </a>
+            </div>
+
+        <?php elseif (Helper::can('teacher')): ?>
+            <!-- Teacher Dashboard -->
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Панель преподавателя</h1>
+                <p class="dashboard-subtitle">Филиал: <span class="highlight"><?= htmlspecialchars($branch->name) ?></span></p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/check/check-teacher-schedule" class="action-button primary">
+                    <i class="fas fa-calendar-alt"></i> Расписание
+                </a>
+                <a href="/select-schedule" class="action-button secondary">
+                    <i class="fas fa-edit"></i> Выставить оценки
+                </a>
+            </div>
+
+        <?php elseif (Helper::can('procreator')): ?>
+            <!-- Parent Dashboard -->
+            <?php $students = (new StudentMap())->findStudentsFromParent(); ?>
+            
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Панель родителя</h1>
+                <p class="dashboard-subtitle">Ваши дети</p>
+            </div>
+
+            <div class="student-list">
+                <?php if ($students): ?>
+                    <div class="list-header">
+                        <h3>Список детей</h3>
+                    </div>
+                    <div class="list-items">
+                        <?php foreach ($students as $student): ?>
+                            <a href="check/check-child?id=<?= $student->user_id ?>" class="student-item">
+                                <i class="fas fa-child"></i>
+                                <span><?= htmlspecialchars($student->fio) ?></span>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="empty-state">
+                        <i class="fas fa-user-slash"></i>
+                        <p>Нет привязанных студентов</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        <?php elseif (Helper::can('student')): ?>
+            <!-- Student Dashboard -->
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Личный кабинет</h1>
+                <p class="dashboard-subtitle">Филиал: <span class="highlight"><?= htmlspecialchars($branch->name) ?></span></p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/check/check-grades?id=<?= $_SESSION['id'] ?>" class="action-button primary">
+                    <i class="fas fa-star"></i> Мои оценки
+                </a>
+                <a href="/check/check-student-schedule?id=<?= $_SESSION['id'] ?>" class="action-button secondary">
+                    <i class="fas fa-calendar-week"></i> Расписание
+                </a>
+                <a href="/check/check-balance?id=<?= $_SESSION['id'] ?>" class="action-button accent">
+                    <i class="fas fa-coins"></i> Баланс уроков
+                </a>
+            </div>
+        <?php endif; ?>
     </div>
-<?php } ?>
 
-<?php if (Helper::can('owner')) {
-    $header = isset($_GET['message']) ? '<span style="color: red;">Неверный формат файла</span>' : $branch->name;
-    ?>
+    <script>
+        function submitBranch(id) {
+            document.getElementById('selectedId').value = id;
+            document.getElementById('branchSelectForm').submit();
+        }
+    </script>
 
-    <section class="content-header">
-        <h3><b>
-                <?= $header ?>
-            </b></h3>
-    </section>
-    <section class="content-header">
-        <h3><b>
-                Дата основания:
-                <?= $branch->date_founding ?>
-            </b></h3>
-    </section>
-
-    <section class="content-header">
-        <h3><b>
-                Список филиалов:
-
-            </b></h3>
-    </section>
-    <section class="content-header">
-        <form id="myForm" action="index" method="GET">
-            <?php foreach ($branchWithoutCurrent as $item): ?>
-                <button class="btn btn-primary" type="button" onclick="submitForm(<?= $item->id ?>)">
-                    <?= $item->value ?>
-                </button>
-            <?php endforeach; ?>
-            <input type="hidden" id="selectedId" name="id" value="">
-        </form>
-
-        <script>
-            function submitForm(id) {
-                document.getElementById('selectedId').value = id;
-                document.getElementById('myForm').submit();
-
-            }
-        </script>
-    </section>
-    <section class="content">
-        <a style="text-decoration: none; color: #333;" href="list/list-teacher">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="ion ion-stats-bars"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во учителей</b></span>
-                        <span class="info-box-number">
-                                <?= $indexTeacher->count ?>
-                            </span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <a style="text-decoration: none; color: #333;" href="list/list-student">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во учеников</b></span>
-                        <span class="info-box-number">
-                                <?= $indexStudent->count ?>
-                            </span>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <a style="text-decoration: none; color: #333;" href="list/list-parent">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text"><b>Кол-во родителей</b></span>
-                        <span class="info-box-number">
-                                <?= $indexParent->count ?>
-                            </span>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </section>
-<?php } ?>
-
-<?php
-if (Helper::can('procreator')) {
-    require_once 'secure.php';
-    if (!Helper::can('procreator')) {
-        header('Location: 404');
-        exit();
-    }
-    $studentMap = new StudentMap();
-    $count = $studentMap->count();
-    $students = $studentMap->findStudentsFromParent();
-    $header = isset($_GET['message']) ? '<span style="color: red;">Ошибка</span>' : 'Главная';
-    require_once 'template/header.php';
-    ?>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <section class="content-header">
-                    <h1><b>
-                            <?= $header ?>
-                        </b>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li class="active">Главная</li>
-                    </ol>
-                </section>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <?php
-                    if ($students) {
-                        ?>
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th>Ф.И.О</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            foreach ($students as $student) {
-                                echo '<tr>';
-                                echo '<td><a href="check/check-child?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '</td>';
-                                echo '</tr>';
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                    <?php } else {
-                        echo 'Ни одного студента не найдено';
-                    } ?>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php } ?>
-<?php
-if (Helper::can('student')) {
-    if (!Helper::can('student')) {
-        header('Location: 404');
-        exit();
-    }
-    $studentMap = new StudentMap();
-    $header = isset($_GET['message']) ? '<span style="color: red;">Ошибка</span>' : 'Главная';
-    require_once 'template/header.php';
-    ?>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <section class="content-header">
-                    <h1><b>
-                            <?= $header ?>
-                        </b>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li class="active">Главная</li>
-                    </ol>
-                </section>
-                <div class="box-body">
-                    <div class="mb-3">
-                        <a href="/check/check-grades?id=<?= $_SESSION['id'] ?>"
-                           class="btn btn-primary d-block w-100 mb-2">
-                            Оценки
-                        </a>
-                        <a href="/check/check-student-schedule?id=<?= $_SESSION['id'] ?>"
-                           class="btn btn-primary d-block w-100">
-                            Расписание
-                        </a>
-                        <a href="/check/check-balance?id=<?= $_SESSION['id'] ?>"
-                           class="btn btn-primary d-block w-100">
-                            Баланс уроков
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
-    require_once 'template/footer.php';
-}
-require_once 'template/footer.php';
-
-
-?>
+    <?php require_once 'template/footer.php'; ?>
+</body>
+</html>

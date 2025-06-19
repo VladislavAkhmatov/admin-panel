@@ -1,0 +1,308 @@
+/* Переменные цвета */
+:root {
+    --primary-color: #9b6aa9;
+    --secondary-color: #9b6aa9;
+    --accent-color: #4895ef;
+    --danger-color: #f72585;
+    --success-color: #4cc9f0;
+    --dark-color: #2b2d42;
+    --light-color: #f8f9fa;
+    --gray-color: #adb5bd;
+    --white-color: #ffffff;
+}
+
+/* Общий стиль */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Заголовок */
+.dashboard-header {
+    background: var(--white-color);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.dashboard-title {
+    color: var(--dark-color);
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+}
+
+.dashboard-subtitle {
+    color: var(--gray-color);
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.highlight {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+/* Статистика */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.stat-card {
+    background: var(--white-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--dark-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card:hover .card-icon {
+    box-shadow: 0 0 12px 4px rgba(72, 149, 239, 0.4);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--white-color);
+}
+
+.teacher-card .card-icon {
+    background: var(--primary-color);
+}
+
+.student-card .card-icon {
+    background: var(--accent-color);
+}
+
+.parent-card .card-icon {
+    background: var(--secondary-color);
+}
+
+.card-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.stat-value {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover .stat-value {
+    transform: scale(1.1);
+}
+
+/* Кнопки */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.action-button {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.action-button i {
+    margin-right: 0.5rem;
+}
+
+.primary {
+    background: var(--primary-color);
+    color: var(--white-color);
+}
+
+.primary:hover {
+    background: #3a56d4;
+    box-shadow: 0 0 12px 4px rgba(67, 97, 238, 0.3);
+}
+
+.secondary {
+    background: var(--white-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.secondary:hover {
+    background: #f0f4ff;
+}
+
+.accent {
+    background: var(--accent-color);
+    color: var(--white-color);
+}
+
+.accent:hover {
+    background: #3a8bdb;
+    box-shadow: 0 0 12px 4px rgba(76, 201, 240, 0.4);
+}
+
+/* Селектор филиала */
+.branch-selector {
+    margin-top: 1.5rem;
+}
+
+.selector-title {
+    margin-bottom: 0.5rem;
+    color: var(--gray-color);
+}
+
+.branch-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.branch-button {
+    padding: 1rem;
+    min-width: 120px;
+    background: var(--light-color);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    cursor: pointer;
+}
+
+.branch-button:hover {
+    transform: scale(1.05);
+    background: var(--primary-color);
+    color: var(--white-color);
+    box-shadow: 0 8px 16px rgba(67, 97, 238, 0.3);
+}
+
+/* Список студентов */
+.student-list {
+    background: var(--white-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.list-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.list-header h3 {
+    margin: 0;
+    color: var(--dark-color);
+}
+
+.list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.student-item {
+    padding: 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.student-item:hover {
+    background: var(--success-color);
+    color: var(--white-color);
+}
+
+.student-item i {
+    margin-right: 1rem;
+    color: var(--primary-color);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray-color);
+}
+
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--gray-color);
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-button {
+        justify-content: center;
+    }
+}

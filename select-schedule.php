@@ -21,52 +21,51 @@ if (isset($_GET['q'])) {
 require_once 'template/header.php';
 
 ?>
-<section class="content-header">
-    <h3>
-        <b>
-            <?= $message; ?>
-        </b>
-    </h3>
-    <ol class="breadcrumb">
+    <section class="content-header">
+        <h3>
+            <b>
+                <?= $message; ?>
+            </b>
+        </h3>
+        <ol class="breadcrumb">
 
-        <li><a href="/index"><i class="fa fa-dashboard"></i> Главная</a></li>
+            <li><a href="/index"><i class="fa fa-dashboard"></i> Главная</a></li>
 
-        <li>Оценки</li>
-    </ol>
-</section>
-<div class="box-body">
-    <div class="form-group">
-        <form method="GET" action="select-schedule">
-            <?php if ($_SESSION['role'] != 'teacher'): ?>
+            <li>Оценки</li>
+        </ol>
+    </section>
+    <div class="box-body">
+        <div class="form-group">
+            <form method="GET" action="select-schedule">
+                <?php if ($_SESSION['role'] != 'teacher'): ?>
+                    <div class="form-group">
+                        <label>Дата</label>
+                        <input class="form-control" type="date" name="date" required>
+                    </div>
+                <?php endif; ?>
                 <div class="form-group">
-                    <label>Дата</label>
-                    <input class="form-control" type="date" name="date" required>
+                    <label>Предмет</label>
+                    <select class="form-control" name="subject_id">
+                        <?php Helper::printSelectOptions(0, (new SubjectMap)->arrSubjects()) ?>
+                    </select>
                 </div>
-            <?php endif; ?>
-            <div class="form-group">
-                <label>Предмет</label>
-                <select class="form-control" name="subject_id">
-                    <?php Helper::printSelectOptions(0, (new SubjectMap)->arrSubjects()) ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Группа</label>
-                <select class="form-control" name="group_id">
-                    <?php Helper::printSelectOptions(0, (new GruppaMap)->arrGruppas()) ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Применить</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label>Группа</label>
+                    <select class="form-control" name="group_id">
+                        <?php Helper::printSelectOptions(0, (new GruppaMap)->arrGruppas()) ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Применить</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 <?php if ($allSchedule != null): ?>
     <div class="box-body" style="display: flex;">
         <?php foreach ($allSchedule as $item): ?>
             <form action="set-grades" method="get">
-                <input class="btn btn-primary" style="margin-right: 5px" type="submit"
-                    value="<?= $item->teacher . ' - ' . $item->time ?>">
+                <input class="btn btn-primary" style="margin-right: 5px" type="submit" value="<?= $item->teacher . ' - ' . $item->time ?>">
                 <input type="hidden" name="schedule" value="<?= $item->schedule_id ?>">
                 <input type="hidden" name="group" value="<?= $item->group_id ?>">
                 <input type="hidden" name="subject" value="<?= $subject_id ?>">

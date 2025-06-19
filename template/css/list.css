@@ -1,0 +1,226 @@
+
+
+.student-list-container {
+    background: var(--white-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.add-student-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--success-color);
+    color: var(--white-color);
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.add-student-btn:hover {
+    background: #3aa8e0;
+    transform: scale(1.03);
+}
+
+.students-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 700px;
+    background: var(--light-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.students-table thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+.students-table th,
+.students-table td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+}
+
+.students-table tbody tr {
+    transition: background 0.2s ease;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.students-table tbody tr:hover {
+    background: #edf2ff;
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.student-name:hover {
+    text-decoration: underline;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.action-btn.edit {
+    background: var(--accent-color);
+}
+
+.action-btn.delete {
+    background: var(--danger-color);
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Empty block */
+.no-students {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--gray-color);
+    background: var(--white-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.no-students i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.pagination-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-header {
+    background: var(--white-color);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.dashboard-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+.dashboard-subtitle {
+    margin-top: 0.5rem;
+    color: var(--gray-color);
+    font-size: 0.95rem;
+}
+
+.breadcrumb-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.student-list-container {
+    background: var(--white-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.responsive-table {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.students-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--light-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.students-table thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+.students-table th,
+.students-table td {
+    padding: 1rem 1.2rem;
+    text-align: left;
+}
+
+.students-table tbody tr:hover {
+    background: #f1f3fe;
+    transition: background 0.2s ease;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.pagination-container .pagination li a,
+.pagination-container .pagination li span {
+    border-radius: 6px !important;
+    padding: 8px 14px;
+    background-color: #eae8fb;
+    color: var(--primary-color);
+    margin: 0 4px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.pagination-container .pagination li.active span {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .students-table {
+        font-size: 14px;
+    }
+
+    .add-student-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
