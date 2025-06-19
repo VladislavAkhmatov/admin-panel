@@ -30,8 +30,9 @@ if (isset($_GET['token'])) {
 if (isset($_POST['login']) && isset($_POST['password'])) {
     $login = Helper::clearString($_POST['login']);
     $password = Helper::clearString($_POST['password']);
+    $additional_login = Helper::clearString($_POST['login']);
     $userMap = new UserMap();
-    $user = $userMap->auth($login, $password);
+    $user = $userMap->auth($login, $password, $additional_login);
 
     if ($user) {
         $_SESSION['id'] = $user->user_id;
@@ -48,5 +49,5 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     }
 }
 
-require_once ('template/login.php');
+require_once('template/login.php');
 ?>

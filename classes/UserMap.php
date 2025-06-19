@@ -8,21 +8,22 @@ class UserMap extends BaseMap
     const owner = 'owner';
     const PARENT = 'procreator';
 
-    function auth($login, $password)
+    function auth($login, $password, $additional_login)
     {
         $login = $this->db->quote($login);
+        $additional_login = $this->db->quote($additional_login);
         $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name as role, branch.id AS branch, branch.branch as branch_name FROM user 
         INNER JOIN role ON user.role_id=role.role_id 
         INNER JOIN branch ON user.branch_id = branch.id 
-        WHERE user.login = $login");
+        WHERE user.login = $login OR user.additional_login = $additional_login");
         $user = $res->fetch(PDO::FETCH_OBJ);
         if ($user) {
-            if($user->pass == ''){
+            if ($user->pass == '') {
                 if (password_verify($password, $user->pass)) {
                     return $user;
                 }
             }
-        return $user;
+            return $user;
         }
         return null;
     }
@@ -63,9 +64,7 @@ class UserMap extends BaseMap
                 return $this->insert($user);
             }
         } else {
-            if (!$this->existLogin($user->login)) {
-                return $this->update($user);
-            }
+            return $this->update($user);
         }
         return false;
     }
@@ -85,12 +84,13 @@ class UserMap extends BaseMap
         $firstname = $this->db->quote($user->firstname);
         $patronymic = $this->db->quote($user->patronymic);
         $login = $this->db->quote($user->login);
+        $additional_login = $this->db->quote($user->additional_login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
         if (
             $this->db->exec("INSERT INTO user(lastname,
-                firstname, patronymic, login, pass, gender_id, birthday,
-                role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login,
+                firstname, patronymic, login, additional_login, pass, gender_id, birthday,
+                role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login, $additional_login,
                 $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id
                 )") == 1
         ) {
@@ -107,13 +107,14 @@ class UserMap extends BaseMap
         $firstname = $this->db->quote($user->firstname);
         $patronymic = $this->db->quote($user->patronymic);
         $login = $this->db->quote($user->login);
+        $additional_login = $this->db->quote($user->additional_login);
         $pass = $this->db->quote($user->pass);
         $birthday = $this->db->quote($user->birthday);
         if (
             $this->db->exec("UPDATE user SET lastname =
         $lastname, firstname = $firstname, patronymic =
-        $patronymic, login = $login, pass = $pass, gender_id = $user->gender_id, 
-                birthday = $birthday, role_id = $user->role_id WHERE user_id = $user->user_id") == 1
+        $patronymic, login = $login, additional_login = $additional_login, pass = $pass, gender_id = $user->gender_id, 
+                birthday = $birthday, role_id = $user->role_id WHERE user_id = $user->user_id") !== false
         ) {
             return true;
         }
@@ -125,7 +126,7 @@ class UserMap extends BaseMap
         if ($id) {
             $res = $this->db->query("SELECT user.user_id,
             CONCAT(user.lastname,' ', user.firstname, ' ',user.patronymic) AS fio, 
-            user.login, user.birthday, gender.name AS
+            user.login, user.additional_login, user.birthday, gender.name AS
             gender, role.name AS role FROM user INNER JOIN gender ON
             user.gender_id=gender.gender_id 
             INNER JOIN role ON
@@ -171,14 +172,16 @@ class UserMap extends BaseMap
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function generateToken($phone) {
+    public function generateToken($phone)
+    {
         $token = bin2hex(random_bytes(16)); // Генерируем токен
         $stmt = $this->db->prepare("INSERT INTO auth_tokens (login, token, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 MINUTE))");
         $stmt->execute([$phone, $token]);
         return $token;
     }
 
-    public function getUserByToken($token) {
+    public function getUserByToken($token)
+    {
         $stmt = $this->db->prepare("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name, branch.id AS branch, branch.branch as branch_name FROM user
                 JOIN role ON user.role_id=role.role_id 
                 JOIN branch ON user.branch_id = branch.id 
@@ -188,7 +191,8 @@ class UserMap extends BaseMap
         return $stmt->fetchObject("User");
     }
 
-    public function deleteToken($token) {
+    public function deleteToken($token)
+    {
         $stmt = $this->db->prepare("DELETE FROM auth_tokens WHERE token = ?");
         $stmt->execute([$token]);
     }

@@ -32,10 +32,15 @@ if (isset($_GET['k'])) {
     <input type="date" class="form-control" name="birthday" value="<?= $user->birthday; ?>" required>
 </div>
 <div class="form-group">
-    <label>Логин</label>
+    <label>Номер</label>
     <input type="tel" class="form-control" name="login" pattern="8\d{10}" placeholder="8XXXXXXXXXX"
            required="required"
            value="<?= $user->login; ?>">
+</div>
+<div class="form-group">
+    <label>Доп. номер</label>
+    <input type="tel" class="form-control" name="additional_login" pattern="8\d{10}" placeholder="8XXXXXXXXXX"
+           value="<?= $user->additional_login; ?>">
 </div>
 <?php if ($role != 'student' && $role != 'teacher' && $role != 'parent'): ?>
     <div class="form-group">

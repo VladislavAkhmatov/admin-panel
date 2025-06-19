@@ -84,7 +84,7 @@ require_once 'template/header.php';
                     </td>
                     <td>
                         <input type="number" class="form-control" name="homeworks[]" value="<?= $grade->homework ?>"
-                               min="0" max="100">
+                               min="0" max="10">
                     </td>
                     <input type="hidden" name="user_ids[]" value="<?= $item->user_id ?>">
                 </tr>

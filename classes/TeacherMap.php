@@ -60,6 +60,20 @@ class TeacherMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function findAllArchive($ofset = 0, $limit = 30)
+    {
+
+        $res = $this->db->query("SELECT user.user_id,  CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, role.name AS role, branch.id AS branch, branch.branch AS branch_name
+         FROM user 
+                    INNER JOIN teacher ON user.user_id=teacher.user_id 
+                    INNER JOIN gender ON user.gender_id=gender.gender_id 
+                    INNER JOIN role ON user.role_id=role.role_id
+                    INNER JOIN branch ON branch.id=user.branch_id
+                    WHERE teacher.deleted = 1 AND user.branch_id = {$_SESSION['branch']} AND teacher.archive_deleted = 'null'
+            LIMIT $ofset, $limit");
+        return $res->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function count()
     {
         $res = $this->db->query("SELECT COUNT(*) AS cnt FROM teacher 
@@ -87,6 +101,14 @@ class TeacherMap extends BaseMap
         $res->execute([
             'id' => $id
         ]);
+    }
+
+    public function deleteArchiveTeacherById($id)
+    {
+        $query = "UPDATE `teacher` SET `archive_deleted`=1 WHERE user_id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 
     public function arrTeachers()

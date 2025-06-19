@@ -9,6 +9,7 @@ if (isset($_POST['user_id'])) {
     $user->patronymic = Helper::clearString($_POST['patronymic']);
     $user->birthday = Helper::clearString($_POST['birthday']);
     $user->login = Helper::clearString($_POST['login']);
+    $user->additional_login = Helper::clearString($_POST['additional_login']);
     if ($_POST['password'] == '') {
         $user->pass = null;
     } else {
@@ -60,17 +61,19 @@ if (isset($_POST['user_id'])) {
         $student = new Student();
         $student->gruppa_id = Helper::clearInt($_POST['gruppa_id']);
         $student->user_id = $user->user_id;
+        $student->entry_date = $_POST['entry_date'];
+        $student->end_date = $_POST['end_date'];
         $user->role_id = Helper::clearInt(5);
-
         if ((new StudentMap())->save($user, $student)) {
             header('Location: ../profile/profile-student?id=' . $student->user_id);
+            exit;
         } else {
             if ($student->user_id) {
-
                 header('Location: ../profile/profile-student?id=' . $student->user_id);
-
+                exit;
             } else {
-                header('Location: ../add/add-student?q=err');
+                header('Location: ../add/add-student?q=err&k=student');
+                exit;
             }
         }
         exit();

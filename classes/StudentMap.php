@@ -16,7 +16,7 @@ class StudentMap extends BaseMap
     {
         if ($id) {
             $res = $this->db->query("SELECT CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
-            student.user_id, gruppa_id, user.role_id FROM student 
+            student.user_id, gruppa_id, user.role_id, student.entry_date, student.end_date FROM student 
             INNER JOIN user ON student.user_id = user.user_id
             WHERE student.user_id = $id");
             $student = $res->fetchObject("Student");
@@ -56,9 +56,12 @@ class StudentMap extends BaseMap
 
     private function insert($student = Student)
     {
+        $entry_date = $this->db->quote($student->entry_date);
+        $end_date = $this->db->quote($student->end_date);
         if (
             $this->db->exec("INSERT INTO student(user_id,
-        gruppa_id, num_zach) VALUES($student->user_id, $student->gruppa_id, $student->num_zach)") == 1
+        gruppa_id, entry_date, end_date)
+        VALUES($student->user_id, $student->gruppa_id, $entry_date, $end_date)") == 1
         ) {
             return true;
         }
@@ -67,7 +70,12 @@ class StudentMap extends BaseMap
 
     private function update($student = Student)
     {
-        if ($this->db->exec("UPDATE student SET gruppa_id = $student->gruppa_id WHERE user_id=" . $student->user_id) == 1) {
+        $entry_date = $this->db->quote($student->entry_date);
+        $end_date = $this->db->quote($student->end_date);
+        if ($this->db->exec("UPDATE student SET gruppa_id = $student->gruppa_id,
+                   entry_date = $entry_date,
+                   end_date = $end_date
+               WHERE user_id=" . $student->user_id) == 1) {
             return true;
         }
         return false;
@@ -76,7 +84,7 @@ class StudentMap extends BaseMap
     public function findAll($ofset = 0, $limit = 30)
     {
         $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, gruppa.name AS gruppa, 
-        role.name AS role, branch.id AS branch, branch.branch AS branch_name FROM user 
+        role.name AS role, branch.id AS branch, branch.branch AS branch_name, student.entry_date, student.end_date FROM user 
         INNER JOIN student ON user.user_id=student.user_id 
         INNER JOIN gender ON user.gender_id=gender.gender_id 
         INNER JOIN gruppa ON student.gruppa_id=gruppa.gruppa_id 
@@ -110,23 +118,13 @@ class StudentMap extends BaseMap
     public function findProfileById($id = null)
     {
         if ($id) {
-            $res = $this->db->query("SELECT student.user_id, gruppa.name AS gruppa, user.user_id, branch.branch, student.reference FROM student 
+            $res = $this->db->query("SELECT student.user_id, gruppa.name AS gruppa, user.user_id, branch.branch, student.entry_date, student.end_date FROM student 
             INNER JOIN user ON user.user_id=student.user_id 
             INNER JOIN branch ON branch.id=user.branch_id 
             INNER JOIN gruppa ON student.gruppa_id=gruppa.gruppa_id WHERE student.user_id = $id");
             return $res->fetch(PDO::FETCH_OBJ);
         }
         return false;
-    }
-
-    public function findReferenceById($id = null)
-    {
-        $query = "SELECT id, user_id, reference FROM `reference` WHERE user_id = :id";
-        $res = $this->db->prepare($query);
-        $res->execute([
-            'id' => $id
-        ]);
-        return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function findStudentById($id)
