@@ -81,9 +81,9 @@ class StudentMap extends BaseMap
         return false;
     }
 
-    public function findAll($ofset = 0, $limit = 30)
+    public function findAll($ofset = 0, $limit = 30, $key = null, $registration_date = null)
     {
-        $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, gruppa.name AS gruppa, 
+        $sql = "SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, user.login, gender.name AS gender, gruppa.name AS gruppa, 
         role.name AS role, branch.id AS branch, branch.branch AS branch_name, student.entry_date, student.end_date FROM user 
         INNER JOIN student ON user.user_id=student.user_id 
         INNER JOIN gender ON user.gender_id=gender.gender_id 
@@ -91,11 +91,22 @@ class StudentMap extends BaseMap
         INNER JOIN role ON user.role_id=role.role_id
         INNER JOIN branch ON user.branch_id = branch.id
         
-        WHERE student.deleted = 0 AND user.branch_id = {$_SESSION['branch']}
-            LIMIT $ofset, $limit");
+        WHERE student.deleted = 0 AND user.branch_id = {$_SESSION['branch']}";
+        if ($registration_date) {
+            $sql .= " AND user.registration_date = '{$registration_date}'";
+        }
+        if ($key == 1) {
+            $sql .= " AND student.entry_date <= CURDATE() AND student.end_date >= CURDATE() LIMIT $ofset, $limit";
+        } elseif ($key == 2) {
+            $sql .= " AND student.entry_date <= CURDATE() AND student.end_date <= CURDATE() LIMIT $ofset, $limit";
+        } elseif ($key == 3) {
+            $sql .= '';
+        } else {
+            $sql .= " LIMIT $ofset, $limit";
+        }
+        $res = $this->db->query($sql);
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
-
 
     public function findStudentsFromParent()
     {
@@ -107,11 +118,22 @@ class StudentMap extends BaseMap
     }
 
 
-    public function count()
+    public function count($key = null, $registration_date = null)
     {
-        $res = $this->db->query("SELECT COUNT(*) AS cnt FROM student
+        $sql = "SELECT COUNT(*) AS cnt FROM student
             INNER JOIN user ON user.user_id = student.user_id
-            WHERE user.branch_id = {$_SESSION['branch']} AND student.deleted = 0");
+            WHERE user.branch_id = {$_SESSION['branch']} AND student.deleted = 0";
+        if ($registration_date) {
+            $sql .= " AND user.registration_date = '{$registration_date}'";
+        }
+        if ($key == 1) {
+            $sql .= " AND student.entry_date <= CURDATE() AND student.end_date >= CURDATE()";
+        } elseif ($key == 2) {
+            $sql .= " AND student.entry_date <= CURDATE() AND student.end_date <= CURDATE()";
+        } elseif ($key == 3) {
+            $sql .= '';
+        }
+        $res = $this->db->query($sql);
         return $res->fetch(PDO::FETCH_OBJ)->cnt;
     }
 

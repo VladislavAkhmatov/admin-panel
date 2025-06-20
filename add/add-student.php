@@ -35,6 +35,7 @@ dashboard"></i> Главная</a></li>
             </li>
         </ol>
     </section>
+
     <div class="box-body">
         <form action="../save/save-user" method="POST">
             <?php require_once '../_formUser.php'; ?>

@@ -24,6 +24,9 @@
                 <a href="../list/list-parent"><i class="fa fa-users"></i><span>Родители</span></a>
             <li class="header">Справочники</li>
 
+            <li <?= ($_SERVER['PHP_SELF'] == '/training-period.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../training-period"><i class="fa fa-clock-o"></i><span>Период обучения</span></a>
 
             <li <?= ($_SERVER['PHP_SELF'] == '/list/list-gruppa.php') ? 'class="active"' : ''; ?>>
 
@@ -92,6 +95,10 @@
                 <a href="../list/list-parent"><i class="fa fa-users"></i><span>Родители</span></a>
 
             <li class="header">Справочники</li>
+
+            <li <?= ($_SERVER['PHP_SELF'] == '/training-period.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../training-period"><i class="fa fa-clock-o"></i><span>Период обучения</span></a>
 
             <li <?= ($_SERVER['PHP_SELF'] == '/list/list-branch.php') ? 'class="active"' : ''; ?>>
 

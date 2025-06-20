@@ -90,8 +90,8 @@ class UserMap extends BaseMap
         if (
             $this->db->exec("INSERT INTO user(lastname,
                 firstname, patronymic, login, additional_login, pass, gender_id, birthday,
-                role_id, branch_id) VALUES($lastname, $firstname, $patronymic, $login, $additional_login,
-                $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id
+                role_id, branch_id, registration_date) VALUES($lastname, $firstname, $patronymic, $login, $additional_login,
+                $pass, $user->gender_id, $birthday, $user->role_id, $user->branch_id, curdate()
                 )") == 1
         ) {
             $user->user_id = $this->db->lastInsertId();

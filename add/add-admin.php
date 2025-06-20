@@ -37,7 +37,13 @@ require_once '../template/header.php';
         <form action="../save/save-user" method="POST">
             <?php require_once '../_formUser.php'; ?>
             <div class="form-group">
-                <button type="submit" name="saveadmin" class="btn btn-primary">Сохранить</button>
+                <label>Пол</label>
+                <select class="form-control" name="gender_id">
+                    <?= Helper::printSelectOptions(
+                        $user->gender_id,
+                        $userMap->arrGenders()
+                    ); ?>
+                </select>
             </div>
         </form>
     </div>
