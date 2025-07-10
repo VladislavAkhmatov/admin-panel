@@ -12,17 +12,30 @@ class UserMap extends BaseMap
     {
         $login = $this->db->quote($login);
         $additional_login = $this->db->quote($additional_login);
-        $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name as role, branch.id AS branch, branch.branch as branch_name FROM user 
+        $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name as role, branch.id AS branch, branch.branch as branch_name, student.points FROM user 
+        LEFT JOIN student ON student.user_id = user.user_id
         INNER JOIN role ON user.role_id=role.role_id 
         INNER JOIN branch ON user.branch_id = branch.id 
         WHERE user.login = $login OR user.additional_login = $additional_login");
         $user = $res->fetch(PDO::FETCH_OBJ);
         if ($user) {
-            if ($user->pass == '') {
-                if (password_verify($password, $user->pass)) {
-                    return $user;
-                }
+            if (password_verify($password, $user->pass)) {
+                return $user;
             }
+        }
+        return null;
+    }
+
+    function authFromTelegram($login)
+    {
+        $login = $this->db->quote($login);
+        $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.pass, role.sys_name, role.name as role, branch.id AS branch, branch.branch as branch_name, student.points FROM user 
+        LEFT JOIN student ON student.user_id = user.user_id
+        INNER JOIN role ON user.role_id=role.role_id 
+        INNER JOIN branch ON user.branch_id = branch.id 
+        WHERE user.login = $login OR user.additional_login = $login");
+        $user = $res->fetch(PDO::FETCH_OBJ);
+        if ($user) {
             return $user;
         }
         return null;

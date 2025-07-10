@@ -48,6 +48,7 @@ fa-dashboard"></i> Главная</a></li>
                             <thead>
                             <tr>
                                 <th>Ф.И.О</th>
+                                <th>Зарплата</th>
                                 <th>Дата рождения</th>
                             </tr>
                             </thead>
@@ -60,6 +61,7 @@ fa-dashboard"></i> Главная</a></li>
                                 else:
                                     echo '<td><p href="../profile/profile-teacher?id=' . $teacher->user_id . '">' . $teacher->fio . '</p> ' . ' </td>';
                                 endif;
+                                echo '<td>' . $teacher->salary . '</td>';
                                 echo '<td>' . Helper::formattedData($teacher->birthday) . '</td>';
                                 echo '</tr>';
                             }

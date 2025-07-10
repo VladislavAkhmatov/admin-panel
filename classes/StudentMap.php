@@ -16,7 +16,7 @@ class StudentMap extends BaseMap
     {
         if ($id) {
             $res = $this->db->query("SELECT CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
-            student.user_id, gruppa_id, user.role_id, student.entry_date, student.end_date FROM student 
+            student.user_id, gruppa_id, user.role_id, student.entry_date, student.end_date, student.points FROM student 
             INNER JOIN user ON student.user_id = user.user_id
             WHERE student.user_id = $id");
             $student = $res->fetchObject("Student");
@@ -84,7 +84,7 @@ class StudentMap extends BaseMap
     public function findAll($ofset = 0, $limit = 30, $key = null, $registration_date = null)
     {
         $sql = "SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, user.login, gender.name AS gender, gruppa.name AS gruppa, 
-        role.name AS role, branch.id AS branch, branch.branch AS branch_name, student.entry_date, student.end_date FROM user 
+        role.name AS role, branch.id AS branch, branch.branch AS branch_name, student.entry_date, student.end_date, student.points FROM user 
         INNER JOIN student ON user.user_id=student.user_id 
         INNER JOIN gender ON user.gender_id=gender.gender_id 
         INNER JOIN gruppa ON student.gruppa_id=gruppa.gruppa_id 
@@ -105,6 +105,20 @@ class StudentMap extends BaseMap
             $sql .= " LIMIT $ofset, $limit";
         }
         $res = $this->db->query($sql);
+        return $res->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function findAllArchive($ofset = 0, $limit = 30)
+    {
+
+        $res = $this->db->query("SELECT user.user_id,  CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, role.name AS role, branch.id AS branch, branch.branch AS branch_name
+         FROM user 
+                    INNER JOIN student ON user.user_id=student.user_id 
+                    INNER JOIN gender ON user.gender_id=gender.gender_id 
+                    INNER JOIN role ON user.role_id=role.role_id
+                    INNER JOIN branch ON branch.id=user.branch_id
+                    WHERE student.deleted = 1 AND user.branch_id = {$_SESSION['branch']} AND student.archive_deleted = 'null'
+            LIMIT $ofset, $limit");
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -140,7 +154,7 @@ class StudentMap extends BaseMap
     public function findProfileById($id = null)
     {
         if ($id) {
-            $res = $this->db->query("SELECT student.user_id, gruppa.name AS gruppa, user.user_id, branch.branch, student.entry_date, student.end_date FROM student 
+            $res = $this->db->query("SELECT student.user_id, gruppa.name AS gruppa, user.user_id, branch.branch, student.entry_date, student.end_date, student.points FROM student 
             INNER JOIN user ON user.user_id=student.user_id 
             INNER JOIN branch ON branch.id=user.branch_id 
             INNER JOIN gruppa ON student.gruppa_id=gruppa.gruppa_id WHERE student.user_id = $id");
@@ -171,4 +185,13 @@ class StudentMap extends BaseMap
         }
         return false;
     }
+
+    public function deleteArchiveStudentById($id)
+    {
+        $query = "UPDATE `student` SET `archive_deleted`=1 WHERE user_id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
 }

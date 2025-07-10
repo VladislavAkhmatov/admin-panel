@@ -3,7 +3,8 @@
 class BalanceMap extends BaseMap
 {
 
-    public function findByUserId($user_id){
+    public function findByUserId($user_id)
+    {
         $sql = "SELECT balance.user_id, subject.name as subject, count FROM `balance`
                 JOIN subject ON balance.subject_id = subject.subject_id
                 WHERE user_id = :user_id";
@@ -12,6 +13,7 @@ class BalanceMap extends BaseMap
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
     public function findByUserIdAndSubjectId($user_id, $subject_id)
     {
         $sql = "SELECT balance.user_id, subject.subject_id, subject.name, balance.count FROM `balance` 

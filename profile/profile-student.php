@@ -51,6 +51,18 @@ fa-dashboard"></i> Главная</a></li>
 
 
                         </tr>
+
+                        <tr>
+
+                            <th>Кол-во баллов</th>
+
+                            <td>
+                                <?= $student->points; ?>
+                            </td>
+
+
+                        </tr>
+
                         <tr>
 
                             <th>Дата начала обучения</th>

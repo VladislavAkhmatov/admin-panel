@@ -39,6 +39,11 @@ teacher">Преподаватели</a></li>
         <form action="../save/save-user" method="POST" enctype="multipart/form-data">
             <?php require_once '../_formUser.php'; ?>
             <div class="form-group">
+                <label>Зарплата</label>
+                <input type="text" class="form-control" name="salary" required="required"
+                       value="<?= $teacher->salary ?? '' ?>">
+            </div>
+            <div class="form-group">
                 <button type="submit" name="saveTeacher" class="btn btn-primary">Сохранить</button>
             </div>
         </form>

@@ -24,6 +24,7 @@ if (isset($_POST['user_id'])) {
     if (isset($_POST['saveTeacher'])) {
         $teacher = new Teacher();
         $teacher->user_id = $user->user_id;
+        $teacher->salary = Helper::clearInt($_POST['salary']);
         $user->role_id = Helper::clearInt(4);
         if ((new TeacherMap())->save($user, $teacher)) {
             header('Location: ../profile/profile-teacher?id=' . $teacher->user_id);

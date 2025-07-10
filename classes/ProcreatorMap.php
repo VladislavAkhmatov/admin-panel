@@ -91,6 +91,35 @@ class ProcreatorMap extends BaseMap
         return $res->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getStudentFromParentId($login)
+    {
+        $sql = "SELECT DISTINCT
+                child.user_id,
+                CONCAT(child.lastname,' ', child.firstname, ' ', child.patronymic) AS child
+            FROM parent
+            INNER JOIN user AS child ON child.user_id = parent.child_id
+            INNER JOIN user AS procreator ON procreator.user_id = parent.user_id
+            WHERE parent.deleted = 0 
+              AND procreator.login = :login";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':login' => $login
+        ]);
+
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!$students) {
+            echo json_encode([
+                'message' => 'student not found'
+            ]);
+            return;
+        }
+        echo json_encode([
+            'students' => $students
+        ]);
+    }
+
+
     public function count()
     {
 
@@ -115,7 +144,8 @@ class ProcreatorMap extends BaseMap
         return false;
     }
 
-    public function deleteChildById($parent_id, $child_id){
+    public function deleteChildById($parent_id, $child_id)
+    {
         $sql = "DELETE FROM `parent` WHERE user_id = :parent_id AND child_id = :child_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':parent_id', $parent_id);

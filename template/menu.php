@@ -28,6 +28,10 @@
 
                 <a href="../training-period"><i class="fa fa-clock-o"></i><span>Период обучения</span></a>
 
+            <li <?= ($_SERVER['PHP_SELF'] == '/send-receipt.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../send-receipt"><i class="fa fa-money"></i><span>Отправка квитанций</span></a>
+
             <li <?= ($_SERVER['PHP_SELF'] == '/list/list-gruppa.php') ? 'class="active"' : ''; ?>>
 
                 <a href="../list/list-gruppa"><i class="fa fa-object-group"></i><span>Группы</span></a>
@@ -57,7 +61,11 @@
 
             <li <?= ($_SERVER['PHP_SELF'] == '/archive-teacher.php') ? 'class="active"' : ''; ?>>
 
-                <a href="../archive/archive-teacher"><i class="fa fa-table"></i><span>Архив преподавателей</span></a>
+                <a href="../archive/archive-teacher"><i class="fa fa-table"></i><span>Архив учителей</span></a>
+            
+            <li <?= ($_SERVER['PHP_SELF'] == '/archive-student.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../archive/archive-student"><i class="fa fa-table"></i><span>Архив учеников</span></a>
 
                 <?php } ?>
                 <?php if (Helper::can('teacher')) { ?>
@@ -100,6 +108,10 @@
 
                 <a href="../training-period"><i class="fa fa-clock-o"></i><span>Период обучения</span></a>
 
+            <li <?= ($_SERVER['PHP_SELF'] == '/list/list-receipt.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../list/list-receipt"><i class="fa fa-money"></i><span>Квитанции</span></a>
+
             <li <?= ($_SERVER['PHP_SELF'] == '/list/list-branch.php') ? 'class="active"' : ''; ?>>
 
                 <a href="../list/list-branch"><i class="fa fa-code-fork"></i><span>Филиалы</span></a>
@@ -133,7 +145,18 @@
 
             <li <?= ($_SERVER['PHP_SELF'] == '/archive-teacher.php') ? 'class="active"' : ''; ?>>
 
-                <a href="../archive/archive-teacher"><i class="fa fa-table"></i><span>Архив преподавателей</span></a>
+                <a href="../archive/archive-teacher"><i class="fa fa-table"></i><span>Архив учителей</span></a>
+
+            <li <?= ($_SERVER['PHP_SELF'] == '/archive-student.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../archive/archive-student"><i class="fa fa-table"></i><span>Архив учеников</span></a>
+
+            <li class="header">Другое</li>
+
+            <li <?= ($_SERVER['PHP_SELF'] == '/mailing.php') ? 'class="active"' : ''; ?>>
+
+                <a href="../mailing"><i class="fa fa-link"></i><span>Создать рассылку</span></a>
+
                 <?php } ?>
 
                 <?php if (Helper::can('procreator')) { ?>

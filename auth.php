@@ -4,12 +4,12 @@ session_start();
 
 $message = 'Войдите для просмотра расписания занятий';
 
-// Если передан username из Telegram, пытаемся войти
-if (isset($_GET['token'])) {
-    $token = Helper::clearString($_GET['token']);
+if ($_GET['login']) {
+    $login = $_GET['login'];
     $userMap = new UserMap();
-    $user = $userMap->getUserByToken($token);
-
+    $password = 0;
+    $additional_login = "";
+    $user = $userMap->authFromTelegram($login);
     if ($user) {
         $_SESSION['id'] = $user->user_id;
         $_SESSION['role'] = $user->sys_name;
@@ -17,9 +17,9 @@ if (isset($_GET['token'])) {
         $_SESSION['fio'] = $user->fio;
         $_SESSION['branch'] = $user->branch;
         $_SESSION['branch_name'] = $user->branch_name;
-
-        $userMap->deleteToken($token);
-
+        if ($_SESSION['role'] == "student") {
+            $_SESSION['points'] = $user->points;
+        }
         header('Location: index.php');
         exit;
     } else {
@@ -41,7 +41,9 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $_SESSION['fio'] = $user->fio;
         $_SESSION['branch'] = $user->branch;
         $_SESSION['branch_name'] = $user->branch_name;
-
+        if ($_SESSION['role'] == "student") {
+            $_SESSION['points'] = $user->points;
+        }
         header('Location: index.php');
         exit;
     } else {

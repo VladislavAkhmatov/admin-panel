@@ -13,50 +13,48 @@ $header = 'Профиль преподавателя';
 $teacher = (new TeacherMap())->findProfileById($id);
 require_once '../template/header.php';
 ?>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="box">
-            <section class="content-header">
-                <h3><b>Профиль преподавателя</b></h3>
-                <ol class="breadcrumb">
-                    <li><a href="../index"><i class="fa
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <section class="content-header">
+                    <h3><b>Профиль преподавателя</b></h3>
+                    <ol class="breadcrumb">
+                        <li><a href="../index"><i class="fa
 fa-dashboard"></i> Главная</a></li>
 
-                    <li><a href="../list/list-teacher">Преподаватели</a></li>
+                        <li><a href="../list/list-teacher">Преподаватели</a></li>
 
-                    <li class="active">Профиль</li>
-                </ol>
-            </section>
-            <div class="box-body">
-                <?php if (Helper::can('owner')) { ?>
-                    <a class="btn btn-success" href="../add/add-teacher?id=<?= $id; ?>">Изменить</a>
-                <?php } ?>
+                        <li class="active">Профиль</li>
+                    </ol>
+                </section>
+                <div class="box-body">
+                    <?php if (Helper::can('owner')) { ?>
+                        <a class="btn btn-success" href="../add/add-teacher?id=<?= $id; ?>">Изменить</a>
+                    <?php } ?>
 
-            </div>
-            <div class="box-body">
+                </div>
+                <div class="box-body">
 
-                <table class="table table-bordered table-
+                    <table class="table table-bordered table-
 hover">
 
-                    <?php require_once '../_profile.php'; ?>
+                        <?php require_once '../_profile.php'; ?>
 
-                    <?php if (Helper::can('admin')) { ?>
                         <tr>
 
-                            <th>Филиал</th>
+                            <th>Зарплата</th>
 
                             <td>
-                                <?= $teacher->branch; ?>
+                                <?= $teacher->salary ?? ''; ?>
                             </td>
 
                         </tr>
-                    <?php } ?>
 
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php
 require_once '../template/footer.php';
 

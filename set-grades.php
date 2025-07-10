@@ -4,6 +4,7 @@ if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
     header('Location: 404');
     exit();
 }
+
 $id = 0;
 $schedule = new ScheduleMap();
 $student = new StudentMap();

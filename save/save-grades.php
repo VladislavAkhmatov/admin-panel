@@ -26,11 +26,11 @@ if (isset($_POST['user_ids'])) {
             if ($grade->findGradeByUserAndSchedule($user_id, $schedule_id)) {
                 $grade->update($user_id, $schedule_id, $activity, $attend, $homework);
             } else {
-                $grade->insert($user_id, $schedule_id, $activity, $attend, $homework);
-                $balance->withdraw($user_id, $subject_id);
+                if ($activity > 0) {
+                    $grade->insert($user_id, $schedule_id, $activity, $attend, $homework, $subject_id);
+                }
             }
         }
-
         $grade->db->commit();
     } catch (Exception $e) {
         $grade->db->rollback();

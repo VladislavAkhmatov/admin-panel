@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    
 
 }
 
@@ -81,9 +82,21 @@ body {
 
 .wrapper {
     height: 100%;
-    position: relative;
+    
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+@media screen and (max-width: 1366px) {
+    .wrapper {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto; /* адаптивная высота */
+    }
+
+    body {
+        overflow-x: hidden;
+    }
 }
 
 .wrapper:before,
@@ -155,7 +168,7 @@ layout-top-nav .main-footer {
 }
 
 .content-wrapper {
-    min-height: 100%;
+    min-height: 100px;
     background-color: #ecf0f5;
     z-index: 800;
 }
@@ -308,6 +321,27 @@ a:focus {
 .main-header .navbar-custom-menu,
 .main-header .navbar-right {
     float: right
+}
+
+
+@media (max-width:1366px){
+    .content {
+    min-height: 1000px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px
+}
+.wrapper{
+    min-height: 1000px;
+
+}
+
+.content container-fluid{
+    min-height: 1000px;
+}
+
 }
 
 @media (max-width:991px) {

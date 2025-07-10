@@ -6,7 +6,7 @@ class TeacherMap extends BaseMap
     {
         if ($id) {
             $res = $this->db->query("SELECT CONCAT(user.lastname, ' ', user.firstname, ' ', user.patronymic) as fio, 
-            teacher.user_id
+            teacher.user_id, teacher.salary
             FROM teacher
             INNER JOIN user ON teacher.user_id = user.user_id
             WHERE teacher.user_id = $id");
@@ -34,7 +34,7 @@ class TeacherMap extends BaseMap
     private function insert($teacher = Teacher)
     {
         if (
-            $this->db->exec("INSERT INTO teacher(user_id) VALUES($teacher->user_id)") == 1
+            $this->db->exec("INSERT INTO teacher(user_id, salary) VALUES($teacher->user_id, $teacher->salary)") == 1
         ) {
             return true;
         }
@@ -43,13 +43,18 @@ class TeacherMap extends BaseMap
 
     private function update($teacher = Teacher)
     {
-        return true;
+        if (
+            $this->db->exec("UPDATE teacher SET salary = $teacher->salary WHERE user_id = $teacher->user_id") == 1
+        ) {
+            return true;
+        }
+        return false;
     }
 
     public function findAll($ofset = 0, $limit = 30)
     {
 
-        $res = $this->db->query("SELECT user.user_id,  CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, role.name AS role, branch.id AS branch, branch.branch AS branch_name
+        $res = $this->db->query("SELECT user.user_id,  CONCAT(user.lastname,' ', user.firstname, ' ', user.patronymic) AS fio, user.birthday, gender.name AS gender, role.name AS role, branch.id AS branch, branch.branch AS branch_name, teacher.salary
          FROM user 
                     INNER JOIN teacher ON user.user_id=teacher.user_id 
                     INNER JOIN gender ON user.gender_id=gender.gender_id 
@@ -85,7 +90,7 @@ class TeacherMap extends BaseMap
     public function findProfileById($id = null)
     {
         if ($id) {
-            $res = $this->db->query("SELECT teacher.user_id, user.user_id, branch.branch FROM teacher 
+            $res = $this->db->query("SELECT teacher.user_id, user.user_id, branch.branch, teacher.salary FROM teacher 
             INNER JOIN user ON user.user_id=teacher.user_id 
             INNER JOIN branch ON branch.id=user.branch_id
             WHERE teacher.user_id = $id");

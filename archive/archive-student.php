@@ -4,14 +4,14 @@ if (!Helper::can('admin') && !Helper::can('owner')) {
     header("Location: 404");
     exit();
 }
-$header = "Архив учителей";
+$header = "Архив учеников";
 $size = 5;
 if (isset($_GET['page'])) {
     $page = Helper::clearInt($_GET['page']);
 } else {
     $page = 1;
 }
-$teachers = (new TeacherMap())->findAllArchive($page * $size - $size, $size);
+$teachers = (new StudentMap())->findAllArchive($page * $size - $size, $size);
 $count = count($teachers);
 require_once '../template/header.php';
 ?>
@@ -47,7 +47,7 @@ fa-dashboard"></i> Главная</a></li>
                         <?php
                         foreach ($teachers as $teacher) {
                             echo '<tr>';
-                            echo '<td><a href="../profile/profile-teacher?id=' . $teacher->user_id . '">' . $teacher->fio . '</a> ' . '<a href="../delete/delete-teacher?id=' . $teacher->user_id . '&archive=1"><i class="fa fa-times"></i></a></td>';
+                            echo '<td><a href="../profile/profile-teacher?id=' . $teacher->user_id . '">' . $teacher->fio . '</a> ' . '<a href="../delete/delete-student?id=' . $teacher->user_id . '&archive=1"><i class="fa fa-times"></i></a></td>';
                             echo '<td>' . $teacher->gender . '</td>';
                             echo '<td>' . Helper::formattedData($teacher->birthday) . '</td>';
                             if (Helper::can('admin'))

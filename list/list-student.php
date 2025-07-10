@@ -1,1 +1,100 @@
-<?phprequire_once '../secure.php';if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {    header('Location: 404');    exit();}$size = 10;if (isset($_GET['page'])) {    $page = Helper::clearInt($_GET['page']);} else {    $page = 1;}$studentMap = new StudentMap();$student = 0;$filter = 0;$registration_date = null;if ($_SERVER["REQUEST_METHOD"] == "POST") {    if (!empty($_POST["filter"])) {        $params['filter'] = $_POST["filter"];        $filter = $params['filter'];    }    if (!empty($_POST["registration_date"])) {        $params['registration_date'] = $_POST["registration_date"];    }    $query = http_build_query($params);    header('Location: ?' . $query);    exit();} else {    $student = $studentMap->findAll($page * $size - $size, $size);}if (isset($_GET['filter'])) {    $filter = $_GET['filter'];    $student = $studentMap->findAll($page * $size - $size, $size, $filter);}if (isset($_GET['registration_date'])) {    $registration_date = $_GET['registration_date'];} else {    $registration_date = null;}$student = $studentMap->findAll($page * $size - $size, $size, $filter, $registration_date);$count = $studentMap->count($filter);require_once '../template/header.php';?><div class="row">    <div class="col-xs-12">        <div class="box">            <section class="content-header">                <h3><b>                        <?= $header = isset($_GET['message']) ? Helper::message($_GET['message']) : 'Список учеников'; ?>                    </b></h3>                <ol class="breadcrumb">                    <li><a href="../index"><i class="fafa-dashboard"></i> Главная</a></li>                    <li class="active">Список                        учеников                    </li>                </ol>            </section>            <div class="box-body">                <?php if (!Helper::can('teacher')): ?>                    <a class="btn btn-success" href="../add/add-student?k=student">Добавить ученика</a>                <?php endif; ?>            </div>            <div class="box-body">                <form method="POST">                    <div class="form-group">                        <label>Фильтр</label>                        <select class="form-control" name="filter">                            <option value="0" <?php echo $filter == 0 ? 'selected' : '' ?>></option>                            <option value="1" <?php echo $filter == 1 ? 'selected' : '' ?>>Учится</option>                            <option value="2" <?php echo $filter == 2 ? 'selected' : '' ?>>Учился</option>                            <option value="3" <?php echo $filter == 3 ? 'selected' : '' ?>>Изъявил желание</option>                        </select>                    </div>                    <div class="form-group">                        <label>Дата регистрации</label>                        <input type="date" class="form-control" name="registration_date">                    </div>                    <?php if (isset($_GET['page'])): ?>                        <input type="hidden" name="page" value="<?php echo $page ?>">                    <?php endif ?>                    <div class="form-group">                        <button class="btn btn-primary">Выполнить</button>                    </div>                </form>            </div>            <!-- /.box-header -->            <div class="box-body">                <?php                if ($student) {                    ?>                    <table id="example2" class="table table-bordered table-hover">                        <thead>                        <tr>                            <th>Ф.И.О</th>                            <th>Дата рождения</th>                            <th>Группа</th>                        </tr>                        </thead>                        <tbody>                        <?php                        foreach ($student as $student) {                            echo '<tr>';                            echo '<td><a href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '<a href="../add/add-student?k=student&id=' . $student->user_id . '"><i class="fa fa-pencil"></i></a>  <a href="../delete/delete-student?id=' . $student->user_id . '"><i class="fa fa-times"></i></a></td>';                            echo '<td>' . Helper::formattedData($student->birthday) . '</td>';                            echo '<td>' . $student->gruppa . '</td>';                            echo '</tr>';                        }                        ?>                        </tbody>                    </table>                <?php } else {                    echo 'Ни одного ученика не найдено';                } ?>            </div>            <div class="box-body">                <?php Helper::paginator($count, $page, $size); ?>            </div>            <!-- /.box-body -->        </div>    </div></div><?phprequire_once '../template/footer.php';?>
+<?php
+require_once '../secure.php';
+if (!Helper::can('owner') && !Helper::can('admin') && !Helper::can('teacher')) {
+    header('Location: 404');
+    exit();
+}
+$size = 10;
+if (isset($_GET['page'])) {
+    $page = Helper::clearInt($_GET['page']);
+} else {
+    $page = 1;
+}
+$studentMap = new StudentMap();
+$student = 0;
+$filter = 0;
+$registration_date = null;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST["filter"])) {
+        $params['filter'] = $_POST["filter"];
+        $filter = $params['filter'];
+    }
+    if (!empty($_POST["registration_date"])) {
+        $params['registration_date'] = $_POST["registration_date"];
+    }
+    $query = http_build_query($params);
+    header('Location: ?' . $query);
+    exit();
+} else {
+    $student = $studentMap->findAll($page * $size - $size, $size);
+}
+if (isset($_GET['filter'])) {
+    $filter = $_GET['filter'];
+    $student = $studentMap->findAll($page * $size - $size, $size, $filter);
+}
+if (isset($_GET['registration_date'])) {
+    $registration_date = $_GET['registration_date'];
+} else {
+    $registration_date = null;
+}
+$student = $studentMap->findAll($page * $size - $size, $size, $filter, $registration_date);
+$count = $studentMap->count($filter);
+require_once '../template/header.php'; ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <section class="content-header"><h3>
+                        <b>                        <?= $header = isset($_GET['message']) ? Helper::message($_GET['message']) : 'Список учеников'; ?>                    </b>
+                    </h3>
+                    <ol class="breadcrumb">
+                        <li><a href="../index"><i class="fafa-dashboard"></i> Главная</a></li>
+                        <li class="active">Список учеников</li>
+                    </ol>
+                </section>
+                <div class="box-body">                <?php if (!Helper::can('teacher')): ?>                    <a
+                            class="btn btn-success" href="../add/add-student?k=student">Добавить
+                        ученика</a>                <?php endif; ?>            </div>
+                <div class="box-body">
+                    <form method="POST">
+                        <div class="form-group"><label>Фильтр</label> <select class="form-control" name="filter">
+                                <option value="0" <?php echo $filter == 0 ? 'selected' : '' ?>></option>
+                                <option value="1" <?php echo $filter == 1 ? 'selected' : '' ?>>Учится</option>
+                                <option value="2" <?php echo $filter == 2 ? 'selected' : '' ?>>Учился</option>
+                                <option value="3" <?php echo $filter == 3 ? 'selected' : '' ?>>Изъявил желание</option>
+                            </select></div>
+                        <div class="form-group"><label>Дата регистрации</label> <input type="date" class="form-control"
+                                                                                       name="registration_date">
+                        </div> <?php if (isset($_GET['page'])): ?>                        <input type="hidden"
+                                                                                                 name="page"
+                                                                                                 value="<?php echo $page ?>">                    <?php endif ?>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Выполнить</button>
+                        </div>
+                    </form>
+                </div>            <!-- /.box-header -->
+                <div class="box-body">                <?php if ($student) { ?>
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Ф.И.О</th>
+                                <th>Дата рождения</th>
+                                <th>Группа</th>
+                                <th>Кол-во баллов</th>
+                            </tr>
+                            </thead>
+                            <tbody>                        <?php foreach ($student as $student) {
+                                echo '<tr>';
+                                echo '<td><a href="../profile/profile-student?id=' . $student->user_id . '">' . $student->fio . '</a> ' . '<a href="../add/add-student?k=student&id=' . $student->user_id . '"><i class="fa fa-pencil"></i></a>  <a href="../delete/delete-student?id=' . $student->user_id . '"><i class="fa fa-times"></i></a></td>';
+                                echo '<td>' . Helper::formattedData($student->birthday) . '</td>';
+                                echo '<td>' . $student->gruppa . '</td>';
+                                echo '<td>' . $student->points . '</td>';
+                                echo '</tr>';
+                            } ?>                        </tbody>
+                        </table>                <?php } else {
+                        echo 'Ни одного ученика не найдено';
+                    } ?>            </div>
+                <div class="box-body">                <?php Helper::paginator($count, $page, $size); ?>            </div>
+                <!-- /.box-body -->        </div>
+        </div>
+    </div>
+<?php require_once '../template/footer.php'; ?>
