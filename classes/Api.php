@@ -49,4 +49,30 @@ class Api extends BaseMap
             echo json_encode(["user" => $user]);
         }
     }
+
+    public function addReference($user_id, $target_file)
+    {
+        $sql = "INSERT INTO `reference`(`user_id`, `reference`) VALUES (:user_id, :reference)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id);
+        $stmt->bindValue(':reference', $target_file);
+        $data = $stmt->execute();
+        if (!$data) {
+            echo json_encode(["error" => "something went wrong"]);
+        }
+        echo json_encode(["success" => "data shared to server"]);
+    }
+
+    public function getReferences($user_id)
+    {
+        $sql = "SELECT * FROM reference WHERE user_id = :user_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id);
+        $stmt->execute();
+        $reference = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!$reference) {
+            echo json_encode(["error" => "something went wrong"]);
+        }
+        echo json_encode(["reference" => $reference]);
+    }
 }

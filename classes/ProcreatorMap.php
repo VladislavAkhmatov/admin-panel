@@ -93,14 +93,45 @@ class ProcreatorMap extends BaseMap
 
     public function getStudentFromParentId($login)
     {
-        $sql = "SELECT DISTINCT
+        $sql = "SELECT 
                 child.user_id,
-                CONCAT(child.lastname,' ', child.firstname, ' ', child.patronymic) AS child
+                CONCAT(child.lastname, ' ', child.firstname, ' ', child.patronymic) AS child,
+            
+                (
+                    SELECT CONCAT('[', GROUP_CONCAT(
+                        CONCAT(
+                            '{\"subject\":\"', REPLACE(s.name, '\"', '\\\"'),
+                            '\", \"count\":', b.count, '}'
+                        )
+                    ), ']')
+                    FROM balance b
+                    INNER JOIN subject s ON b.subject_id = s.subject_id
+                    WHERE b.user_id = child.user_id
+                ) AS subjects,
+            
+                (
+                    SELECT CONCAT('[', GROUP_CONCAT(
+                        CONCAT(
+                            '{\"subject\":\"', REPLACE(s2.name, '\"', '\\\"'),
+                            '\", \"activity\":', g.activity,
+                            ', \"attend\":', g.attend,
+                            ', \"homework\":', g.homework, '}'
+                        )
+                    ), ']')
+                    FROM grades g
+                    INNER JOIN schedule sc ON g.schedule_id = sc.schedule_id
+                    INNER JOIN subject s2 ON sc.subject_id = s2.subject_id
+                    WHERE g.user_id = child.user_id
+                ) AS grades
+            
             FROM parent
             INNER JOIN user AS child ON child.user_id = parent.child_id
             INNER JOIN user AS procreator ON procreator.user_id = parent.user_id
             WHERE parent.deleted = 0 
-              AND procreator.login = :login";
+              AND procreator.login = :login
+            GROUP BY child.user_id, child.lastname, child.firstname, child.patronymic
+            ";
+
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -114,6 +145,14 @@ class ProcreatorMap extends BaseMap
             ]);
             return;
         }
+
+        foreach ($students as &$student) {
+            $student['subjects'] = json_decode($student['subjects'], true);
+        }
+        foreach ($students as &$student) {
+            $student['grades'] = json_decode($student['grades'], true);
+        }
+
         echo json_encode([
             'students' => $students
         ]);
